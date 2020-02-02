@@ -1,50 +1,46 @@
-# Redis_study
-This repository is for studying Redis
+# interface-hash-server
+interface-hash-db is a interface server communicates with Users externally, Redis containers internally at the same time
+tried to *implement Redis-Cluster-like interface server* to study in-memory, hash database
+(Study about Redis will be updated later)
 
-Redis : "Re"mote "Di"ctionary "S"erver
+## Features
 
-1. Stores data as "Key:Value"
+- Simple "SET", "GET" command used in Redis supported
+- Hash Slot implemented with CRC16 key modulo 16384 (Similar like Redis-Cluster) 
+- Reverse Proxy (Nginx) Load Balancing(RR)
+- Other Containers (except Proxy) Unreachable (port not binded to machine)
+- Specific Persistence Option will be later updated
 
-2. No-SQL : Use multiple data structures to store data (No tables or Select, Insert Query)
+## Installation
 
-3. Interaction with data is "command based"
+- 1. Clone the repository
+- 2. "docker-compose up -d --build"
+- 3. Send @POST Request to "http://localhost/interface" (localhost can be replaced with public IP)
+> Request Body format : { "Command" : "SET"/"GET", "Arguments" : ["key","value"(if needed),...,] } <br><br>
+ex : ``` { 
+  "Command" : "SET",
+	"Arguments" : ["foo", "bar"]
+ } ```
 
-4. In-memory DB = Fast (Persistency Support)
+<br>
 
-Written in C
+> Response : <br> 1. "message" : Request Command Success/Fail result + Interface Server IP(to check LoadBalance) <br> 2. "redis": 1) response of Redis container & 2) Redis Node address(to check if Hash works) <br><br> ex : ``` {
+    "message": "SET foo bar Success : Handled in Server(IP : 172.29.0.3)",
+    "redis": { 
+    "response": "OK",
+    "node_address": "172.29.0.5:8001" 
+    },
+    "_links": {
+        "message": "Main URL",
+		"href": "http://localhost/interface"
+	}
+}```
 
-Why to use Redis?
+## Server 
+  
+- 서버 구성도 :
+  
+  ![스크린샷 2020-01-28 오전 11 05 32](https://es.naverlabs.com/storage/user/3125/files/25ae6800-41be-11ea-8644-718649e9f689)
 
-Performance : https://redis.io/topics/benchmarks
-
-Simple & Flexible : No need of defining tables, No Select/Insert/Update/Delete , With "Commands"
-
-Durable : Option to write on disk(configurable), Used as Caching & Full-fledge db
-
-Language support : https://redis.io/clients
-
-Compatibility : Used as 2nd db to make transactions/queries faster
-
-일반적인 DB와 request/response는 Disk에서 가져와 Time consuming
-<->
-Redis가 Cache 역할. 
-
-Built-in Master-slave replication feature supported (replicate data to any slaves)
-
-<img width="623" alt="스크린샷 2020-01-26 오후 8 12 36" src="https://user-images.githubusercontent.com/48001093/73134292-4076c480-4078-11ea-9cb8-e7c2d013d09a.png">
-
-만약 Master가 죽으면, Slave가 자연스럽게 처리 가능(No downtime)
-
-Single text file for all config
-
-Single Threaded - One action at a time
-
-Pipelining : cluster multiple command
-
-
-==================
-
-Redis Datatypes : Strings, Lists, Sets, Sorted Sets, Hashes, Bitmaps, Hyperlogs, Geospatial Indexes
-
-MongoDB + memchached
+- API docs 현재 미사용
 
