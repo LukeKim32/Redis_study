@@ -67,7 +67,7 @@ func ForwardToProperNode(response http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-	case "SET":
+	case "SET": // Data modification
 		value := requestContainer.Arguments[1]
 		redisResponse, err = redis.String(redisClient.Connection.Do("SET", key, value))
 		if err == redis.ErrNil {
@@ -76,6 +76,8 @@ func ForwardToProperNode(response http.ResponseWriter, request *http.Request) {
 			responseInternalError(response, err, configs.BaseURL)
 			return
 		}
+		// Propagate to Slave node as Data has been modified
+		// same operation to master's slave node
 
 		curTaskMessage += fmt.Sprintf("%s ", value)
 	}

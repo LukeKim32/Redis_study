@@ -1,0 +1,14 @@
+INFO: 2020/02/02 22:54:17 connection.go:65: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/02 22:54:17 connection.go:65: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/02 22:54:17 connection.go:65: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:66: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:66: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:66: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/02 22:57:42 main.go:52: Server start listening on port  8888
+INFO: 2020/02/02 22:59:37 exceptionHandler.go:22: Not a proper path

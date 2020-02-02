@@ -34,11 +34,6 @@ func main() {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
-	// create Hash Map (Index -> Redis Node)
-	if err := redisWrapper.MakeRedisAddressHashMap(); err != nil {
-		tools.ErrorLogger.Fatalln("Error - Redis Node Address Mapping to Hash Map failure: ", err.Error())
-	}
-
 	// Redis Slave Containers들과 Connection설정
 	if err := redisWrapper.NodeConnectionSetup(redisWrapper.RedisSlaveAddressList, redisWrapper.SlaveSetup); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
@@ -47,8 +42,8 @@ func main() {
 	router := mux.NewRouter()
 
 	// Interface Server Router 설정
-	interfaceRouter := router.PathPrefix("/interface").Subrouter()
-	interfaceRouter.HandleFunc("", handlers.ForwardToProperNode).Methods(http.MethodPost)
+	moniterRouter := router.PathPrefix("/monitor").Subrouter()
+	moniterRouter.HandleFunc("/{redisNodeAddress}", handlers.CheckRedisNodeStatus).Methods(http.MethodGet)
 
 	// 허용하지 않는 URL 경로 처리
 	router.PathPrefix("/").HandlerFunc(handlers.ExceptionHandle)

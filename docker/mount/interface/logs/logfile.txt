@@ -1,0 +1,37 @@
+INFO: 2020/02/02 22:54:17 connection.go:65: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/02 22:54:17 connection.go:65: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/02 22:54:17 connection.go:65: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/02 22:54:17 connection.go:116: Node 172.29.0.4:8000 hash slot range 0 ~ 5461
+INFO: 2020/02/02 22:54:17 connection.go:116: Node 172.29.0.5:8001 hash slot range 5461 ~ 10922
+INFO: 2020/02/02 22:54:17 connection.go:116: Node 172.29.0.6:8002 hash slot range 10922 ~ 16384
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:120: Node 172.29.0.4:8000 hash slot range 0 ~ 5461
+INFO: 2020/02/02 22:57:42 connection.go:120: Node 172.29.0.5:8001 hash slot range 5461 ~ 10922
+INFO: 2020/02/02 22:57:42 connection.go:120: Node 172.29.0.6:8002 hash slot range 10922 ~ 16384
+INFO: 2020/02/02 22:57:42 connection.go:66: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:66: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/02 22:57:42 connection.go:66: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/02 22:57:42 main.go:57: Server start listening on port  8888
+INFO: 2020/02/02 22:58:35 interfaceHandler.go:30: Interface server(IP : 172.29.0.3) Processing...
+INFO: 2020/02/02 22:58:35 redisClient.go:43: GetRedisClient() : Redis Node(172.29.0.4:8000) selected
+INFO: 2020/02/02 22:58:35 redisClient.go:71: Redis Node(172.29.0.4:8000) Ping test success
+INFO: 2020/02/02 22:58:35 interfaceHandler.go:127: GET aa Success : Handled in Server(IP : 172.29.0.3) Successful
+INFO: 2020/02/02 22:58:46 interfaceHandler.go:30: Interface server(IP : 172.29.0.3) Processing...
+INFO: 2020/02/02 22:58:46 redisClient.go:43: GetRedisClient() : Redis Node(172.29.0.4:8000) selected
+INFO: 2020/02/02 22:58:46 redisClient.go:71: Redis Node(172.29.0.4:8000) Ping test success
+INFO: 2020/02/02 22:58:46 interfaceHandler.go:127: SET aa a Success : Handled in Server(IP : 172.29.0.3) Successful
+INFO: 2020/02/02 22:58:51 interfaceHandler.go:30: Interface server(IP : 172.29.0.3) Processing...
+INFO: 2020/02/02 22:58:51 redisClient.go:43: GetRedisClient() : Redis Node(172.29.0.4:8000) selected
+INFO: 2020/02/02 22:58:51 redisClient.go:71: Redis Node(172.29.0.4:8000) Ping test success
+INFO: 2020/02/02 22:58:51 interfaceHandler.go:127: GET aa Success : Handled in Server(IP : 172.29.0.3) Successful
+INFO: 2020/02/02 22:59:37 interfaceHandler.go:30: Interface server(IP : 172.29.0.3) Processing...
+INFO: 2020/02/02 22:59:37 redisClient.go:43: GetRedisClient() : Redis Node(172.29.0.4:8000) selected
+ERROR: 2020/02/02 22:59:37 redisClient.go:47: Redis Node(172.29.0.4:8000) Ping test failure
+ERROR: 2020/02/02 22:59:37 redisClient.go:157: askMasterIsAlive() : Response - err 3:  <nil>
+ERROR: 2020/02/02 22:59:37 exceptionHandler.go:38: Reuqested Redis Node Address Not Match with Response
+ERROR: 2020/02/02 22:59:37 redisClient.go:157: askMasterIsAlive() : Response - err 3:  <nil>
