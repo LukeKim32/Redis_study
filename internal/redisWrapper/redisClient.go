@@ -1,17 +1,17 @@
 package redisWrapper
 
 import (
-	"fmt"
-	"net/http"
 	"encoding/json"
+	"fmt"
 	"github.com/gomodule/redigo/redis"
 	"interface_hash_server/configs"
 	"interface_hash_server/tools"
+	"net/http"
 )
 
-type RedisClient struct{
+type RedisClient struct {
 	Connection redis.Conn
-	Address	string
+	Address    string
 }
 
 var redisMasterClients []RedisClient
@@ -36,7 +36,7 @@ var RedisSlaveAddressList = []string{
  * 2) Get Votes From Monitor Servers
  * 3-1) If Votes are bigger than half, Re-setup connection and return
  * 3-2) If Votes are smaller than half, Promote It's Slave Client to New Master
-*/
+ */
 func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 	redisClient := HashSlotMap[hashSlotIndex]
 
@@ -54,13 +54,13 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 		}
 
 		numberOfTotalVotes := len(monitorNodeAddressList) + 1
-		if votes > (numberOfTotalVotes/2) {  // If more than half says it's not dead
+		if votes > (numberOfTotalVotes / 2) { // If more than half says it's not dead
 			// setupConnectionAgain()
 		} else {
 			// if 과반수 says dead,
 			// Switch Slave to Master. (Slave까지 죽은것에 대해선 Redis Cluster도 처리 X => Docker restart로 처리해보자)
 			newMasterClient, err := promoteSlaveToMaster(redisClient.Address)
-			if  err != nil {
+			if err != nil {
 				return RedisClient{}, err
 			}
 
@@ -77,8 +77,8 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 /* 1) Replace Hash Map Value(Redis Client info)
  * 2) Swap Master Client and Slave client from each others' list
  * Returns Newly Master-Promoted Client (Previous Slave)
-*/
-func promoteSlaveToMaster(masterAddress string) (RedisClient, error){
+ */
+func promoteSlaveToMaster(masterAddress string) (RedisClient, error) {
 
 	slaveAddress := masterSlaveMap[masterAddress]
 	slaveClient, err := GetRedisClientWithAddress(slaveAddress)
@@ -96,80 +96,78 @@ func promoteSlaveToMaster(masterAddress string) (RedisClient, error){
 	endHashSlotIndex := clientHashRangeMap[masterAddress].endIndex
 
 	// Replace Hash Map With Slave Client
-	for i :=startHashSlotIndex; i < endHashSlotIndex; i++ {
+	for i := startHashSlotIndex; i < endHashSlotIndex; i++ {
 		HashSlotMap[i] = slaveClient
 	}
 
-	clientHashRangeMap[slaveAddress] = HashRange {
-		startIndex : startHashSlotIndex,
-		endIndex : endHashSlotIndex,
+	clientHashRangeMap[slaveAddress] = HashRange{
+		startIndex: startHashSlotIndex,
+		endIndex:   endHashSlotIndex,
 	}
-	delete(clientHashRangeMap,masterAddress)	
+	delete(clientHashRangeMap, masterAddress)
 
 	// Swap Slave Client and Master Client
-	if _, err := RemoveRedisClient(slaveAddress,redisSlaveClients); err != nil {
+	if _, err := RemoveRedisClient(slaveAddress, redisSlaveClients); err != nil {
 		return RedisClient{}, err
 	}
 
-	masterClient, err := RemoveRedisClient(masterAddress,redisMasterClients)
+	masterClient, err := RemoveRedisClient(masterAddress, redisMasterClients)
 	if err != nil {
 		return RedisClient{}, err
 	}
-	redisSlaveClients = append(redisSlaveClients,masterClient)
+	redisSlaveClients = append(redisSlaveClients, masterClient)
 	redisMasterClients = append(redisMasterClients, slaveClient)
 
-	
 	return slaveClient, nil
 }
-
 
 // askMasterIsAlive returns the "votes" of Monitor Servers' checking if Redis node is alive
 /* with given @redisNodeAddress
  * Uses Goroutines to request to every Monitor Nodes
-*/
+ */
 func askMasterIsAlive(redisNodeAddress string) (int, error) {
 	numberOfmonitorNode := len(monitorNodeAddressList)
 	outputChannel := make(chan MonitorResponse, numberOfmonitorNode) // Buffered Channel - Async
-	
+
 	for _, eachMonitorNodeAddress := range monitorNodeAddressList {
 		// request
 		// GET request With URI http://~/monitor/{redisNodeAddress}
-		go func(outputChannel chan <- MonitorResponse, monitorAddress string, redisNodeAddress string) {
-			requestURI := fmt.Sprintf("http://%s/monitor/%s",monitorAddress,redisNodeAddress)
+		go func(outputChannel chan<- MonitorResponse, monitorAddress string, redisNodeAddress string) {
+			requestURI := fmt.Sprintf("http://%s/monitor/%s", monitorAddress, redisNodeAddress)
 
-			tools.InfoLogger.Println("askMasterIsAlive() : Request To : ",requestURI)
-			
+			tools.InfoLogger.Println("askMasterIsAlive() : Request To : ", requestURI)
+
 			response, err := http.Get(requestURI)
 			if err != nil {
-				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 1: ",err)
-				outputChannel <- MonitorResponse{Err : fmt.Errorf("Monitor server(IP : %s) response error",monitorAddress)}
+				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 1: ", err)
+				outputChannel <- MonitorResponse{ErrorMessage: fmt.Sprintf("Monitor server(IP : %s) response error", monitorAddress)}
 			}
 			defer response.Body.Close()
 
 			var monitorResponse MonitorResponse
 			decoder := json.NewDecoder(response.Body)
 			if err := decoder.Decode(&monitorResponse); err != nil {
-				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 2: ",monitorResponse.Err)
-				outputChannel <- MonitorResponse{Err : err}
+				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 2: ", monitorResponse.ErrorMessage)
+				outputChannel <- MonitorResponse{ErrorMessage: err.Error()}
 			}
-	
+
 			if monitorResponse.RedisNodeAddress == redisNodeAddress {
-				tools.InfoLogger.Println("askMasterIsAlive() : Response - is alive : ",monitorResponse.IsAlive)
-				outputChannel <- MonitorResponse{IsAlive: monitorResponse.IsAlive, Err : nil}
+				tools.InfoLogger.Println("askMasterIsAlive() : Response - is alive : ", monitorResponse.IsAlive)
+				outputChannel <- MonitorResponse{IsAlive: monitorResponse.IsAlive, ErrorMessage: ""}
 			} else {
-				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 3: ",monitorResponse.Err)
-				outputChannel <- MonitorResponse{Err : fmt.Errorf("Reuqested Redis Node Address Not Match with Response")}
+				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 3: ", monitorResponse.ErrorMessage)
+				outputChannel <- MonitorResponse{ErrorMessage: fmt.Sprintf("Reuqested Redis Node Address Not Match with Response")}
 			}
-		} (outputChannel, eachMonitorNodeAddress, redisNodeAddress)
+		}(outputChannel, eachMonitorNodeAddress, redisNodeAddress)
 	}
 
 	votes := 0
-	for i:=0; i<numberOfmonitorNode; i++ {
+	for i := 0; i < numberOfmonitorNode; i++ {
 		// 임의의 Goroutine에서 보낸 Response 처리 (Buffered channel 이라 Goroutine이 async)
 		// Wait til Channel gets Response
-		monitorResponse := <- outputChannel
-		if monitorResponse.Err != nil {
-			return 0, monitorResponse.Err
+		monitorResponse := <-outputChannel
+		if monitorResponse.ErrorMessage != "" {
+			return 0, fmt.Errorf(monitorResponse.ErrorMessage)
 		}
 
 		if monitorResponse.IsAlive {
@@ -182,7 +180,7 @@ func askMasterIsAlive(redisNodeAddress string) (int, error) {
 
 func GetRedisClientWithAddress(address string) (RedisClient, error) {
 
-	clientsList := make([]RedisClient, len(redisMasterClients) + len(redisSlaveClients))
+	clientsList := make([]RedisClient, len(redisMasterClients)+len(redisSlaveClients))
 	clientsList = append(redisMasterClients, redisSlaveClients...)
 
 	if len(clientsList) == 0 {
@@ -194,11 +192,11 @@ func GetRedisClientWithAddress(address string) (RedisClient, error) {
 			return eachClient, nil
 		}
 	}
-	
+
 	return RedisClient{}, fmt.Errorf("GetRedisClientWithAddress() error : No Matching Redis Client With passed address")
 }
 
-func RemoveRedisClient(address string, redisClientsList []RedisClient) (RedisClient, error){
+func RemoveRedisClient(address string, redisClientsList []RedisClient) (RedisClient, error) {
 	var removedRedisClient RedisClient
 
 	for i, eachClient := range redisClientsList {
@@ -208,10 +206,10 @@ func RemoveRedisClient(address string, redisClientsList []RedisClient) (RedisCli
 			redisClientsList[i] = redisClientsList[len(redisClientsList)-1]
 			redisClientsList[len(redisClientsList)-1] = RedisClient{}
 			redisClientsList = redisClientsList[:len(redisClientsList)-1]
-			
+
 			return removedRedisClient, nil
 		}
 	}
-	
+
 	return RedisClient{}, fmt.Errorf("removeRedisClient() : No Matching Redis Client to Remove")
 }

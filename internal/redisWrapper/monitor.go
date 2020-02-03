@@ -6,6 +6,6 @@ var monitorNodeAddressList = []string{configs.MonitorNodeOneAddress, configs.Mon
 
 type MonitorResponse struct {
 	RedisNodeAddress string
-	IsAlive   bool
-	Err error
+	IsAlive          bool
+	ErrorMessage     string
 }

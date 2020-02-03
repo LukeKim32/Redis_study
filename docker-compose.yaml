@@ -1,14 +1,14 @@
 version: '3'
 services:
-    proxy:
+    proxy_test:
         build:
             context: ./proxy
-        container_name: proxy
+        container_name: proxy_test
         networks:
             mynet:
                 ipv4_address: 172.29.0.2
         ports:
-            - "80:80"
+            - "8001:80"
         working_dir: /usr/share/nginx/html
         volumes:
             - react-static:/usr/share/nginx/html
