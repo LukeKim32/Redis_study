@@ -48,7 +48,7 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 
 		// Now No error is allowed! Every Request will work
 		// ask monitor nodes if master node is dead
-		votes, err := askMasterIsAlive(redisClient.Address)
+		votes, err := askRedisIsAliveToMonitors(redisClient.Address)
 		if err != nil {
 			return RedisClient{}, err
 		}
@@ -59,12 +59,12 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 		} else {
 			// if 과반수 says dead,
 			// Switch Slave to Master. (Slave까지 죽은것에 대해선 Redis Cluster도 처리 X => Docker restart로 처리해보자)
-			newMasterClient, err := promoteSlaveToMaster(redisClient.Address)
-			if err != nil {
+			slaveNode := MasterSlaveMap[redisClient]
+			if err := promoteSlaveToMaster(slaveNode); err != nil {
 				return RedisClient{}, err
 			}
 
-			return newMasterClient, nil
+			return slaveNode, nil
 		}
 	}
 
@@ -78,54 +78,57 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
  * 2) Swap Master Client and Slave client from each others' list
  * Returns Newly Master-Promoted Client (Previous Slave)
  */
-func promoteSlaveToMaster(masterAddress string) (RedisClient, error) {
+func promoteSlaveToMaster(slaveNode RedisClient) error {
 
-	slaveAddress := masterSlaveMap[masterAddress]
-	slaveClient, err := GetRedisClientWithAddress(slaveAddress)
-	if err != nil {
-		return RedisClient{}, err
+	masterNode, isSet := SlaveMasterMap[slaveNode]
+	if isSet == false {
+		return fmt.Errorf("promoteSlaveToMaster() - Master Slave Map is not set up")
 	}
 
 	// Ping test to check If slave client is alive
-	_, err = redis.String(slaveClient.Connection.Do("PING"))
+	_, err := redis.String(slaveNode.Connection.Do("PING"))
 	if err != nil {
-		return RedisClient{}, fmt.Errorf("New Master-Promoted Client is also dead")
+		return fmt.Errorf("New Master-Promoted Client is also dead")
 	}
 
-	startHashSlotIndex := clientHashRangeMap[masterAddress].startIndex
-	endHashSlotIndex := clientHashRangeMap[masterAddress].endIndex
+	startHashSlotIndex := clientHashRangeMap[masterNode.Address].startIndex
+	endHashSlotIndex := clientHashRangeMap[masterNode.Address].endIndex
 
 	// Replace Hash Map With Slave Client
 	for i := startHashSlotIndex; i < endHashSlotIndex; i++ {
-		HashSlotMap[i] = slaveClient
+		HashSlotMap[i] = slaveNode
 	}
 
-	clientHashRangeMap[slaveAddress] = HashRange{
+	clientHashRangeMap[slaveNode.Address] = HashRange{
 		startIndex: startHashSlotIndex,
 		endIndex:   endHashSlotIndex,
 	}
-	delete(clientHashRangeMap, masterAddress)
+	delete(clientHashRangeMap, masterNode.Address)
 
 	// Swap Slave Client and Master Client
-	if _, err := RemoveRedisClient(slaveAddress, redisSlaveClients); err != nil {
-		return RedisClient{}, err
+	if _, err := RemoveRedisClient(slaveNode, redisSlaveClients); err != nil {
+		return err
 	}
 
-	masterClient, err := RemoveRedisClient(masterAddress, redisMasterClients)
-	if err != nil {
-		return RedisClient{}, err
+	if _, err := RemoveRedisClient(masterNode, redisMasterClients); err != nil {
+		return err
 	}
-	redisSlaveClients = append(redisSlaveClients, masterClient)
-	redisMasterClients = append(redisMasterClients, slaveClient)
+	redisSlaveClients = append(redisSlaveClients, masterNode)
+	redisMasterClients = append(redisMasterClients, slaveNode)
 
-	return slaveClient, nil
+	delete(SlaveMasterMap, slaveNode)
+	SlaveMasterMap[masterNode] = slaveNode
+	delete(MasterSlaveMap, masterNode)
+	SlaveMasterMap[slaveNode] = masterNode
+
+	return nil
 }
 
 // askMasterIsAlive returns the "votes" of Monitor Servers' checking if Redis node is alive
 /* with given @redisNodeAddress
  * Uses Goroutines to request to every Monitor Nodes
  */
-func askMasterIsAlive(redisNodeAddress string) (int, error) {
+func askRedisIsAliveToMonitors(redisNodeAddress string) (int, error) {
 	numberOfmonitorNode := len(monitorNodeAddressList)
 	outputChannel := make(chan MonitorResponse, numberOfmonitorNode) // Buffered Channel - Async
 
@@ -196,11 +199,11 @@ func GetRedisClientWithAddress(address string) (RedisClient, error) {
 	return RedisClient{}, fmt.Errorf("GetRedisClientWithAddress() error : No Matching Redis Client With passed address")
 }
 
-func RemoveRedisClient(address string, redisClientsList []RedisClient) (RedisClient, error) {
+func RemoveRedisClient(targetNode RedisClient, redisClientsList []RedisClient) (RedisClient, error) {
 	var removedRedisClient RedisClient
 
 	for i, eachClient := range redisClientsList {
-		if eachClient.Address == address {
+		if eachClient == targetNode {
 			removedRedisClient = eachClient
 
 			redisClientsList[i] = redisClientsList[len(redisClientsList)-1]

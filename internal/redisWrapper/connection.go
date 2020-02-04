@@ -30,8 +30,12 @@ const (
 	SlaveSetup ConnectOption = "SlaveSetup"
 )
 
-// masterSlaveMap is a map of (Master Address -> Slave Address)
-var masterSlaveMap map[string]string
+// MasterSlaveMap is a map of (Master Address -> Slave Address)
+var MasterSlaveMap map[RedisClient]RedisClient
+
+// SlaveMasterMap is a map of (Slave Address -> Master Address)
+var SlaveMasterMap map[RedisClient]RedisClient
+
 
 func NodeConnectionSetup(addressList []string, connectOption ConnectOption) error {
 
@@ -56,11 +60,14 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 				fmt.Errorf("Redis Master Node should be set up first")
 			}
 
-			if masterSlaveMap == nil {
-				masterSlaveMap = make( map[string]string)
-			}
 			// 동일한 Index의 Master Node와 Map
-			masterSlaveMap[RedisMasterAddressList[i]] = eachNodeAddress
+			masterNode, err := GetRedisClientWithAddress(RedisMasterAddressList[i])
+			if err != nil {
+				return err
+			}
+
+			initMasterSlaveMaps(masterNode, newRedisClient)
+
 			redisSlaveClients = append(redisSlaveClients, newRedisClient)
 
 			tools.InfoLogger.Printf("Redis Slave Node(%s) Mapped from Master Node(%s) Success\n", eachNodeAddress, RedisMasterAddressList[i])
@@ -123,3 +130,19 @@ func MakeRedisAddressHashMap() error {
 	return nil
 }
 
+
+func initMasterSlaveMaps(masterNode RedisClient, slaveNode RedisClient) {
+	if MasterSlaveMap == nil {
+		MasterSlaveMap = make( map[RedisClient]RedisClient)
+	}
+	if SlaveMasterMap == nil {
+		MasterSlaveMap = make( map[RedisClient]RedisClient)
+	}
+	if MasterSlaveChannelMap == nil {
+		MasterSlaveChannelMap = make(map[string](chan MonitorResult))
+	}
+
+	MasterSlaveMap[masterNode] = slaveNode
+	SlaveMasterMap[slaveNode] = masterNode
+	MasterSlaveChannelMap[masterNode.Address] = make(chan MonitorResult)
+}
