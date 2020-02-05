@@ -34,6 +34,9 @@ services:
             - redis_slave_one
             - redis_slave_two
             - redis_slave_three
+        depends_on:
+            - monitor_one
+            - monitor_two
     
     monitor_one:
         build:
