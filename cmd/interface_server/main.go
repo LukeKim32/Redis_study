@@ -30,7 +30,7 @@ func main() {
 	}
 
 	// Redis Master Containers들과 Connection설정
-	if err := redisWrapper.NodeConnectionSetup(redisWrapper.RedisMasterAddressList, redisWrapper.Default); err != nil {
+	if err := redisWrapper.NodeConnectionSetup(redisWrapper.GetInitialMasterAddressList(), redisWrapper.Default); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
@@ -40,9 +40,12 @@ func main() {
 	}
 
 	// Redis Slave Containers들과 Connection설정
-	if err := redisWrapper.NodeConnectionSetup(redisWrapper.RedisSlaveAddressList, redisWrapper.SlaveSetup); err != nil {
+	if err := redisWrapper.NodeConnectionSetup(redisWrapper.GetInitialSlaveAddressList(), redisWrapper.SlaveSetup); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
+
+	redisWrapper.MonitorMasters()
+	redisWrapper.MonitorSlaves()
 
 	router := mux.NewRouter()
 

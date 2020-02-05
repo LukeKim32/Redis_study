@@ -2,21 +2,14 @@ package redisWrapper
 
 import (
 	"fmt"
-	"github.com/gomodule/redigo/redis"
 	"interface_hash_server/internal/hash"
 	"interface_hash_server/tools"
-)
 
+	"github.com/gomodule/redigo/redis"
+)
 
 // HashSlotMap is a map of (Hash Slot -> Redis Node Client)
 var HashSlotMap map[uint16]RedisClient
-
-var clientHashRangeMap map[string]HashRange
-
-type HashRange struct {
-	startIndex uint16
-	endIndex uint16
-}
 
 const (
 	// ConnectTimeoutDuration unit is nanoseconds
@@ -26,16 +19,9 @@ const (
 type ConnectOption string
 
 const (
-	Default ConnectOption = "Default"
+	Default    ConnectOption = "Default"
 	SlaveSetup ConnectOption = "SlaveSetup"
 )
-
-// MasterSlaveMap is a map of (Master Address -> Slave Address)
-var MasterSlaveMap map[RedisClient]RedisClient
-
-// SlaveMasterMap is a map of (Slave Address -> Master Address)
-var SlaveMasterMap map[RedisClient]RedisClient
-
 
 func NodeConnectionSetup(addressList []string, connectOption ConnectOption) error {
 
@@ -52,16 +38,17 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 		newRedisClient.Address = eachNodeAddress
 
 		switch connectOption {
-		case Default :
+		case Default:
 			redisMasterClients = append(redisMasterClients, newRedisClient)
 
-		case SlaveSetup :
+		case SlaveSetup:
 			if len(redisMasterClients) == 0 {
 				fmt.Errorf("Redis Master Node should be set up first")
 			}
 
 			// 동일한 Index의 Master Node와 Map
-			masterNode, err := GetRedisClientWithAddress(RedisMasterAddressList[i])
+			masterAddressList := GetInitialMasterAddressList()
+			masterNode, err := GetRedisClientWithAddress(masterAddressList[i])
 			if err != nil {
 				return err
 			}
@@ -70,7 +57,7 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 
 			redisSlaveClients = append(redisSlaveClients, newRedisClient)
 
-			tools.InfoLogger.Printf("Redis Slave Node(%s) Mapped from Master Node(%s) Success\n", eachNodeAddress, RedisMasterAddressList[i])
+			tools.InfoLogger.Printf("Redis Slave Node(%s) Mapped from Master Node(%s) Success\n", eachNodeAddress, masterAddressList[i])
 		}
 
 		tools.InfoLogger.Printf("Redis Node(%s) connection Success\n", eachNodeAddress)
@@ -87,42 +74,20 @@ func MakeRedisAddressHashMap() error {
 	}
 
 	HashSlotMap = make(map[uint16]RedisClient)
-	clientHashRangeMap = make( map[string]HashRange)
-	
+	clientHashRangeMap = make(map[string][]HashRange)
+
 	for i, eachRedisClient := range redisMasterClients {
 		// arithmatic order fixed to prevent Mantissa Loss
 		hashSlotStart := uint16(float64(i) / float64(connectionCount) * float64(hash.HashSlotsNumber))
 		hashSlotEnd := uint16(float64(i+1) / float64(connectionCount) * float64(hash.HashSlotsNumber))
-		var nextSlotIndex uint16
 
-		for j := hashSlotStart; j < hashSlotEnd; j+=16 {
-			HashSlotMap[j] = eachRedisClient
-			HashSlotMap[j+1] = eachRedisClient
-			HashSlotMap[j+2] = eachRedisClient
-			HashSlotMap[j+3] = eachRedisClient
-			HashSlotMap[j+4] = eachRedisClient
-			HashSlotMap[j+5] = eachRedisClient
-			HashSlotMap[j+6] = eachRedisClient
-			HashSlotMap[j+7] = eachRedisClient
-			HashSlotMap[j+8] = eachRedisClient
-			HashSlotMap[j+9] = eachRedisClient
-			HashSlotMap[j+10] = eachRedisClient
-			HashSlotMap[j+11] = eachRedisClient
-			HashSlotMap[j+12] = eachRedisClient
-			HashSlotMap[j+13] = eachRedisClient
-			HashSlotMap[j+14] = eachRedisClient
-			HashSlotMap[j+15] = eachRedisClient
-			nextSlotIndex = j+16
+		assignHashSlotMap(hashSlotStart, hashSlotEnd, eachRedisClient)
+
+		newHashRange := HashRange{
+			startIndex: hashSlotStart,
+			endIndex:   hashSlotEnd,
 		}
-
-		for ; nextSlotIndex < hashSlotEnd ; nextSlotIndex++ {
-			HashSlotMap[nextSlotIndex] = eachRedisClient
-		}
-
-		clientHashRangeMap[eachRedisClient.Address] = HashRange { 
-			startIndex : hashSlotStart, 
-			endIndex : hashSlotEnd,
-		} 
+		clientHashRangeMap[eachRedisClient.Address] = append(clientHashRangeMap[eachRedisClient.Address], newHashRange)
 
 		tools.InfoLogger.Printf("Node %s hash slot range %d ~ %d\n", eachRedisClient.Address, hashSlotStart, hashSlotEnd)
 	}
@@ -130,19 +95,18 @@ func MakeRedisAddressHashMap() error {
 	return nil
 }
 
-
 func initMasterSlaveMaps(masterNode RedisClient, slaveNode RedisClient) {
-	if MasterSlaveMap == nil {
-		MasterSlaveMap = make( map[RedisClient]RedisClient)
+	if masterSlaveMap == nil {
+		masterSlaveMap = make(map[RedisClient]RedisClient)
 	}
-	if SlaveMasterMap == nil {
-		MasterSlaveMap = make( map[RedisClient]RedisClient)
+	if slaveMasterMap == nil {
+		masterSlaveMap = make(map[RedisClient]RedisClient)
 	}
 	if MasterSlaveChannelMap == nil {
 		MasterSlaveChannelMap = make(map[string](chan MonitorResult))
 	}
 
-	MasterSlaveMap[masterNode] = slaveNode
-	SlaveMasterMap[slaveNode] = masterNode
+	masterSlaveMap[masterNode] = slaveNode
+	slaveMasterMap[slaveNode] = masterNode
 	MasterSlaveChannelMap[masterNode.Address] = make(chan MonitorResult)
 }

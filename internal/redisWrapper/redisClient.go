@@ -1,12 +1,10 @@
 package redisWrapper
 
 import (
-	"encoding/json"
 	"fmt"
-	"github.com/gomodule/redigo/redis"
-	"interface_hash_server/configs"
 	"interface_hash_server/tools"
-	"net/http"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 type RedisClient struct {
@@ -17,18 +15,11 @@ type RedisClient struct {
 var redisMasterClients []RedisClient
 var redisSlaveClients []RedisClient
 
-// RedisNodeAddressList are Address list of Redis Nodes
-var RedisMasterAddressList = []string{
-	configs.RedisMasterOneAddress,
-	configs.RedisMasterTwoAddress,
-	configs.RedisMasterThreeAddress,
-}
+// masterSlaveMap is a map of (Master Address -> Slave Address)
+var masterSlaveMap map[RedisClient]RedisClient
 
-var RedisSlaveAddressList = []string{
-	configs.RedisSlaveOneAddress,
-	configs.RedisSlaveTwoAddress,
-	configs.RedisSlaveThreeAddress,
-}
+// slaveMasterMap is a map of (Slave Address -> Master Address)
+var slaveMasterMap map[RedisClient]RedisClient
 
 // GetRedisClient returns Redis Client corresponding to @hashSlot
 /* Check Process :
@@ -59,7 +50,7 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 		} else {
 			// if 과반수 says dead,
 			// Switch Slave to Master. (Slave까지 죽은것에 대해선 Redis Cluster도 처리 X => Docker restart로 처리해보자)
-			slaveNode := MasterSlaveMap[redisClient]
+			slaveNode := masterSlaveMap[redisClient]
 			if err := promoteSlaveToMaster(slaveNode); err != nil {
 				return RedisClient{}, err
 			}
@@ -80,7 +71,7 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
  */
 func promoteSlaveToMaster(slaveNode RedisClient) error {
 
-	masterNode, isSet := SlaveMasterMap[slaveNode]
+	masterNode, isSet := slaveMasterMap[slaveNode]
 	if isSet == false {
 		return fmt.Errorf("promoteSlaveToMaster() - Master Slave Map is not set up")
 	}
@@ -91,18 +82,24 @@ func promoteSlaveToMaster(slaveNode RedisClient) error {
 		return fmt.Errorf("New Master-Promoted Client is also dead")
 	}
 
-	startHashSlotIndex := clientHashRangeMap[masterNode.Address].startIndex
-	endHashSlotIndex := clientHashRangeMap[masterNode.Address].endIndex
+	for _, eachHashRangeOfClient := range clientHashRangeMap[masterNode.Address] {
+		hashSlotStart := eachHashRangeOfClient.startIndex
+		hashSlotEnd := eachHashRangeOfClient.endIndex
 
-	// Replace Hash Map With Slave Client
-	for i := startHashSlotIndex; i < endHashSlotIndex; i++ {
-		HashSlotMap[i] = slaveNode
+		// Assign Master's Hash Slots to Slave Node
+		assignHashSlotMap(hashSlotStart, hashSlotEnd, slaveNode)
+
+		newHashRange := HashRange{
+			startIndex: hashSlotStart,
+			endIndex:   hashSlotEnd,
+		}
+
+		// Record slave address -> Hash slots Range
+		clientHashRangeMap[slaveNode.Address] = append(clientHashRangeMap[slaveNode.Address], newHashRange)
 	}
 
-	clientHashRangeMap[slaveNode.Address] = HashRange{
-		startIndex: startHashSlotIndex,
-		endIndex:   endHashSlotIndex,
-	}
+	// Remove Master's Hash Range => Let Garbace Collect
+	clientHashRangeMap[masterNode.Address] = nil
 	delete(clientHashRangeMap, masterNode.Address)
 
 	// Swap Slave Client and Master Client
@@ -116,69 +113,12 @@ func promoteSlaveToMaster(slaveNode RedisClient) error {
 	redisSlaveClients = append(redisSlaveClients, masterNode)
 	redisMasterClients = append(redisMasterClients, slaveNode)
 
-	delete(SlaveMasterMap, slaveNode)
-	SlaveMasterMap[masterNode] = slaveNode
-	delete(MasterSlaveMap, masterNode)
-	SlaveMasterMap[slaveNode] = masterNode
+	delete(slaveMasterMap, slaveNode)
+	slaveMasterMap[masterNode] = slaveNode
+	delete(masterSlaveMap, masterNode)
+	masterSlaveMap[slaveNode] = masterNode
 
 	return nil
-}
-
-// askMasterIsAlive returns the "votes" of Monitor Servers' checking if Redis node is alive
-/* with given @redisNodeAddress
- * Uses Goroutines to request to every Monitor Nodes
- */
-func askRedisIsAliveToMonitors(redisNodeAddress string) (int, error) {
-	numberOfmonitorNode := len(monitorNodeAddressList)
-	outputChannel := make(chan MonitorResponse, numberOfmonitorNode) // Buffered Channel - Async
-
-	for _, eachMonitorNodeAddress := range monitorNodeAddressList {
-		// request
-		// GET request With URI http://~/monitor/{redisNodeAddress}
-		go func(outputChannel chan<- MonitorResponse, monitorAddress string, redisNodeAddress string) {
-			requestURI := fmt.Sprintf("http://%s/monitor/%s", monitorAddress, redisNodeAddress)
-
-			tools.InfoLogger.Println("askMasterIsAlive() : Request To : ", requestURI)
-
-			response, err := http.Get(requestURI)
-			if err != nil {
-				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 1: ", err)
-				outputChannel <- MonitorResponse{ErrorMessage: fmt.Sprintf("Monitor server(IP : %s) response error", monitorAddress)}
-			}
-			defer response.Body.Close()
-
-			var monitorResponse MonitorResponse
-			decoder := json.NewDecoder(response.Body)
-			if err := decoder.Decode(&monitorResponse); err != nil {
-				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 2: ", monitorResponse.ErrorMessage)
-				outputChannel <- MonitorResponse{ErrorMessage: err.Error()}
-			}
-
-			if monitorResponse.RedisNodeAddress == redisNodeAddress {
-				tools.InfoLogger.Println("askMasterIsAlive() : Response - is alive : ", monitorResponse.IsAlive)
-				outputChannel <- MonitorResponse{IsAlive: monitorResponse.IsAlive, ErrorMessage: ""}
-			} else {
-				tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 3: ", monitorResponse.ErrorMessage)
-				outputChannel <- MonitorResponse{ErrorMessage: fmt.Sprintf("Reuqested Redis Node Address Not Match with Response")}
-			}
-		}(outputChannel, eachMonitorNodeAddress, redisNodeAddress)
-	}
-
-	votes := 0
-	for i := 0; i < numberOfmonitorNode; i++ {
-		// 임의의 Goroutine에서 보낸 Response 처리 (Buffered channel 이라 Goroutine이 async)
-		// Wait til Channel gets Response
-		monitorResponse := <-outputChannel
-		if monitorResponse.ErrorMessage != "" {
-			return 0, fmt.Errorf(monitorResponse.ErrorMessage)
-		}
-
-		if monitorResponse.IsAlive {
-			votes++
-		}
-	}
-
-	return votes, nil
 }
 
 func GetRedisClientWithAddress(address string) (RedisClient, error) {
@@ -215,4 +155,39 @@ func RemoveRedisClient(targetNode RedisClient, redisClientsList []RedisClient) (
 	}
 
 	return RedisClient{}, fmt.Errorf("removeRedisClient() : No Matching Redis Client to Remove")
+}
+
+// assignHashSlotMap assigns Hash slots (@start ~ @end) to passed @redisNode
+/* It basically unrolls the loop with 16 states for cahching
+ * And If the range Is not divided by 16, Remains will be handled with single statement loop
+ */
+func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
+
+	var i uint16
+	nextSlotIndex := start + 16
+	// Replace Hash Map With Slave Client
+	for i := start; nextSlotIndex < end; i += 16 {
+		HashSlotMap[i] = redisNode
+		HashSlotMap[i+1] = redisNode
+		HashSlotMap[i+2] = redisNode
+		HashSlotMap[i+3] = redisNode
+		HashSlotMap[i+4] = redisNode
+		HashSlotMap[i+5] = redisNode
+		HashSlotMap[i+6] = redisNode
+		HashSlotMap[i+7] = redisNode
+		HashSlotMap[i+8] = redisNode
+		HashSlotMap[i+9] = redisNode
+		HashSlotMap[i+10] = redisNode
+		HashSlotMap[i+11] = redisNode
+		HashSlotMap[i+12] = redisNode
+		HashSlotMap[i+13] = redisNode
+		HashSlotMap[i+14] = redisNode
+		HashSlotMap[i+15] = redisNode
+		nextSlotIndex += 16
+	}
+
+	for ; i < end; i++ {
+		HashSlotMap[i] = redisNode
+	}
+
 }
