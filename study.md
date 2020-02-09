@@ -128,9 +128,16 @@ Master의 Downtime을 최소화한다(새로 Master를 올리므로, a.k.a "High
 3. Master, Slave가 모두 죽으면, 해당 데이터를 모두 잃게 된다.
 
 ### 개발 목표
-Redis Cluster +
-1. Initial Slot distribution이후, Master에 대한 Slot 할당 자동화
-2. Masger, Slave가 모두 죽으면, 해당 데이터를 다른 노드로 옮기기
+(With only using basic Redis Server process - using only (Key,Value) in memory store feature)
+
+* **Sprint #1 Simple Redis Cluster**
+  1. sharding data query
+  2. Master/Slave replication
+  3. Promote Slave to Master, if Master fails
+
+* **Sprint #2 Advancement**
+  1. Initial Slot distribution이후, Master에 대한 Slot 할당 자동화
+  2. Masger, Slave가 모두 죽으면, 해당 데이터를 다른 노드로 옮기기
 
 궁금한 점:
 1. Sentinel과 Cluster의 Promoting-master 시간의 차이
