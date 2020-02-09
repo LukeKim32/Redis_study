@@ -1,5 +1,10 @@
 package redisWrapper
 
+import (
+	"fmt"
+	"interface_hash_server/tools"
+)
+
 var clientHashRangeMap map[string][]HashRange
 
 type HashRange struct {
@@ -10,7 +15,17 @@ type HashRange struct {
 //redistruibuteHashSlot distributes @srcNode's Hash Slots into other Master nodes
 // Splits down @srcNode's each Hash Slot evenly with remaining number of master nodes,
 // and Append on remaining masters' hash slots
-func redistruibuteHashSlot(srcNode RedisClient) {
+func redistruibuteHashSlot(srcNode RedisClient) error {
+
+	tools.InfoLogger.Printf("redistruibuteHashSlot() : Hash slots of dead Redis Node(%s) will be redistributed\n", srcNode.Address)
+	tools.InfoLogger.Printf("Dead Redis Node info : %s %s\n", srcNode.Address, srcNode.Role)
+
+	if len(clientHashRangeMap[srcNode.Address]) == 0 {
+		return fmt.Errorf("redistruibuteHashSlot() : No Hash Range is assigned to Node(%s)", srcNode.Address)
+	}
+
+	redistributeSlotMutex.Lock()
+	defer redistributeSlotMutex.Unlock()
 
 	restOfMasterNumber := len(redisMasterClients) - 1
 
@@ -35,13 +50,11 @@ func redistruibuteHashSlot(srcNode RedisClient) {
 				hashSlotEnd := normalizedhashSlotEnd + srcHashSlotStart
 				assignHashSlotMap(hashSlotStart, hashSlotEnd, eachMasterNode)
 
-				// Record slave address -> Hash slots Range
 				newHashRange := HashRange{
 					startIndex: hashSlotStart,
 					endIndex:   hashSlotEnd,
 				}
 
-				// Record slave address -> Hash slots Range
 				clientHashRangeMap[eachMasterNode.Address] = append(clientHashRangeMap[eachMasterNode.Address], newHashRange)
 				i++
 			}
@@ -52,4 +65,25 @@ func redistruibuteHashSlot(srcNode RedisClient) {
 	clientHashRangeMap[srcNode.Address] = nil
 	delete(clientHashRangeMap, srcNode.Address)
 
+	slaveNode := masterSlaveMap[srcNode.Address]
+
+	if _, err := RemoveMasterFromList(srcNode); err != nil {
+		return err
+	}
+
+	if _, err := RemoveSlaveFromList(slaveNode); err != nil {
+		return err
+	}
+	delete(MasterSlaveChannelMap, srcNode.Address)
+	delete(masterSlaveMap, srcNode.Address)
+	delete(slaveMasterMap, slaveNode.Address)
+
+	for _, eachMaster := range redisMasterClients {
+		tools.InfoLogger.Println("After Hash Slot Redistribute : refreshed masters : ", eachMaster.Address)
+	}
+	for _, eachSlave := range redisSlaveClients {
+		tools.InfoLogger.Println("After Hash Slot Redistribute : refreshed slaves : ", eachSlave.Address)
+	}
+
+	return nil
 }

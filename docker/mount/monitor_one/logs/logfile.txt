@@ -12,3 +12,604 @@ INFO: 2020/02/02 22:57:42 connection.go:66: Redis Slave Node(172.29.0.9:8002) Ma
 INFO: 2020/02/02 22:57:42 connection.go:69: Redis Node(172.29.0.9:8002) connection Success
 INFO: 2020/02/02 22:57:42 main.go:52: Server start listening on port  8888
 INFO: 2020/02/02 22:59:37 exceptionHandler.go:22: Not a proper path
+INFO: 2020/02/09 10:39:51 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 10:39:51 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 10:39:51 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 11:11:32 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 11:11:32 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 11:11:32 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 11:11:32 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 11:11:32 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 11:11:32 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 11:11:32 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 11:11:32 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 11:11:32 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 11:11:32 main.go:52: Server start listening on port  8888
+INFO: 2020/02/09 11:20:29 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 11:20:29 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 11:20:29 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 11:20:29 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 11:20:29 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 11:20:29 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 11:20:29 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 11:20:29 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 11:20:29 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 11:20:29 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 11:20:49 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 11:20:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 11:20:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 11:20:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 11:20:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 18:50:15 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 18:50:15 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 18:50:15 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 18:50:15 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 18:50:15 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 18:50:15 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 18:50:15 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 18:50:15 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 18:50:15 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 18:50:15 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 18:50:37 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 18:50:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 18:50:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 18:50:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 18:50:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 18:56:48 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 18:56:48 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 18:56:48 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 18:56:48 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 18:56:48 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 18:56:48 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 18:56:48 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 18:56:48 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 18:56:48 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 18:56:48 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 18:57:03 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 18:57:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 18:57:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 18:57:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 18:57:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 19:18:44 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 19:18:44 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 19:18:44 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 19:18:44 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 19:18:44 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 19:18:44 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 19:18:44 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 19:18:44 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 19:18:44 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 19:18:44 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 19:19:21 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 19:19:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 19:19:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 19:19:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 19:19:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 19:21:41 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 19:21:41 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 19:21:41 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 19:21:41 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 19:21:41 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 19:21:41 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 19:21:41 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 19:21:41 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 19:21:41 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 19:21:41 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 19:21:51 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 19:21:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 19:21:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 19:21:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 19:21:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 19:28:14 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 19:28:14 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 19:28:14 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 19:28:14 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 19:28:14 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 19:28:14 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 19:28:14 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 19:28:14 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 19:28:14 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 19:28:14 main.go:52: Server start listening on port  8888
+INFO: 2020/02/09 19:33:37 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 19:33:37 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 19:33:37 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 19:33:37 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 19:33:37 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 19:33:37 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 19:33:37 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 19:33:37 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 19:33:37 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 19:33:37 main.go:52: Server start listening on port  8888
+INFO: 2020/02/09 19:44:15 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 19:44:15 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 19:44:15 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 19:44:15 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 19:44:15 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 19:44:15 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 19:44:15 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 19:44:15 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 19:44:15 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 19:44:15 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 19:44:30 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 19:44:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 19:44:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 19:44:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 19:44:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 19:45:27 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 19:45:27 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 19:45:27 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 19:45:27 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 19:45:27 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 19:45:27 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 19:45:27 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 19:45:27 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 19:45:27 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 19:45:27 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 19:45:39 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 19:45:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 19:45:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 19:45:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 19:45:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 19:47:12 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 19:47:12 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 19:47:12 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 19:47:12 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 19:47:12 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 19:47:12 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 19:47:12 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 19:47:12 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 19:47:12 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 19:47:12 main.go:52: Server start listening on port  8888
+INFO: 2020/02/09 20:00:20 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 20:00:20 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 20:00:20 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 20:00:20 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 20:00:20 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 20:00:20 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 20:00:20 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 20:00:20 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 20:00:20 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 20:00:20 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 20:08:19 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 20:08:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:08:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 20:08:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 20:08:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 20:19:38 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 20:19:38 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 20:19:38 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 20:19:38 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 20:19:38 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 20:19:38 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 20:19:38 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 20:19:38 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 20:19:38 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 20:19:38 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 20:20:28 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 20:20:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:20:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 20:20:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 20:20:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 20:27:01 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 20:27:01 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 20:27:01 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 20:27:01 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 20:27:01 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 20:27:01 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 20:27:01 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 20:27:01 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 20:27:01 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 20:27:01 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 20:27:19 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 20:27:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:27:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 20:27:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 20:27:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 20:31:41 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 20:31:41 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 20:31:41 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 20:31:41 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 20:31:41 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 20:31:41 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 20:31:41 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 20:31:41 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 20:31:41 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 20:31:41 main.go:52: Server start listening on port  8888
+INFO: 2020/02/09 20:35:20 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 20:35:20 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 20:35:20 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 20:35:20 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 20:35:20 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 20:35:20 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 20:35:20 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 20:35:20 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 20:35:20 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 20:35:20 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 20:36:34 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 20:36:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:36:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 20:36:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 20:36:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 20:37:15 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 20:37:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:37:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 20:41:56 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 20:41:56 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 20:41:56 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 20:41:56 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 20:41:56 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 20:41:56 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 20:41:56 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 20:41:56 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 20:41:56 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 20:41:56 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 20:42:12 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 20:42:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:42:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 20:42:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 20:42:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 20:42:22 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 20:42:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:42:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 20:55:25 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 20:55:25 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 20:55:25 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 20:55:25 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 20:55:25 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 20:55:25 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 20:55:25 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 20:55:25 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 20:55:25 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 20:55:25 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 20:55:52 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 20:55:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:55:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 20:55:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 20:55:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 20:56:02 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 20:56:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 20:56:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 21:06:57 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 21:06:57 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 21:06:57 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 21:06:57 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 21:06:57 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 21:06:57 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 21:06:57 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 21:06:57 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 21:06:57 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 21:06:57 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 21:11:26 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:11:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:11:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 21:11:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 21:11:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 21:11:35 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 21:11:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:11:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 21:11:35 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:11:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:11:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:53360-\u003e172.29.0.6:8002: use of closed network connection"}
+INFO: 2020/02/09 21:26:25 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 21:26:25 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 21:26:25 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 21:26:25 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 21:26:25 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 21:26:25 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 21:26:25 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 21:26:25 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 21:26:25 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 21:26:25 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 21:27:07 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:27:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:27:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 21:27:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 21:27:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 21:27:19 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 21:27:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:27:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 21:27:19 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:27:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:27:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:53530-\u003e172.29.0.6:8002: use of closed network connection"}
+ERROR: 2020/02/09 21:32:55 monitorHandler.go:34: Redis Node(172.29.0.5:8001) Ping test failure
+INFO: 2020/02/09 21:32:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:32:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 21:32:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 21:32:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 21:33:06 monitorHandler.go:34: Redis Node(172.29.0.8:8001) Ping test failure
+INFO: 2020/02/09 21:33:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:33:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 21:33:06 monitorHandler.go:34: Redis Node(172.29.0.5:8001) Ping test failure
+INFO: 2020/02/09 21:33:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:33:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:38480-\u003e172.29.0.5:8001: use of closed network connection"}
+INFO: 2020/02/09 21:39:46 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 21:39:46 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 21:39:46 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 21:39:46 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 21:39:46 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 21:39:46 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 21:39:46 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 21:39:46 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 21:39:46 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 21:39:46 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 21:40:12 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:40:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:40:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 21:40:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 21:40:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 21:40:23 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 21:40:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:40:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 21:40:23 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:40:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:40:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:53674-\u003e172.29.0.6:8002: use of closed network connection"}
+ERROR: 2020/02/09 21:40:36 monitorHandler.go:34: Redis Node(172.29.0.5:8001) Ping test failure
+INFO: 2020/02/09 21:40:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:40:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 21:40:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 21:40:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 21:40:43 monitorHandler.go:34: Redis Node(172.29.0.8:8001) Ping test failure
+INFO: 2020/02/09 21:40:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:40:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 21:40:43 monitorHandler.go:34: Redis Node(172.29.0.5:8001) Ping test failure
+INFO: 2020/02/09 21:40:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:40:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:38624-\u003e172.29.0.5:8001: use of closed network connection"}
+ERROR: 2020/02/09 21:40:49 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 21:40:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:40:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:46318-\u003e172.29.0.9:8002: use of closed network connection"}
+INFO: 2020/02/09 21:55:12 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 21:55:12 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 21:55:12 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 21:55:12 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 21:55:12 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 21:55:12 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 21:55:12 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 21:55:12 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 21:55:12 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 21:55:12 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 21:55:50 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:55:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:55:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 21:55:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 21:55:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 21:56:35 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 21:56:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:56:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 21:56:35 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:56:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:56:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:53812-\u003e172.29.0.6:8002: use of closed network connection"}
+INFO: 2020/02/09 21:59:22 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 21:59:22 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 21:59:22 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 21:59:22 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 21:59:22 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 21:59:22 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 21:59:22 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 21:59:22 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 21:59:22 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 21:59:22 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 21:59:47 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 21:59:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 21:59:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 21:59:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 21:59:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:00:06 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:00:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:00:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:00:06 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:00:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:00:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:53932-\u003e172.29.0.6:8002: use of closed network connection"}
+INFO: 2020/02/09 22:09:06 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:09:06 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:09:06 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:09:06 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:09:06 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:09:06 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:09:06 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:09:06 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:09:06 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:09:06 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:09:37 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:09:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:09:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:09:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:09:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:09:48 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:09:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:09:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:09:48 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:09:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:09:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:54048-\u003e172.29.0.6:8002: use of closed network connection"}
+INFO: 2020/02/09 22:14:08 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:14:08 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:14:08 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:14:08 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:14:08 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:14:08 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:14:08 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:14:08 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:14:08 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:14:08 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:14:37 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:14:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:14:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:14:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:14:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 22:18:48 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:18:48 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:18:48 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:18:48 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:18:48 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:18:48 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:18:48 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:18:48 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:18:48 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:18:48 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:19:45 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:19:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:19:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:19:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:19:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 22:21:56 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:21:56 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:21:56 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:21:56 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:21:56 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:21:56 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:21:56 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:21:56 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:21:56 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:21:56 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:22:19 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:22:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:22:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:22:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:22:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:22:36 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:22:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:22:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:22:36 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:22:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:22:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:54428-\u003e172.29.0.6:8002: use of closed network connection"}
+ERROR: 2020/02/09 22:22:53 monitorHandler.go:34: Redis Node(172.29.0.5:8001) Ping test failure
+INFO: 2020/02/09 22:22:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:22:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:22:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:22:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:23:01 monitorHandler.go:34: Redis Node(172.29.0.8:8001) Ping test failure
+INFO: 2020/02/09 22:23:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:23:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:23:01 monitorHandler.go:34: Redis Node(172.29.0.5:8001) Ping test failure
+INFO: 2020/02/09 22:23:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:23:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:39378-\u003e172.29.0.5:8001: use of closed network connection"}
+ERROR: 2020/02/09 22:23:10 monitorHandler.go:34: Redis Node(172.29.0.4:8000) Ping test failure
+INFO: 2020/02/09 22:23:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:23:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:23:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:23:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.7:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 22:25:30 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:25:30 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:25:30 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:25:31 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:25:31 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:25:31 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:25:31 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:25:31 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:25:31 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:25:31 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:25:43 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:25:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:25:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:25:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:25:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:25:52 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:25:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:25:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:25:52 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:25:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:25:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:54560-\u003e172.29.0.6:8002: use of closed network connection"}
+INFO: 2020/02/09 22:27:26 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:27:26 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:27:26 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:27:26 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:27:26 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:27:26 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:27:26 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:27:26 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:27:26 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:27:26 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:27:40 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:27:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:27:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:27:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:27:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:27:48 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:27:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:27:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:27:48 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:27:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:27:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:54662-\u003e172.29.0.6:8002: use of closed network connection"}
+INFO: 2020/02/09 22:29:43 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:29:43 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:29:43 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:29:43 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:29:43 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:29:43 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:29:43 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:29:43 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:29:43 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:29:43 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:30:19 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:30:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:30:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:30:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:30:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:31:08 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:31:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:31:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:31:08 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:31:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:31:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:54772-\u003e172.29.0.6:8002: use of closed network connection"}
+INFO: 2020/02/09 22:34:17 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:34:17 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:34:17 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:34:17 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:34:17 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:34:17 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:34:17 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:34:17 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:34:17 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:34:17 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:35:07 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:35:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:35:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:35:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:35:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:35:17 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:35:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:35:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:35:52 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:35:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:35:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:47526-\u003e172.29.0.9:8002: use of closed network connection"}
+INFO: 2020/02/09 22:37:58 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:37:58 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:37:58 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:37:58 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:37:58 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:37:58 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:37:58 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:37:58 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:37:58 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:37:58 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:38:11 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:38:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:38:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:38:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:38:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/09 22:45:12 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/09 22:45:12 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/09 22:45:12 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/09 22:45:12 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/09 22:45:12 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/09 22:45:12 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/09 22:45:12 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/09 22:45:12 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/09 22:45:12 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/09 22:45:12 main.go:52: Server start listening on port  8888
+ERROR: 2020/02/09 22:45:49 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:45:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:45:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/09 22:45:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/09 22:45:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+ERROR: 2020/02/09 22:46:13 monitorHandler.go:34: Redis Node(172.29.0.9:8002) Ping test failure
+INFO: 2020/02/09 22:46:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:46:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:46:13 monitorHandler.go:34: Redis Node(172.29.0.6:8002) Ping test failure
+INFO: 2020/02/09 22:46:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:46:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":false,"ErrorMessage":"write tcp 172.29.0.10:55114-\u003e172.29.0.6:8002: use of closed network connection"}
+ERROR: 2020/02/09 22:47:16 monitorHandler.go:34: Redis Node(172.29.0.5:8001) Ping test failure
+INFO: 2020/02/09 22:47:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:47:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":false,"ErrorMessage":"EOF"}
+ERROR: 2020/02/09 22:47:16 monitorHandler.go:34: Redis Node(172.29.0.8:8001) Ping test failure
+INFO: 2020/02/09 22:47:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
+INFO: 2020/02/09 22:47:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":false,"ErrorMessage":"EOF"}

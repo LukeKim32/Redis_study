@@ -6,11 +6,19 @@ WORKDIR /app
 
 COPY . .
 
+RUN apk update
+
 RUN apk add --no-cache git
 
 RUN go mod download
 
 RUN go build -o ./build/interface_server ./cmd/interface_server/main.go 
+
+# RUN apk add openrc --no-cache
+
+# RUN apk add docker
+
+# RUN service docker restart
 
 RUN git clone https://github.com/eficode/wait-for.git
 

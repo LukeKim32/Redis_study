@@ -3,23 +3,36 @@ package redisWrapper
 import (
 	"fmt"
 	"interface_hash_server/tools"
+	"sync"
 
 	"github.com/gomodule/redigo/redis"
+)
+
+const (
+	MasterRole = "master"
+	SlaveRole  = "slave"
 )
 
 type RedisClient struct {
 	Connection redis.Conn
 	Address    string
+	Role       string
 }
 
 var redisMasterClients []RedisClient
 var redisSlaveClients []RedisClient
 
-// masterSlaveMap is a map of (Master Address -> Slave Address)
-var masterSlaveMap map[RedisClient]RedisClient
+// masterSlaveMap is a map of (Master Address -> Slave Node)
+var masterSlaveMap map[string]RedisClient
 
-// slaveMasterMap is a map of (Slave Address -> Master Address)
-var slaveMasterMap map[RedisClient]RedisClient
+// slaveMasterMap is a map of (Slave Address -> Master Node)
+var slaveMasterMap map[string]RedisClient
+
+// redistributeSlotMutex is used for sync in accessing Hash Maps After Redistribution
+var redistributeSlotMutex = &sync.Mutex{}
+
+// redisMutexMap is used for sync of request to each Redis <Master-Slave> Set With key of "Address"
+var redisMutexMap map[string]*sync.Mutex
 
 // GetRedisClient returns Redis Client corresponding to @hashSlot
 /* Check Process :
@@ -29,6 +42,11 @@ var slaveMasterMap map[RedisClient]RedisClient
  * 3-2) If Votes are smaller than half, Promote It's Slave Client to New Master
  */
 func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
+
+	redisMutexMap[HashSlotMap[hashSlotIndex].Address].Lock()
+	/* HashSlotMap이 checkRedisFailover() 재분배되어도, 이전 값 유지 */
+	defer redisMutexMap[HashSlotMap[hashSlotIndex].Address].Unlock()
+
 	redisClient := HashSlotMap[hashSlotIndex]
 
 	tools.InfoLogger.Printf("GetRedisClient() : Redis Node(%s) selected\n", redisClient.Address)
@@ -37,56 +55,106 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 	if err != nil {
 		tools.ErrorLogger.Printf("Redis Node(%s) Ping test failure\n", redisClient.Address)
 
-		// Now No error is allowed! Every Request will work
-		// ask monitor nodes if master node is dead
-		votes, err := askRedisIsAliveToMonitors(redisClient.Address)
-		if err != nil {
+		if err = checkRedisFailover(redisClient); err != nil {
 			return RedisClient{}, err
-		}
-
-		numberOfTotalVotes := len(monitorNodeAddressList) + 1
-		if votes > (numberOfTotalVotes / 2) { // If more than half says it's not dead
-			// setupConnectionAgain()
-		} else {
-			// if 과반수 says dead,
-			// Switch Slave to Master. (Slave까지 죽은것에 대해선 Redis Cluster도 처리 X => Docker restart로 처리해보자)
-			slaveNode := masterSlaveMap[redisClient]
-			if err := promoteSlaveToMaster(slaveNode); err != nil {
-				return RedisClient{}, err
-			}
-
-			return slaveNode, nil
 		}
 	}
 
 	tools.InfoLogger.Printf("Redis Node(%s) Ping test success\n", redisClient.Address)
 
-	return redisClient, nil
+	return HashSlotMap[hashSlotIndex], nil
 }
 
-// promoteSlaveToMaster promotes Slave Client to Master Client and Check Slave Client is connected
-/* 1) Replace Hash Map Value(Redis Client info)
- * 2) Swap Master Client and Slave client from each others' list
- * Returns Newly Master-Promoted Client (Previous Slave)
- */
-func promoteSlaveToMaster(slaveNode RedisClient) error {
+// checkRedisFailover checks @masterClient and handles failover
+/*
+	1. Checks If @masterClient is alive
+	2. If dead,
+		1) Promote mapped Slave to new master
+		2) Restart previous master(@masterClient)
+	3. If Master-Promoting process (2.) fails, Redistribute @masterClient Hash Slots
+*/
+func checkRedisFailover(masterClient RedisClient) error {
 
-	masterNode, isSet := slaveMasterMap[slaveNode]
-	if isSet == false {
-		return fmt.Errorf("promoteSlaveToMaster() - Master Slave Map is not set up")
-	}
-
-	// Ping test to check If slave client is alive
-	_, err := redis.String(slaveNode.Connection.Do("PING"))
+	// ask monitor nodes if master node is dead
+	numberOfTotalVotes := len(monitorNodeAddressList) + 1
+	votes, err := askRedisIsAliveToMonitors(masterClient)
 	if err != nil {
-		return fmt.Errorf("New Master-Promoted Client is also dead")
+		return err
 	}
 
+	tools.InfoLogger.Printf("GetRedisClient() : %s failover Vote result : (%d / %d)\n", masterClient.Address, votes, numberOfTotalVotes)
+
+	if votes > (numberOfTotalVotes / 2) {
+		return nil
+
+	} else {
+		// if 과반수 says dead,
+		// Switch Slave to Master.
+		tools.InfoLogger.Printf("GetRedisClient() : As %s failover, Master-Promotion process start \n", masterClient.Address)
+
+		if err := promoteSlaveToMaster(masterClient); err != nil {
+
+			if err.Error() == BothMasterSlaveDead {
+				if err := redistruibuteHashSlot(masterClient); err != nil {
+					return err
+				}
+
+				return nil
+			}
+
+			return err
+		}
+
+		// If promotion successes
+		tools.InfoLogger.Printf("GetRedisClient() : Promotion Success, New Slave(Previous Master %s) container restart \n", masterClient.Address)
+
+		// if err := RestartRedisContainer(masterClient.Address); err != nil {
+		// 	return err
+		// }
+
+		tools.InfoLogger.Printf("GetRedisClient() : %s is a new Master!\n", slaveMasterMap[masterClient.Address].Address)
+
+		return nil
+	}
+}
+
+// promoteSlaveToMaster checks Slave Client is alive, and promotes Slave to New Master
+/*
+   @maseterNode is passed with parameter
+   1) Replace Hash Map Value(Redis Client info)
+   2) Swap Master Client and Slave client from each others list
+   Returns Slave Node and error if Slave node has an error
+*/
+func promoteSlaveToMaster(masterNode RedisClient) error {
+
+	// Check if mapped Slave is alive before Promotion
+	slaveNode, isSet := masterSlaveMap[masterNode.Address]
+	if isSet == false {
+		return fmt.Errorf(MasterSlaveMapNotInit)
+	}
+
+	numberOfTotalVotes := len(monitorNodeAddressList) + 1
+	votes, err := askRedisIsAliveToMonitors(slaveNode)
+	if err != nil {
+		return err
+	}
+
+	tools.InfoLogger.Printf(FailOverVoteResult, slaveNode.Address, votes, numberOfTotalVotes)
+
+	// If more than half says Slave is dead
+	if votes <= (numberOfTotalVotes / 2) {
+		return fmt.Errorf(BothMasterSlaveDead)
+	}
+
+	tools.InfoLogger.Printf(PromotingSlaveNode, slaveNode.Address)
+
+	// Start Promotion
 	for _, eachHashRangeOfClient := range clientHashRangeMap[masterNode.Address] {
 		hashSlotStart := eachHashRangeOfClient.startIndex
 		hashSlotEnd := eachHashRangeOfClient.endIndex
 
 		// Assign Master's Hash Slots to Slave Node
+		slaveNode.Role = MasterRole
 		assignHashSlotMap(hashSlotStart, hashSlotEnd, slaveNode)
 
 		newHashRange := HashRange{
@@ -102,21 +170,10 @@ func promoteSlaveToMaster(slaveNode RedisClient) error {
 	clientHashRangeMap[masterNode.Address] = nil
 	delete(clientHashRangeMap, masterNode.Address)
 
-	// Swap Slave Client and Master Client
-	if _, err := RemoveRedisClient(slaveNode, redisSlaveClients); err != nil {
+	// Refresh configs/global variables of Slave Client and Master Client
+	if err := swapMasterSlaveConfigs(masterNode, slaveNode); err != nil {
 		return err
 	}
-
-	if _, err := RemoveRedisClient(masterNode, redisMasterClients); err != nil {
-		return err
-	}
-	redisSlaveClients = append(redisSlaveClients, masterNode)
-	redisMasterClients = append(redisMasterClients, slaveNode)
-
-	delete(slaveMasterMap, slaveNode)
-	slaveMasterMap[masterNode] = slaveNode
-	delete(masterSlaveMap, masterNode)
-	masterSlaveMap[slaveNode] = masterNode
 
 	return nil
 }
@@ -139,29 +196,13 @@ func GetRedisClientWithAddress(address string) (RedisClient, error) {
 	return RedisClient{}, fmt.Errorf("GetRedisClientWithAddress() error : No Matching Redis Client With passed address")
 }
 
-func RemoveRedisClient(targetNode RedisClient, redisClientsList []RedisClient) (RedisClient, error) {
-	var removedRedisClient RedisClient
-
-	for i, eachClient := range redisClientsList {
-		if eachClient == targetNode {
-			removedRedisClient = eachClient
-
-			redisClientsList[i] = redisClientsList[len(redisClientsList)-1]
-			redisClientsList[len(redisClientsList)-1] = RedisClient{}
-			redisClientsList = redisClientsList[:len(redisClientsList)-1]
-
-			return removedRedisClient, nil
-		}
-	}
-
-	return RedisClient{}, fmt.Errorf("removeRedisClient() : No Matching Redis Client to Remove")
-}
-
 // assignHashSlotMap assigns Hash slots (@start ~ @end) to passed @redisNode
 /* It basically unrolls the loop with 16 states for cahching
  * And If the range Is not divided by 16, Remains will be handled with single statement loop
  */
 func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
+
+	tools.InfoLogger.Printf("assignHashSlotMap() : Redis Node(%s) Hash slots assigning start\n", redisNode.Address)
 
 	var i uint16
 	nextSlotIndex := start + 16
@@ -190,4 +231,92 @@ func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
 		HashSlotMap[i] = redisNode
 	}
 
+	tools.InfoLogger.Printf("assignHashSlotMap() : Redis Node(%s) Hash slots assign finished\n", redisNode.Address)
+
+}
+
+func swapMasterSlaveConfigs(masterNode RedisClient, slaveNode RedisClient) error {
+
+	removedSlaveNode, err := RemoveSlaveFromList(slaveNode)
+	if err != nil {
+		return err
+	}
+
+	removedMasterNode, err := RemoveMasterFromList(masterNode)
+	if err != nil {
+		return err
+	}
+
+	removedSlaveNode.Role = MasterRole
+	removedMasterNode.Role = SlaveRole
+
+	redisSlaveClients = append(redisSlaveClients, removedMasterNode)
+	redisMasterClients = append(redisMasterClients, removedSlaveNode)
+
+	delete(masterSlaveMap, masterNode.Address)
+	masterSlaveMap[slaveNode.Address] = masterNode
+
+	delete(slaveMasterMap, slaveNode.Address)
+	slaveMasterMap[masterNode.Address] = slaveNode
+
+	for _, eachMaster := range redisMasterClients {
+		tools.InfoLogger.Printf("swapMasterSlaveConfigs() : refreshed masters : %s %s ", eachMaster.Address, eachMaster.Role)
+	}
+	for _, eachSlave := range redisSlaveClients {
+		tools.InfoLogger.Printf("swapMasterSlaveConfigs() : refreshed slaves : %s %s", eachSlave.Address, eachSlave.Role)
+	}
+
+	return nil
+}
+
+func RemoveSlaveFromList(slaveNode RedisClient) (RedisClient, error) {
+	var removedRedisClient RedisClient
+
+	tools.InfoLogger.Printf("RemoveSlaveFromList() : Passed @slaveNode's role : %s, address : %s", slaveNode.Role, slaveNode.Address)
+
+	for i, eachClient := range redisSlaveClients {
+		if eachClient.Address == slaveNode.Address {
+			removedRedisClient = eachClient
+
+			redisSlaveClients[i] = redisSlaveClients[len(redisSlaveClients)-1]
+			redisSlaveClients[len(redisSlaveClients)-1] = RedisClient{}
+
+			redisSlaveClients = redisSlaveClients[:len(redisSlaveClients)-1]
+
+			return removedRedisClient, nil
+		}
+	}
+
+	return RedisClient{}, fmt.Errorf("RemoveSlaveFromList() : No Matching Redis Client to Remove - %s", slaveNode.Address)
+}
+
+func RemoveMasterFromList(masterNode RedisClient) (RedisClient, error) {
+	var removedRedisClient RedisClient
+
+	tools.InfoLogger.Printf("RemoveMasterFromList() : Passed @slaveNode's role : %s, address : %s", masterNode.Role, masterNode.Address)
+
+	for i, eachClient := range redisMasterClients {
+		if eachClient.Address == masterNode.Address {
+			removedRedisClient = eachClient
+
+			redisMasterClients[i] = redisMasterClients[len(redisMasterClients)-1]
+			redisMasterClients[len(redisMasterClients)-1] = RedisClient{}
+
+			redisMasterClients = redisMasterClients[:len(redisMasterClients)-1]
+
+			return removedRedisClient, nil
+		}
+	}
+
+	return RedisClient{}, fmt.Errorf("RemoveMasterFromList() : No Matching Redis Client to Remove - %s", masterNode.Address)
+}
+
+func isRedisMaster(redisNode RedisClient) bool {
+	for _, eachMasterNode := range redisMasterClients {
+		if eachMasterNode == redisNode {
+			return true
+		}
+	}
+
+	return false
 }

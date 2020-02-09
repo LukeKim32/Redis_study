@@ -17,7 +17,7 @@ func CheckRedisNodeStatus(response http.ResponseWriter, request *http.Request) {
 
 	pathVariables := mux.Vars(request)
 	targetRedisAddress := pathVariables["redisNodeAddress"]
-	pingResult := redisWrapper.MonitorResponse{
+	pingResult := redisWrapper.MonitorServerResponse{
 		RedisNodeAddress: targetRedisAddress,
 		ErrorMessage:     "",
 		IsAlive:          true,

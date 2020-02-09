@@ -34,8 +34,8 @@ func main() {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
-	// create Hash Map (Index -> Redis Node)
-	if err := redisWrapper.MakeRedisAddressHashMap(); err != nil {
+	// create Hash Map (Index -> Redis Master Nodes)
+	if err := redisWrapper.MakeHashMapToRedis(); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Redis Node Address Mapping to Hash Map failure: ", err.Error())
 	}
 
@@ -44,8 +44,7 @@ func main() {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
-	redisWrapper.MonitorMasters()
-	redisWrapper.MonitorSlaves()
+	// redisWrapper.MonitorNodes()
 
 	router := mux.NewRouter()
 

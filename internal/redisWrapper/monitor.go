@@ -6,144 +6,118 @@ import (
 	"interface_hash_server/configs"
 	"interface_hash_server/tools"
 	"net/http"
+	"strings"
 	"time"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 var monitorNodeAddressList = []string{configs.MonitorNodeOneAddress, configs.MonitorNodeTwoAddress}
 
-type MonitorResponse struct {
+type MonitorServerResponse struct {
 	RedisNodeAddress string
 	IsAlive          bool
 	ErrorMessage     string
 }
 
-type MonitorResult struct {
-	RedisAddress string
-	isAlive      bool
+type MasterSlaveMessage struct {
+	MasterNode RedisClient
+	SlaveNode  RedisClient
+	// isCurrentSlaveDead is the status of current Struct Variable's "SlaveNode" field
+	isCurrentSlaveDead bool
 }
 
 // MasterSlaveChannelMap is a map (Master Node Address -> Channel) for Master And Slave Nodes' Communication
-var MasterSlaveChannelMap map[string](chan MonitorResult)
+var MasterSlaveChannelMap map[string](chan MasterSlaveMessage)
 
-func MonitorMasters() {
-	ticker := time.NewTicker(5 * time.Second)
-	quit := make(chan error)
+var errorChannel chan error
+
+// MonitorNodes monitors passed @redisClients
+func MonitorNodes() {
+	errorChannel = make(chan error)
+	ticker := time.NewTicker(10 * time.Second)
+
 	go func() {
 		for {
 			select {
 			case <-ticker.C:
+
+				if err := checkRedisClientSetup(); err != nil {
+					errorChannel <- err
+				}
 
 				for _, eachMasterNode := range redisMasterClients {
-					votes, err := askRedisIsAliveToMonitors(eachMasterNode.Address)
-					if err != nil {
-						quit <- err
-						break
-					}
-
-					numberOfTotalVotes := len(monitorNodeAddressList) + 1
-					if votes > (numberOfTotalVotes / 2) { // If more than half says it's not dead
-						// setupConnectionAgain()
-						MasterSlaveChannelMap[eachMasterNode.Address] <- MonitorResult{RedisAddress: eachMasterNode.Address, isAlive: true}
-					} else {
-						// if 과반수 says dead,
-						// Switch Slave to Master. (Slave까지 죽은것에 대해선 Redis Cluster도 처리 X => Docker restart로 처리해보자)
-						if err := promoteSlaveToMaster(masterSlaveMap[eachMasterNode]); err != nil {
-							// Slave까지 죽었다면
-							// 다른 Master가 Hash slot
-							quit <- err
-							break
-						}
-
-						MasterSlaveChannelMap[eachMasterNode.Address] <- MonitorResult{RedisAddress: eachMasterNode.Address, isAlive: false}
-					}
+					go startGoRoutineMonitor(eachMasterNode, errorChannel)
 				}
 
-			case <-quit:
+			case <-errorChannel:
 				ticker.Stop()
-				close(quit)
+				close(errorChannel)
 				tools.ErrorLogger.Println("MonitorMasters() : Error - timer stopped")
 				return
 			}
 		}
 	}()
-
 }
 
-func MonitorSlaves() {
-	ticker := time.NewTicker(10 * time.Second)
-	quit := make(chan error)
-	go func() {
-		for {
-			select {
-			case <-ticker.C:
+func startGoRoutineMonitor(redisNode RedisClient, errorChannel chan error) {
 
-				for _, eachSlaveNode := range redisSlaveClients {
-					votes, err := askRedisIsAliveToMonitors(eachSlaveNode.Address)
-					if err != nil {
-						quit <- err
-						break
-					}
+	redisMutexMap[redisNode.Address].Lock()
+	defer redisMutexMap[redisNode.Address].Unlock()
 
-					numberOfTotalVotes := len(monitorNodeAddressList) + 1
-					if votes > (numberOfTotalVotes / 2) { // If more than half says it's not dead
-						// setupConnectionAgain()
-					} else {
-						// if 과반수 says dead,
-						masterNode := slaveMasterMap[eachSlaveNode]
-						monitorResult := <-MasterSlaveChannelMap[masterNode.Address]
+	// Redis Node can be discarded from Master nodes if redistribute happens
+	if ok := isRedisMaster(redisNode); ok != true {
+		return
+	}
 
-						if monitorResult.isAlive {
-							if err := RestartRedisContainer(eachSlaveNode.Address); err != nil {
-								quit <- err
-								break
-							}
-						} else {
-							// Master까지 죽었다면
-							// 다른 Master가 Hash slot
-							RemoveRedisClient(masterNode, redisMasterClients)
-							redistruibuteHashSlot(masterNode)
-							delete(MasterSlaveChannelMap, masterNode.Address)
-							delete(masterSlaveMap, masterNode)
-							delete(slaveMasterMap, eachSlaveNode)
-						}
-					}
-				}
-
-			case <-quit:
-				ticker.Stop()
-				close(quit)
-				tools.ErrorLogger.Println("MonitorMasters() : Error - timer stopped")
-				return
-			}
-		}
-	}()
+	if err := checkRedisFailover(redisNode); err != nil {
+		errorChannel <- err
+		return
+	}
 }
 
 // askMasterIsAlive returns the "votes" of Monitor Servers' checking if Redis node is alive
 /* with given @redisNodeAddress
  * Uses Goroutines to request to every Monitor Nodes
  */
-func askRedisIsAliveToMonitors(redisNodeAddress string) (int, error) {
+func askRedisIsAliveToMonitors(redisNode RedisClient) (int, error) {
+
 	numberOfmonitorNode := len(monitorNodeAddressList)
-	outputChannel := make(chan MonitorResponse, numberOfmonitorNode) // Buffered Channel - Async
+	outputChannel := make(chan MonitorServerResponse, numberOfmonitorNode) // Buffered Channel - Async
 
-	for _, eachMonitorNodeAddress := range monitorNodeAddressList {
-
-		// GET request With URI http://~/monitor/{redisNodeAddress}
-		go requestToMonitor(outputChannel, eachMonitorNodeAddress, redisNodeAddress)
-	}
+	tools.InfoLogger.Println("askRedisIsAliveToMonitors() : start to request to Monitor servers")
 
 	votes := 0
+
+	// First ping-test by Host
+	hostPingResult, _ := redis.String(redisNode.Connection.Do("PING"))
+	if strings.Contains(hostPingResult, "PONG") {
+		votes++
+	}
+
+	for _, eachMonitorNodeAddress := range monitorNodeAddressList {
+		// GET request With URI http://~/monitor/{redisNodeAddress}
+		go requestToMonitor(outputChannel, eachMonitorNodeAddress, redisNode.Address)
+	}
+
 	for i := 0; i < numberOfmonitorNode; i++ {
+
+		tools.InfoLogger.Println("askRedisIsAliveToMonitors() : Waiting for response in channel")
+
 		// 임의의 Goroutine에서 보낸 Response 처리 (Buffered channel 이라 Goroutine이 async)
 		// Wait til Channel gets Response
-		monitorResponse := <-outputChannel
-		if monitorResponse.ErrorMessage != "" {
-			return 0, fmt.Errorf(monitorResponse.ErrorMessage)
+		monitorServerResponse := <-outputChannel
+		tools.InfoLogger.Printf("askRedisIsAliveToMonitors() : Buffered channel response : %s\n", monitorServerResponse.ErrorMessage)
+
+		if monitorServerResponse.ErrorMessage != "" {
+			return 0, fmt.Errorf(monitorServerResponse.ErrorMessage)
 		}
 
-		if monitorResponse.IsAlive {
+		if monitorServerResponse.IsAlive {
+			tools.InfoLogger.Printf("askRedisIsAliveToMonitors() : %s is said to be alive\n", redisNode.Address)
 			votes++
+		} else {
+			tools.InfoLogger.Printf("askRedisIsAliveToMonitors() : %s is said to be dead\n", redisNode.Address)
 		}
 	}
 
@@ -151,34 +125,57 @@ func askRedisIsAliveToMonitors(redisNodeAddress string) (int, error) {
 }
 
 // requestToMonitor is a goroutine for request to Monitor servers
-func requestToMonitor(outputChannel chan<- MonitorResponse, monitorAddress string, redisNodeAddress string) {
+func requestToMonitor(outputChannel chan<- MonitorServerResponse, monitorAddress string, redisNodeAddress string) {
 
 	requestURI := fmt.Sprintf("http://%s/monitor/%s", monitorAddress, redisNodeAddress)
 
-	tools.InfoLogger.Println("askMasterIsAlive() : Request To : ", requestURI)
+	tools.InfoLogger.Println("requestToMonitor() : Request To : ", requestURI)
 
 	// Request To Monitor server
 	response, err := http.Get(requestURI)
 	if err != nil {
-		tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 1: ", err)
-		outputChannel <- MonitorResponse{ErrorMessage: fmt.Sprintf("Monitor server(IP : %s) response error", monitorAddress)}
+		tools.ErrorLogger.Println("requestToMonitor() : Response - err 1: ", err)
+		outputChannel <- MonitorServerResponse{
+			ErrorMessage: fmt.Sprintf("requestToMonitor() : Monitor server(IP : %s) response error", monitorAddress),
+		}
 	}
 	defer response.Body.Close()
 
 	// Parse Response
-	var monitorResponse MonitorResponse
+	var monitorServerResponse MonitorServerResponse
 	decoder := json.NewDecoder(response.Body)
-	if err := decoder.Decode(&monitorResponse); err != nil {
-		tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 2: ", monitorResponse.ErrorMessage)
-		outputChannel <- MonitorResponse{ErrorMessage: err.Error()}
+	if err := decoder.Decode(&monitorServerResponse); err != nil {
+		tools.ErrorLogger.Println("requestToMonitor() : Response - err 2: ", monitorServerResponse.ErrorMessage)
+		outputChannel <- MonitorServerResponse{
+			ErrorMessage: err.Error(),
+		}
 	}
 
 	// Check the result
-	if monitorResponse.RedisNodeAddress == redisNodeAddress {
-		tools.InfoLogger.Println("askMasterIsAlive() : Response - is alive : ", monitorResponse.IsAlive)
-		outputChannel <- MonitorResponse{IsAlive: monitorResponse.IsAlive, ErrorMessage: ""}
+	if monitorServerResponse.RedisNodeAddress == redisNodeAddress {
+		tools.InfoLogger.Println("requestToMonitor() : Response - is alive : ", monitorServerResponse.IsAlive)
+
+		outputChannel <- MonitorServerResponse{
+			IsAlive:      monitorServerResponse.IsAlive,
+			ErrorMessage: "",
+		}
 	} else {
-		tools.ErrorLogger.Println("askMasterIsAlive() : Response - err 3: ", monitorResponse.ErrorMessage)
-		outputChannel <- MonitorResponse{ErrorMessage: fmt.Sprintf("Reuqested Redis Node Address Not Match with Response")}
+		tools.ErrorLogger.Println("requestToMonitor() : Response - err 3: ", monitorServerResponse.ErrorMessage)
+		outputChannel <- MonitorServerResponse{
+			ErrorMessage: fmt.Sprintf("requestToMonitor() : Reuqested Redis Node Address Not Match with Response"),
+		}
 	}
+}
+
+func checkRedisClientSetup() error {
+
+	if len(redisMasterClients) == 0 {
+		return fmt.Errorf("checkRedisClientSetup() error : No Redis Master Clients set up")
+	}
+
+	if len(redisSlaveClients) == 0 {
+		return fmt.Errorf("checkRedisClientSetup() error : No Redis Slave Clients set up")
+	}
+
+	return nil
 }

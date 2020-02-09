@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"interface_hash_server/internal/hash"
 	"interface_hash_server/tools"
+	"sync"
 
 	"github.com/gomodule/redigo/redis"
 )
@@ -39,25 +40,27 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 
 		switch connectOption {
 		case Default:
+			newRedisClient.Role = MasterRole
 			redisMasterClients = append(redisMasterClients, newRedisClient)
 
 		case SlaveSetup:
 			if len(redisMasterClients) == 0 {
 				fmt.Errorf("Redis Master Node should be set up first")
 			}
-
-			// 동일한 Index의 Master Node와 Map
-			masterAddressList := GetInitialMasterAddressList()
-			masterNode, err := GetRedisClientWithAddress(masterAddressList[i])
-			if err != nil {
-				return err
+			if len(redisMasterClients) > len(addressList) {
+				fmt.Errorf("The number of Slave Nodes should be bigger than Master's")
 			}
 
-			initMasterSlaveMaps(masterNode, newRedisClient)
+			// Modula index for circular assignment
+			index := i % len(redisMasterClients)
+			targetMasterClient := redisMasterClients[index]
 
+			newRedisClient.Role = SlaveRole
 			redisSlaveClients = append(redisSlaveClients, newRedisClient)
 
-			tools.InfoLogger.Printf("Redis Slave Node(%s) Mapped from Master Node(%s) Success\n", eachNodeAddress, masterAddressList[i])
+			initMasterSlaveMaps(targetMasterClient, newRedisClient)
+
+			tools.InfoLogger.Printf("Redis Slave Node(%s) Mapped from Master Node(%s) Success\n", newRedisClient.Address, targetMasterClient.Address)
 		}
 
 		tools.InfoLogger.Printf("Redis Node(%s) connection Success\n", eachNodeAddress)
@@ -66,7 +69,7 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 	return nil
 }
 
-func MakeRedisAddressHashMap() error {
+func MakeHashMapToRedis() error {
 
 	connectionCount := len(redisMasterClients)
 	if connectionCount == 0 {
@@ -76,20 +79,20 @@ func MakeRedisAddressHashMap() error {
 	HashSlotMap = make(map[uint16]RedisClient)
 	clientHashRangeMap = make(map[string][]HashRange)
 
-	for i, eachRedisClient := range redisMasterClients {
+	for i, eachRedisNode := range redisMasterClients {
 		// arithmatic order fixed to prevent Mantissa Loss
 		hashSlotStart := uint16(float64(i) / float64(connectionCount) * float64(hash.HashSlotsNumber))
 		hashSlotEnd := uint16(float64(i+1) / float64(connectionCount) * float64(hash.HashSlotsNumber))
 
-		assignHashSlotMap(hashSlotStart, hashSlotEnd, eachRedisClient)
+		assignHashSlotMap(hashSlotStart, hashSlotEnd, eachRedisNode)
 
 		newHashRange := HashRange{
 			startIndex: hashSlotStart,
 			endIndex:   hashSlotEnd,
 		}
-		clientHashRangeMap[eachRedisClient.Address] = append(clientHashRangeMap[eachRedisClient.Address], newHashRange)
+		clientHashRangeMap[eachRedisNode.Address] = append(clientHashRangeMap[eachRedisNode.Address], newHashRange)
 
-		tools.InfoLogger.Printf("Node %s hash slot range %d ~ %d\n", eachRedisClient.Address, hashSlotStart, hashSlotEnd)
+		tools.InfoLogger.Printf("Node %s hash slot range %d ~ %d\n", eachRedisNode.Address, hashSlotStart, hashSlotEnd)
 	}
 
 	return nil
@@ -97,16 +100,21 @@ func MakeRedisAddressHashMap() error {
 
 func initMasterSlaveMaps(masterNode RedisClient, slaveNode RedisClient) {
 	if masterSlaveMap == nil {
-		masterSlaveMap = make(map[RedisClient]RedisClient)
+		masterSlaveMap = make(map[string]RedisClient)
 	}
 	if slaveMasterMap == nil {
-		masterSlaveMap = make(map[RedisClient]RedisClient)
+		slaveMasterMap = make(map[string]RedisClient)
 	}
 	if MasterSlaveChannelMap == nil {
-		MasterSlaveChannelMap = make(map[string](chan MonitorResult))
+		MasterSlaveChannelMap = make(map[string](chan MasterSlaveMessage))
+	}
+	if redisMutexMap == nil {
+		redisMutexMap = make(map[string]*sync.Mutex)
 	}
 
-	masterSlaveMap[masterNode] = slaveNode
-	slaveMasterMap[slaveNode] = masterNode
-	MasterSlaveChannelMap[masterNode.Address] = make(chan MonitorResult)
+	masterSlaveMap[masterNode.Address] = slaveNode
+	slaveMasterMap[slaveNode.Address] = masterNode
+	MasterSlaveChannelMap[masterNode.Address] = make(chan MasterSlaveMessage)
+	redisMutexMap[masterNode.Address] = &sync.Mutex{} // Mutex for each Master-Slave set
+	redisMutexMap[slaveNode.Address] = redisMutexMap[masterNode.Address]
 }
