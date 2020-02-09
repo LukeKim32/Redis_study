@@ -106,7 +106,31 @@ Master의 Downtime을 최소화한다(새로 Master를 올리므로, a.k.a "High
 - 주요 특징 :
 1. 하나의 프로세스만 필요(각 레디스 서버 하나 당 한 대 씩 유지하는 Sentinel과 달리)
 2. Redis 노드들 내부 통신용 Port를 추가 Open (내부 통신 : Error, Fail, Resharding)
-3. 모든 데이터는 마스터 단위로 분산, 슬레이브 단위로 복제
+3. Failure 처리 : Redis 노드들끼리 ***매 초 패킷 교환(Ping-pong, Heartbeat)***
+
+> 패킷에 몇가지 정보를 담아 보낸다(ex. Failover 투표 요청, 전송 노드의 Bitmap hash slot)
+
+> 노드는 소수의 랜덤 노드들에게 매초 ping 패킷을 보내, 전체 전송된 ping 패킷은 클러스터 내 노드의 개수에 상관없이 일정한 수를 유지하도록 한다. <br> 그러나, 설정한 "NODE_TIMEOUT" 시간의 반이 넘어가지 않게 한 노드에서 ping 패킷을 보내지 않은 노드는 없도록 한다. (NODE_TIMOUT이 넘어가기 전에 TCP link reconnect를 시도하기도 한다) <br> 이러한 정책으로, NODE_TIMEOUT 시간은 작은데, Cluster 내 노드의 개수가 많을 경우, Ping 패킷의 개수가 굉장히 많아질 수도 있다. (그래도 아직까지 패킷 개수 이슈는 없었다)
+
+4. 모든 데이터는 마스터 단위로 분산, 슬레이브 단위로 복제
+4. Slave가 존재할 시, ***Automatically*** 승격이 가능하나 Latency가 존재한다.
+(새로운 Master가 나타나기 전까지 - 기존 Fail Master의 Slot이 정상적인 Node에 다시 할당되기 전까지 - 모든 Node들은 Query를 받지 않는다)
 
 - 문제점 :
-1. 센티넬처럼 슬레이브를 계속 모니터링하고 
+1. 슬레이브가 즉각 Master 승격이 이루어지지 않는다.
+(Cluster의 승격 프로세스 : Connection loss감지 => 모든 노드들이 Fail agree(과정 정리해야함) => Cluster state 변화(ok->fail) => Failover election으로 Slave가 New master => Cluster state 변화(fail->ok))
+
+> Cluster를 구성하는 Node가 하나라도 fail하면 Cluster state = fail 인데, 다른 살아있는 노드들도 더이상 입력을 받지 못한다. <br> fail Node가 제거되어도, state는 여전히 fail 상태인데, fail Node의 slot을 다시 할당해주어야 state가 ok로 변한다.
+(수동 작업 가능)
+
+2. Initial Slot distribute 이후에는, 마스터에 대한 Slot 할당은 모두 수동이다.
+
+3. Master, Slave가 모두 죽으면, 해당 데이터를 모두 잃게 된다.
+
+### 개발 목표
+1. Initial Slot distribution이후, Master에 대한 Slot 할당 자동화
+2. Masger, Slave가 모두 죽으면, 해당 데이터를 다른 노드로 옮기기
+
+궁금한 점:
+1. Sentinel과 Cluster의 Promoting-master 시간의 차이
+2. 각 Heartbeat, Vote의 알고리즘 구체적으로 정리해보기
