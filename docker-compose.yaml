@@ -25,6 +25,11 @@ services:
             - "8888"
         volumes:
             - ./docker/mount/interface/logs:/app/logs
+            # - /private/var/run/docker.sock:/var/run/docker.sock
+            # - /usr/local/bin/docker:/usr/bin/docker
+            # Path for linux
+            # - /var/run/docker.sock:/var/run/docker.sock
+            # - /usr/bin/docker:/usr/bin/docker
         environment:
             - GOPATH=/go
         links:
@@ -48,6 +53,7 @@ services:
                  ipv4_address: 172.29.0.10
         expose:
             - "8888"
+        restart: always
         volumes:
             - ./docker/mount/monitor_one/logs:/app/logs
         environment:
@@ -70,6 +76,7 @@ services:
                  ipv4_address: 172.29.0.11
         expose:
             - "8888"
+        restart: always
         volumes:
             - ./docker/mount/monitor_two/logs:/app/logs
         environment:
