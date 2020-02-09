@@ -128,6 +128,7 @@ Master의 Downtime을 최소화한다(새로 Master를 올리므로, a.k.a "High
 3. Master, Slave가 모두 죽으면, 해당 데이터를 모두 잃게 된다.
 
 ### 개발 목표
+Redis Cluster +
 1. Initial Slot distribution이후, Master에 대한 Slot 할당 자동화
 2. Masger, Slave가 모두 죽으면, 해당 데이터를 다른 노드로 옮기기
 
