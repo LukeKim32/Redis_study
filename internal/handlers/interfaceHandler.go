@@ -7,16 +7,12 @@ import (
 
 	"interface_hash_server/configs"
 	"interface_hash_server/internal/hash"
+	"interface_hash_server/internal/models"
 	"interface_hash_server/internal/redisWrapper"
 	"interface_hash_server/tools"
 
 	"github.com/gomodule/redigo/redis"
 )
-
-type requestContainer struct {
-	Command   string
-	Arguments []string
-}
 
 // ForwardToProperNode is a handler function for @POST, processing the reqeust
 /* 1) Request Body에서 Key 값을 추출
@@ -24,13 +20,13 @@ type requestContainer struct {
  * 3) NodeAddressMap[HashSlot Index] 위치의 Redis 노드에 Request 받은 명령 전달
  * 4) Redis 노드의 Response 받아 클라이언트한테 전달
  */
-func ForwardToProperNode(response http.ResponseWriter, request *http.Request) {
+func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 
 	// To check if load balancing(Round-robin) works
 	tools.InfoLogger.Printf("Interface server(IP : %s) Processing...\n", configs.CurrentIP)
 
 	// Decode Request Body
-	var requestContainer requestContainer
+	var requestContainer models.RequestContainer
 	decoder := json.NewDecoder(request.Body)
 	if err := decoder.Decode(&requestContainer); err != nil {
 		responseInternalError(response, err, configs.BaseURL)
@@ -43,14 +39,29 @@ func ForwardToProperNode(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	key := requestContainer.Arguments[0]
-	hashSlotIndex := hash.GetHashSlotIndex(key)
+	requestedDataList := requestContainer.Data
 
-	// Get Redis Node which handles this hash slot
-	redisClient, err := redisWrapper.GetRedisClient(hashSlotIndex)
-	if err != nil {
-		responseInternalError(response, err, configs.BaseURL)
-		return
+	for _, eachRequestedData := range requestedDataList {
+		key := eachRequestedData.Key
+		value := eachRequestedData.Value
+
+		hashSlotIndex := hash.GetHashSlotIndex(key)
+
+		// Get Redis Node which handles this hash slot
+		redisClient, err := redisWrapper.GetRedisClient(hashSlotIndex)
+		if err != nil {
+			responseInternalError(response, err, configs.BaseURL)
+			return
+		}
+
+		redisResponse, err = redis.String(redisClient.Connection.Do("SET", key, value))
+		if err == redis.ErrNil {
+			redisResponse = "(nil)"
+		} else if err != nil {
+			responseInternalError(response, err, configs.BaseURL)
+			return
+		}
+
 	}
 
 	var redisResponse string

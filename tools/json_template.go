@@ -13,10 +13,7 @@ const (
 	//RedisResponseTemplate is used for Response with requested data added
 	RedisResponseTemplate = `{
 		"message": "%s",
-		"redis" : {
-			"response" : "%s",
-			"node_address" : "%s"
-		},
+		"result" : "%s",
 		"_links" : {
 			"message" : "%s",
 			"href" : "%s"
