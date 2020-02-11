@@ -45,7 +45,7 @@ func main() {
 	}
 
 	// 타이머로 Redis Node들 모니터링 시작
-	// redisWrapper.StartMonitorNodes()
+	redisWrapper.StartMonitorNodes()
 
 	router := mux.NewRouter()
 

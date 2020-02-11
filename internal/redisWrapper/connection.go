@@ -33,7 +33,7 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 
 		newRedisClient.Connection, err = redis.Dial("tcp", eachNodeAddress, redis.DialConnectTimeout(ConnectTimeoutDuration))
 		if err != nil {
-			tools.ErrorLogger.Printf("Redis Node(%s) connection failure - %s\n", eachNodeAddress, err.Error())
+			tools.ErrorLogger.Printf(ConnectionFailure, eachNodeAddress, err.Error())
 			return err
 		}
 		newRedisClient.Address = eachNodeAddress
@@ -45,10 +45,10 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 
 		case SlaveSetup:
 			if len(redisMasterClients) == 0 {
-				fmt.Errorf("Redis Master Node should be set up first")
+				fmt.Errorf(RedisMasterNotSetUpYet)
 			}
 			if len(redisMasterClients) > len(addressList) {
-				fmt.Errorf("The number of Slave Nodes should be bigger than Master's")
+				fmt.Errorf(SlaveNumberMustBeLarger)
 			}
 
 			// Modula index for circular assignment
@@ -60,10 +60,10 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 
 			initMasterSlaveMaps(targetMasterClient, newRedisClient)
 
-			tools.InfoLogger.Printf("Redis Slave Node(%s) Mapped from Master Node(%s) Success\n", newRedisClient.Address, targetMasterClient.Address)
+			tools.InfoLogger.Printf(SlaveMappedToMaster, newRedisClient.Address, targetMasterClient.Address)
 		}
 
-		tools.InfoLogger.Printf("Redis Node(%s) connection Success\n", eachNodeAddress)
+		tools.InfoLogger.Printf(NodeConnectSuccess, eachNodeAddress)
 	}
 
 	return nil
@@ -73,7 +73,7 @@ func MakeHashMapToRedis() error {
 
 	connectionCount := len(redisMasterClients)
 	if connectionCount == 0 {
-		return fmt.Errorf("Redis Connections should be setup first")
+		return fmt.Errorf(RedisMasterNotSetUpYet)
 	}
 
 	HashSlotMap = make(map[uint16]RedisClient)
@@ -92,7 +92,7 @@ func MakeHashMapToRedis() error {
 		}
 		clientHashRangeMap[eachRedisNode.Address] = append(clientHashRangeMap[eachRedisNode.Address], newHashRange)
 
-		tools.InfoLogger.Printf("Node %s hash slot range %d ~ %d\n", eachRedisNode.Address, hashSlotStart, hashSlotEnd)
+		tools.InfoLogger.Printf(HashSlotAssignResult, eachRedisNode.Address, hashSlotStart, hashSlotEnd)
 	}
 
 	return nil

@@ -17,11 +17,11 @@ type HashRange struct {
 // and Append on remaining masters' hash slots
 func redistruibuteHashSlot(srcNode RedisClient) error {
 
-	tools.InfoLogger.Printf("redistruibuteHashSlot() : Hash slots of dead Redis Node(%s) will be redistributed\n", srcNode.Address)
-	tools.InfoLogger.Printf("Dead Redis Node info : %s %s\n", srcNode.Address, srcNode.Role)
+	tools.InfoLogger.Printf(HashSlotRedistributeStart, srcNode.Address)
+	tools.InfoLogger.Printf(DeadRedisNodeInfo, srcNode.Address, srcNode.Role)
 
 	if len(clientHashRangeMap[srcNode.Address]) == 0 {
-		return fmt.Errorf("redistruibuteHashSlot() : No Hash Range is assigned to Node(%s)", srcNode.Address)
+		return fmt.Errorf(NoHashRangeIsAssigned, srcNode.Address)
 	}
 
 	redistributeSlotMutex.Lock()
@@ -79,12 +79,12 @@ func redistruibuteHashSlot(srcNode RedisClient) error {
 	delete(slaveMasterMap, slaveNode.Address)
 
 	for _, eachMaster := range redisMasterClients {
-		tools.InfoLogger.Println("After Hash Slot Redistribute : refreshed masters : ", eachMaster.Address)
+		tools.InfoLogger.Println(RefreshedMasters, eachMaster.Address)
 	}
 	for _, eachSlave := range redisSlaveClients {
-		tools.InfoLogger.Println("After Hash Slot Redistribute : refreshed slaves : ", eachSlave.Address)
+		tools.InfoLogger.Println(RefreshedSlaves, eachSlave.Address)
 	}
-	tools.InfoLogger.Printf("redistruibuteHashSlot() : Redistribution of dead Redis Node(%s)'s Hash slots finished \n", srcNode.Address)
+	tools.InfoLogger.Printf(HashSlotRedistributeFinish, srcNode.Address)
 
 	return nil
 }
