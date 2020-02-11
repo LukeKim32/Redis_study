@@ -12,6 +12,45 @@ type HashRange struct {
 	endIndex   uint16
 }
 
+// assignHashSlotMap assigns Hash slots (@start ~ @end) to passed @redisNode
+/* It basically unrolls the loop with 16 states for cahching
+ * And If the range Is not divided by 16, Remains will be handled with single statement loop
+ */
+func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
+
+	tools.InfoLogger.Printf(HashSlotAssignStart, redisNode.Address)
+
+	var i uint16
+	nextSlotIndex := start + 16
+	// Replace Hash Map With Slave Client
+	for i = start; nextSlotIndex < end; i += 16 {
+		HashSlotMap[i] = redisNode
+		HashSlotMap[i+1] = redisNode
+		HashSlotMap[i+2] = redisNode
+		HashSlotMap[i+3] = redisNode
+		HashSlotMap[i+4] = redisNode
+		HashSlotMap[i+5] = redisNode
+		HashSlotMap[i+6] = redisNode
+		HashSlotMap[i+7] = redisNode
+		HashSlotMap[i+8] = redisNode
+		HashSlotMap[i+9] = redisNode
+		HashSlotMap[i+10] = redisNode
+		HashSlotMap[i+11] = redisNode
+		HashSlotMap[i+12] = redisNode
+		HashSlotMap[i+13] = redisNode
+		HashSlotMap[i+14] = redisNode
+		HashSlotMap[i+15] = redisNode
+		nextSlotIndex += 16
+	}
+
+	for ; i < end; i++ {
+		HashSlotMap[i] = redisNode
+	}
+
+	tools.InfoLogger.Printf(HashSlotAssignFinish, redisNode.Address)
+
+}
+
 //redistruibuteHashSlot distributes @srcNode's Hash Slots into other Master nodes
 // Splits down @srcNode's each Hash Slot evenly with remaining number of master nodes,
 // and Append on remaining masters' hash slots

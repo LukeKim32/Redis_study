@@ -173,6 +173,33 @@ func promoteSlaveToMaster(masterNode RedisClient) error {
 	return nil
 }
 
+// getSlave checks Slave Node of @masterNode if alive and returns it
+/* Error Template is not defined yet
+ */
+func getSlave(masterNode RedisClient) (RedisClient, error) {
+
+	slaveNode, isSet := masterSlaveMap[masterNode.Address]
+	if isSet == false {
+		return RedisClient{}, fmt.Errorf("")
+	}
+
+	// ask monitor nodes if slave node is dead
+	numberOfTotalVotes := len(monitorNodeAddressList) + 1
+	votes, err := askRedisIsAliveToMonitors(slaveNode)
+	if err != nil {
+		return RedisClient{}, fmt.Errorf("")
+	}
+
+	tools.InfoLogger.Printf(FailOverVoteResult, slaveNode.Address, votes, numberOfTotalVotes)
+
+	if votes < (numberOfTotalVotes / 2) {
+		return RedisClient{}, fmt.Errorf("")
+	}
+
+	// After cheked it's alive
+	return slaveNode, nil
+}
+
 func GetRedisClientWithAddress(address string) (RedisClient, error) {
 
 	clientsList := make([]RedisClient, len(redisMasterClients)+len(redisSlaveClients))
@@ -189,45 +216,6 @@ func GetRedisClientWithAddress(address string) (RedisClient, error) {
 	}
 
 	return RedisClient{}, fmt.Errorf(NoMatchingResponseNode)
-}
-
-// assignHashSlotMap assigns Hash slots (@start ~ @end) to passed @redisNode
-/* It basically unrolls the loop with 16 states for cahching
- * And If the range Is not divided by 16, Remains will be handled with single statement loop
- */
-func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
-
-	tools.InfoLogger.Printf(HashSlotAssignStart, redisNode.Address)
-
-	var i uint16
-	nextSlotIndex := start + 16
-	// Replace Hash Map With Slave Client
-	for i = start; nextSlotIndex < end; i += 16 {
-		HashSlotMap[i] = redisNode
-		HashSlotMap[i+1] = redisNode
-		HashSlotMap[i+2] = redisNode
-		HashSlotMap[i+3] = redisNode
-		HashSlotMap[i+4] = redisNode
-		HashSlotMap[i+5] = redisNode
-		HashSlotMap[i+6] = redisNode
-		HashSlotMap[i+7] = redisNode
-		HashSlotMap[i+8] = redisNode
-		HashSlotMap[i+9] = redisNode
-		HashSlotMap[i+10] = redisNode
-		HashSlotMap[i+11] = redisNode
-		HashSlotMap[i+12] = redisNode
-		HashSlotMap[i+13] = redisNode
-		HashSlotMap[i+14] = redisNode
-		HashSlotMap[i+15] = redisNode
-		nextSlotIndex += 16
-	}
-
-	for ; i < end; i++ {
-		HashSlotMap[i] = redisNode
-	}
-
-	tools.InfoLogger.Printf(HashSlotAssignFinish, redisNode.Address)
-
 }
 
 func swapMasterSlaveConfigs(masterNode RedisClient, slaveNode RedisClient) error {
