@@ -33,14 +33,17 @@ var MasterSlaveChannelMap map[string](chan MasterSlaveMessage)
 var errorChannel chan error
 
 // MonitorNodes monitors passed @redisClients
-func MonitorNodes() {
+func StartMonitorNodes() {
 	errorChannel = make(chan error)
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(1 * time.Second)
 
 	go func() {
 		for {
 			select {
 			case <-ticker.C:
+
+				// start := time.Now()
+				// fmt.Printf("타이머 시간 재기 시작 : %v\n", start)
 
 				if err := checkRedisClientSetup(); err != nil {
 					errorChannel <- err
@@ -49,6 +52,8 @@ func MonitorNodes() {
 				for _, eachMasterNode := range redisMasterClients {
 					go startGoRoutineMonitor(eachMasterNode, errorChannel)
 				}
+
+				// fmt.Printf("GetRedisclient 걸린 시간 %v\n", time.Since(start))
 
 			case <-errorChannel:
 				ticker.Stop()

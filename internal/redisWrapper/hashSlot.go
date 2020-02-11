@@ -84,6 +84,7 @@ func redistruibuteHashSlot(srcNode RedisClient) error {
 	for _, eachSlave := range redisSlaveClients {
 		tools.InfoLogger.Println("After Hash Slot Redistribute : refreshed slaves : ", eachSlave.Address)
 	}
+	tools.InfoLogger.Printf("redistruibuteHashSlot() : Redistribution of dead Redis Node(%s)'s Hash slots finished \n", srcNode.Address)
 
 	return nil
 }

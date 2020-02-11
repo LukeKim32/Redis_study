@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"interface_hash_server/tools"
 	"sync"
+	"time"
 
 	"github.com/gomodule/redigo/redis"
 )
@@ -47,20 +48,16 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 	/* HashSlotMap이 checkRedisFailover() 재분배되어도, 이전 값 유지 */
 	defer redisMutexMap[HashSlotMap[hashSlotIndex].Address].Unlock()
 
+	start := time.Now()
+	defer fmt.Printf("GetRedisclient 걸린 시간 %v\n", time.Since(start))
+
 	redisClient := HashSlotMap[hashSlotIndex]
 
-	tools.InfoLogger.Printf("GetRedisClient() : Redis Node(%s) selected\n", redisClient.Address)
-
-	_, err := redis.String(redisClient.Connection.Do("PING"))
-	if err != nil {
-		tools.ErrorLogger.Printf("Redis Node(%s) Ping test failure\n", redisClient.Address)
-
-		if err = checkRedisFailover(redisClient); err != nil {
-			return RedisClient{}, err
-		}
+	if err := checkRedisFailover(redisClient); err != nil {
+		return RedisClient{}, err
 	}
 
-	tools.InfoLogger.Printf("Redis Node(%s) Ping test success\n", redisClient.Address)
+	tools.InfoLogger.Printf("GetRedisClient() : Redis Node(%s) selected\n", HashSlotMap[hashSlotIndex].Address)
 
 	return HashSlotMap[hashSlotIndex], nil
 }
@@ -82,15 +79,14 @@ func checkRedisFailover(masterClient RedisClient) error {
 		return err
 	}
 
-	tools.InfoLogger.Printf("GetRedisClient() : %s failover Vote result : (%d / %d)\n", masterClient.Address, votes, numberOfTotalVotes)
+	tools.InfoLogger.Printf("checkRedisFailover() : %s failover Vote result : (%d / %d)\n", masterClient.Address, votes, numberOfTotalVotes)
 
 	if votes > (numberOfTotalVotes / 2) {
 		return nil
 
 	} else {
-		// if 과반수 says dead,
-		// Switch Slave to Master.
-		tools.InfoLogger.Printf("GetRedisClient() : As %s failover, Master-Promotion process start \n", masterClient.Address)
+		// if more than Half says Master is dead
+		tools.InfoLogger.Printf("checkRedisFailover() : As %s failover, Master-Promotion process start \n", masterClient.Address)
 
 		if err := promoteSlaveToMaster(masterClient); err != nil {
 
@@ -98,21 +94,20 @@ func checkRedisFailover(masterClient RedisClient) error {
 				if err := redistruibuteHashSlot(masterClient); err != nil {
 					return err
 				}
-
-				return nil
+				return nil // HashSlot Redistributed, This <Master-Slave> Set has no use
 			}
-
 			return err
 		}
 
 		// If promotion successes
-		tools.InfoLogger.Printf("GetRedisClient() : Promotion Success, New Slave(Previous Master %s) container restart \n", masterClient.Address)
+		// Restart dead-Master using docker API
 
+		// tools.InfoLogger.Printf("checkRedisFailover() : Promotion Success, New Slave(Previous Master %s) container restart \n", masterClient.Address)
 		// if err := RestartRedisContainer(masterClient.Address); err != nil {
 		// 	return err
 		// }
 
-		tools.InfoLogger.Printf("GetRedisClient() : %s is a new Master!\n", slaveMasterMap[masterClient.Address].Address)
+		tools.InfoLogger.Printf("checkRedisFailover() : %s is a new Master!\n", slaveMasterMap[masterClient.Address].Address)
 
 		return nil
 	}
@@ -207,7 +202,7 @@ func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
 	var i uint16
 	nextSlotIndex := start + 16
 	// Replace Hash Map With Slave Client
-	for i := start; nextSlotIndex < end; i += 16 {
+	for i = start; nextSlotIndex < end; i += 16 {
 		HashSlotMap[i] = redisNode
 		HashSlotMap[i+1] = redisNode
 		HashSlotMap[i+2] = redisNode
