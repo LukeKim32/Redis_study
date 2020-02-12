@@ -7,6 +7,7 @@ import (
 	"interface_hash_server/configs"
 	"interface_hash_server/internal/handlers"
 	"interface_hash_server/internal/redisWrapper"
+	"interface_hash_server/internal/routers"
 	"interface_hash_server/tools"
 
 	"github.com/gorilla/mux"
@@ -50,8 +51,7 @@ func main() {
 	router := mux.NewRouter()
 
 	// Interface Server Router 설정
-	interfaceRouter := router.PathPrefix("/interface").Subrouter()
-	interfaceRouter.HandleFunc("", handlers.ForwardToProperNode).Methods(http.MethodPost)
+	routers.SetUpInterfaceRouter(router.PathPrefix("/hash/data").Subrouter())
 
 	// 허용하지 않는 URL 경로 처리
 	router.PathPrefix("/").HandlerFunc(handlers.ExceptionHandle)

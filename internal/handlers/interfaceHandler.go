@@ -7,10 +7,12 @@ import (
 
 	"interface_hash_server/configs"
 	"interface_hash_server/internal/hash"
+	"interface_hash_server/internal/models"
 	"interface_hash_server/internal/redisWrapper"
 	"interface_hash_server/tools"
 
 	"github.com/gomodule/redigo/redis"
+	"github.com/gorilla/mux"
 )
 
 type requestContainer struct {
@@ -24,26 +26,70 @@ type requestContainer struct {
  * 3) NodeAddressMap[HashSlot Index] 위치의 Redis 노드에 Request 받은 명령 전달
  * 4) Redis 노드의 Response 받아 클라이언트한테 전달
  */
-func ForwardToProperNode(response http.ResponseWriter, request *http.Request) {
+func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 
 	// To check if load balancing(Round-robin) works
 	tools.InfoLogger.Printf("Interface server(IP : %s) Processing...\n", configs.CurrentIP)
 
 	// Decode Request Body
-	var requestContainer requestContainer
+	var requestContainer models.RequestContainer
 	decoder := json.NewDecoder(request.Body)
 	if err := decoder.Decode(&requestContainer); err != nil {
 		responseInternalError(response, err, configs.BaseURL)
 		return
 	}
 
-	// Check if request format is kept
-	if err := isRequestProper(requestContainer); err != nil {
-		responseInternalError(response, err, configs.BaseURL)
+	var responseFormat models.ResponseFormat
+	responseFormat.Response = make([]models.RedisResponse, len(requestContainer.Data))
+
+	for i, eachKeyValue := range requestContainer.Data {
+
+		key := eachKeyValue.Key
+		value := eachKeyValue.Value
+		hashSlotIndex := hash.GetHashSlotIndex(key)
+
+		// Get Redis Node which handles this hash slot
+		redisClient, err := redisWrapper.GetRedisClient(hashSlotIndex)
+		if err != nil {
+			responseInternalError(response, err, configs.BaseURL)
+			return
+		}
+
+		if _, err := redis.String(redisClient.Connection.Do("SET", key, value)); err != nil {
+			responseInternalError(response, err, configs.BaseURL)
+			return
+		}
+
+		// Propagate to Slave node as Data has been modified
+		// same operation to master's slave node
+		redisWrapper.ReplicateToSlave(redisClient, "SET", key, value)
+
+		responseFormat.Response[i].NodeAdrress = redisClient.Address
+		responseFormat.Response[i].Result = fmt.Sprintf("%s %s %s", "SET", key, value)
+	}
+
+	// JSON marshaling(Encoding to Bytes)
+	jsonBytes, err := json.Marshal(responseFormat)
+	if err != nil {
+		tools.ErrorLogger.Println(err.Error())
 		return
 	}
 
-	key := requestContainer.Arguments[0]
+	curTaskMessage := fmt.Sprintf("SET completed")
+	responseWithRedisResult(response, curTaskMessage, string(jsonBytes), "")
+
+}
+
+// GetValueFromKey is a handler function for @GET, processing the reqeust
+/* URI로 전달받은 Key값을 가져온다.
+ */
+func GetValueFromKey(response http.ResponseWriter, request *http.Request) {
+
+	// To check if load balancing(Round-robin) works
+	tools.InfoLogger.Printf("Interface server(IP : %s) Processing...\n", configs.CurrentIP)
+
+	params := mux.Vars(request)
+	key := params["key"]
 	hashSlotIndex := hash.GetHashSlotIndex(key)
 
 	// Get Redis Node which handles this hash slot
@@ -53,37 +99,16 @@ func ForwardToProperNode(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	var redisResponse string
-	curTaskMessage := fmt.Sprintf("%s %s ", requestContainer.Command, key)
-
-	switch requestContainer.Command {
-	case "GET":
-		// Pass Request to Redis Node
-		redisResponse, err = redis.String(redisClient.Connection.Do("GET", key))
-		if err == redis.ErrNil {
-			redisResponse = "(nil)"
-		} else if err != nil {
-			responseInternalError(response, err, configs.BaseURL)
-			return
-		}
-
-	case "SET": // Data modification
-		value := requestContainer.Arguments[1]
-		redisResponse, err = redis.String(redisClient.Connection.Do("SET", key, value))
-		if err == redis.ErrNil {
-			redisResponse = "(nil)"
-		} else if err != nil {
-			responseInternalError(response, err, configs.BaseURL)
-			return
-		}
-
-		// Propagate to Slave node as Data has been modified
-		// same operation to master's slave node
-		redisWrapper.ReplicateToSlave(redisClient, "SET", key, value)
-
-		curTaskMessage += fmt.Sprintf("%s ", value)
+	// Pass Request to Redis Node
+	redisResponse, err := redis.String(redisClient.Connection.Do("GET", key))
+	if err == redis.ErrNil {
+		redisResponse = "(nil)"
+	} else if err != nil {
+		responseInternalError(response, err, configs.BaseURL)
+		return
 	}
 
+	curTaskMessage := fmt.Sprintf("%s %s", "GET", key)
 	responseWithRedisResult(response, curTaskMessage, redisResponse, redisClient.Address)
 
 }

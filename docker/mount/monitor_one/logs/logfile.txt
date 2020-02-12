@@ -613,3 +613,1267 @@ INFO: 2020/02/09 22:47:16 monitorHandler.go:49: MonitorHandler Response Data :  
 ERROR: 2020/02/09 22:47:16 monitorHandler.go:34: Redis Node(172.29.0.8:8001) Ping test failure
 INFO: 2020/02/09 22:47:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  
 INFO: 2020/02/09 22:47:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":false,"ErrorMessage":"EOF"}
+INFO: 2020/02/12 10:22:21 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/12 10:22:21 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/12 10:22:21 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/12 10:22:21 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/12 10:22:21 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/12 10:22:21 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/12 10:22:21 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/12 10:22:21 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/12 10:22:21 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/12 10:22:21 main.go:52: Server start listening on port  8888
+INFO: 2020/02/12 10:22:22 connection.go:66: Redis Node(172.29.0.4:8000) connection Success
+INFO: 2020/02/12 10:22:22 connection.go:66: Redis Node(172.29.0.5:8001) connection Success
+INFO: 2020/02/12 10:22:22 connection.go:66: Redis Node(172.29.0.6:8002) connection Success
+INFO: 2020/02/12 10:22:22 connection.go:63: Redis Slave Node(172.29.0.7:8000) Mapped from Master Node(172.29.0.4:8000) Success
+INFO: 2020/02/12 10:22:22 connection.go:66: Redis Node(172.29.0.7:8000) connection Success
+INFO: 2020/02/12 10:22:22 connection.go:63: Redis Slave Node(172.29.0.8:8001) Mapped from Master Node(172.29.0.5:8001) Success
+INFO: 2020/02/12 10:22:22 connection.go:66: Redis Node(172.29.0.8:8001) connection Success
+INFO: 2020/02/12 10:22:22 connection.go:63: Redis Slave Node(172.29.0.9:8002) Mapped from Master Node(172.29.0.6:8002) Success
+INFO: 2020/02/12 10:22:22 connection.go:66: Redis Node(172.29.0.9:8002) connection Success
+INFO: 2020/02/12 10:22:22 main.go:52: Server start listening on port  8888
+INFO: 2020/02/12 10:22:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:54 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:54 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:54 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:54 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:59 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:22:59 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:22:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:54 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:54 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:54 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:54 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:54 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:54 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:59 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:59 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:23:59 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:23:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:49 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:49 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:50 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:50 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:51 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:51 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.8:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.9:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:52 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:52 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:53 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:53 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:54 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:54 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:54 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:54 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:54 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:54 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:55 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:55 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:56 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:56 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:57 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:57 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:58 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:58 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:59 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:59 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:24:59 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:24:59 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:00 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:00 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:01 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:01 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:02 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:02 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:03 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:03 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:04 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:04 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:05 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:05 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:06 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:06 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:07 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:07 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:08 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:08 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:09 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:09 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:10 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:10 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:11 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:11 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:12 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:12 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:13 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:13 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:14 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:14 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:15 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:15 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:16 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:16 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:17 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:17 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:18 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:18 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:19 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:19 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:20 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:20 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:21 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:21 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:22 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:22 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:23 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:23 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:24 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:24 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:25 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:25 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:26 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:26 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:27 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:27 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:28 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:28 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:29 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:29 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:30 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:30 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:31 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:31 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:32 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:32 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:33 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:33 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:34 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:34 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:35 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:35 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:36 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:36 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:37 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:37 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:38 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:38 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:39 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:39 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:40 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:40 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:41 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:41 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:42 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:42 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:43 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:43 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:44 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:44 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:45 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:45 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:46 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:46 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:47 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:47 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.6:8002","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.4:8000","IsAlive":true,"ErrorMessage":""}
+INFO: 2020/02/12 10:25:48 monitorHandler.go:39: CheckRedisNodeStatus() Result :  PONG
+INFO: 2020/02/12 10:25:48 monitorHandler.go:49: MonitorHandler Response Data :  {"RedisNodeAddress":"172.29.0.5:8001","IsAlive":true,"ErrorMessage":""}
