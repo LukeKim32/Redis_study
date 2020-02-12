@@ -33,14 +33,17 @@ var MasterSlaveChannelMap map[string](chan MasterSlaveMessage)
 var errorChannel chan error
 
 // MonitorNodes monitors passed @redisClients
-func MonitorNodes() {
+func StartMonitorNodes() {
 	errorChannel = make(chan error)
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(1 * time.Second)
 
 	go func() {
 		for {
 			select {
 			case <-ticker.C:
+
+				// start := time.Now()
+				// fmt.Printf("타이머 시간 재기 시작 : %v\n", start)
 
 				if err := checkRedisClientSetup(); err != nil {
 					errorChannel <- err
@@ -50,10 +53,12 @@ func MonitorNodes() {
 					go startGoRoutineMonitor(eachMasterNode, errorChannel)
 				}
 
+				// fmt.Printf("GetRedisclient 걸린 시간 %v\n", time.Since(start))
+
 			case <-errorChannel:
 				ticker.Stop()
 				close(errorChannel)
-				tools.ErrorLogger.Println("MonitorMasters() : Error - timer stopped")
+				tools.ErrorLogger.Println(MonitorNodesError)
 				return
 			}
 		}
@@ -85,7 +90,7 @@ func askRedisIsAliveToMonitors(redisNode RedisClient) (int, error) {
 	numberOfmonitorNode := len(monitorNodeAddressList)
 	outputChannel := make(chan MonitorServerResponse, numberOfmonitorNode) // Buffered Channel - Async
 
-	tools.InfoLogger.Println("askRedisIsAliveToMonitors() : start to request to Monitor servers")
+	tools.InfoLogger.Println(StartToRequestToMonitors)
 
 	votes := 0
 
@@ -102,22 +107,22 @@ func askRedisIsAliveToMonitors(redisNode RedisClient) (int, error) {
 
 	for i := 0; i < numberOfmonitorNode; i++ {
 
-		tools.InfoLogger.Println("askRedisIsAliveToMonitors() : Waiting for response in channel")
+		tools.InfoLogger.Println(WaitForResponseFromMonitors)
 
 		// 임의의 Goroutine에서 보낸 Response 처리 (Buffered channel 이라 Goroutine이 async)
 		// Wait til Channel gets Response
 		monitorServerResponse := <-outputChannel
-		tools.InfoLogger.Printf("askRedisIsAliveToMonitors() : Buffered channel response : %s\n", monitorServerResponse.ErrorMessage)
+		tools.InfoLogger.Printf(ChannelResponseFromMonitor, monitorServerResponse.ErrorMessage)
 
 		if monitorServerResponse.ErrorMessage != "" {
 			return 0, fmt.Errorf(monitorServerResponse.ErrorMessage)
 		}
 
 		if monitorServerResponse.IsAlive {
-			tools.InfoLogger.Printf("askRedisIsAliveToMonitors() : %s is said to be alive\n", redisNode.Address)
+			tools.InfoLogger.Printf(RedisCheckedAlive, redisNode.Address)
 			votes++
 		} else {
-			tools.InfoLogger.Printf("askRedisIsAliveToMonitors() : %s is said to be dead\n", redisNode.Address)
+			tools.InfoLogger.Printf(RedisCheckedDead, redisNode.Address)
 		}
 	}
 
@@ -129,14 +134,14 @@ func requestToMonitor(outputChannel chan<- MonitorServerResponse, monitorAddress
 
 	requestURI := fmt.Sprintf("http://%s/monitor/%s", monitorAddress, redisNodeAddress)
 
-	tools.InfoLogger.Println("requestToMonitor() : Request To : ", requestURI)
+	tools.InfoLogger.Println(RequestTargetMonitor, requestURI)
 
 	// Request To Monitor server
 	response, err := http.Get(requestURI)
 	if err != nil {
-		tools.ErrorLogger.Println("requestToMonitor() : Response - err 1: ", err)
+		tools.ErrorLogger.Printf(ResponseMonitorError, monitorAddress, err)
 		outputChannel <- MonitorServerResponse{
-			ErrorMessage: fmt.Sprintf("requestToMonitor() : Monitor server(IP : %s) response error", monitorAddress),
+			ErrorMessage: fmt.Sprintf(ResponseMonitorError, monitorAddress, err),
 		}
 	}
 	defer response.Body.Close()
@@ -144,8 +149,9 @@ func requestToMonitor(outputChannel chan<- MonitorServerResponse, monitorAddress
 	// Parse Response
 	var monitorServerResponse MonitorServerResponse
 	decoder := json.NewDecoder(response.Body)
+
 	if err := decoder.Decode(&monitorServerResponse); err != nil {
-		tools.ErrorLogger.Println("requestToMonitor() : Response - err 2: ", monitorServerResponse.ErrorMessage)
+		tools.ErrorLogger.Println(ResponseMonitorError, monitorAddress, monitorServerResponse.ErrorMessage)
 		outputChannel <- MonitorServerResponse{
 			ErrorMessage: err.Error(),
 		}
@@ -153,16 +159,16 @@ func requestToMonitor(outputChannel chan<- MonitorServerResponse, monitorAddress
 
 	// Check the result
 	if monitorServerResponse.RedisNodeAddress == redisNodeAddress {
-		tools.InfoLogger.Println("requestToMonitor() : Response - is alive : ", monitorServerResponse.IsAlive)
+		tools.InfoLogger.Println(ResponseFromTargetMonitor, monitorServerResponse.IsAlive)
 
 		outputChannel <- MonitorServerResponse{
 			IsAlive:      monitorServerResponse.IsAlive,
 			ErrorMessage: "",
 		}
 	} else {
-		tools.ErrorLogger.Println("requestToMonitor() : Response - err 3: ", monitorServerResponse.ErrorMessage)
+		tools.ErrorLogger.Println(ResponseMonitorError, monitorAddress, monitorServerResponse.ErrorMessage)
 		outputChannel <- MonitorServerResponse{
-			ErrorMessage: fmt.Sprintf("requestToMonitor() : Reuqested Redis Node Address Not Match with Response"),
+			ErrorMessage: fmt.Sprintf(ResponseMonitorError, monitorAddress, NoMatchingResponseNode),
 		}
 	}
 }
@@ -170,11 +176,11 @@ func requestToMonitor(outputChannel chan<- MonitorServerResponse, monitorAddress
 func checkRedisClientSetup() error {
 
 	if len(redisMasterClients) == 0 {
-		return fmt.Errorf("checkRedisClientSetup() error : No Redis Master Clients set up")
+		return fmt.Errorf(RedisMasterNotSetUpYet)
 	}
 
 	if len(redisSlaveClients) == 0 {
-		return fmt.Errorf("checkRedisClientSetup() error : No Redis Slave Clients set up")
+		return fmt.Errorf(RedisSlaveNotSetUpYet)
 	}
 
 	return nil

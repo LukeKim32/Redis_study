@@ -87,8 +87,10 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 			responseInternalError(response, err, configs.BaseURL)
 			return
 		}
+
 		// Propagate to Slave node as Data has been modified
 		// same operation to master's slave node
+		redisWrapper.ReplicateToSlave(redisClient, "SET", key, value)
 
 		curTaskMessage += fmt.Sprintf("%s ", value)
 	}

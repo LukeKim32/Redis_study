@@ -45,7 +45,8 @@ func main() {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
-	// redisWrapper.MonitorNodes()
+	// 타이머로 Redis Node들 모니터링 시작
+	redisWrapper.StartMonitorNodes()
 
 	router := mux.NewRouter()
 
