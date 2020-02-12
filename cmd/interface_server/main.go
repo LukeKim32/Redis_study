@@ -51,7 +51,7 @@ func main() {
 	router := mux.NewRouter()
 
 	// Interface Server Router 설정
-	routers.SetUpInterfaceRouter(router.PathPrefix("/hash").Subrouter())
+	routers.SetUpInterfaceRouter(router.PathPrefix("/hash/data").Subrouter())
 
 	// 허용하지 않는 URL 경로 처리
 	router.PathPrefix("/").HandlerFunc(handlers.ExceptionHandle)

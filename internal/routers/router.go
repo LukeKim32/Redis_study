@@ -26,11 +26,11 @@ func SetUpInterfaceRouter(router *mux.Router) {
 	 * Get Value From Key
 	 * Request URI : http://~/hash/data/key
 	 */
-	router.HandleFunc("/{key}", handlers.GetValueWithKey).Methods(http.MethodGet)
+	router.HandleFunc("/{key}", handlers.GetValueFromKey).Methods(http.MethodGet)
 
 	/* @DELETE
 	 * DELETE Value From Key
 	 * Request URI : http://~/hash/data/key
 	 */
-	router.HandleFunc("/{key}", handlers.DeleteKeyValue).Methods(http.MethodDelete)
+	// router.HandleFunc("/{key}", handlers.DeleteKeyValue).Methods(http.MethodDelete)
 }

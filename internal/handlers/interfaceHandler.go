@@ -12,7 +12,13 @@ import (
 	"interface_hash_server/tools"
 
 	"github.com/gomodule/redigo/redis"
+	"github.com/gorilla/mux"
 )
+
+type requestContainer struct {
+	Command   string
+	Arguments []string
+}
 
 // ForwardToProperNode is a handler function for @POST, processing the reqeust
 /* 1) Request Body에서 Key 값을 추출
@@ -33,18 +39,13 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	// Check if request format is kept
-	if err := isRequestProper(requestContainer); err != nil {
-		responseInternalError(response, err, configs.BaseURL)
-		return
-	}
+	var responseFormat models.ResponseFormat
+	responseFormat.Response = make([]models.RedisResponse, len(requestContainer.Data))
 
-	requestedDataList := requestContainer.Data
+	for i, eachKeyValue := range requestContainer.Data {
 
-	for _, eachRequestedData := range requestedDataList {
-		key := eachRequestedData.Key
-		value := eachRequestedData.Value
-
+		key := eachKeyValue.Key
+		value := eachKeyValue.Value
 		hashSlotIndex := hash.GetHashSlotIndex(key)
 
 		// Get Redis Node which handles this hash slot
@@ -54,36 +55,7 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		redisResponse, err = redis.String(redisClient.Connection.Do("SET", key, value))
-		if err == redis.ErrNil {
-			redisResponse = "(nil)"
-		} else if err != nil {
-			responseInternalError(response, err, configs.BaseURL)
-			return
-		}
-
-	}
-
-	var redisResponse string
-	curTaskMessage := fmt.Sprintf("%s %s ", requestContainer.Command, key)
-
-	switch requestContainer.Command {
-	case "GET":
-		// Pass Request to Redis Node
-		redisResponse, err = redis.String(redisClient.Connection.Do("GET", key))
-		if err == redis.ErrNil {
-			redisResponse = "(nil)"
-		} else if err != nil {
-			responseInternalError(response, err, configs.BaseURL)
-			return
-		}
-
-	case "SET": // Data modification
-		value := requestContainer.Arguments[1]
-		redisResponse, err = redis.String(redisClient.Connection.Do("SET", key, value))
-		if err == redis.ErrNil {
-			redisResponse = "(nil)"
-		} else if err != nil {
+		if _, err := redis.String(redisClient.Connection.Do("SET", key, value)); err != nil {
 			responseInternalError(response, err, configs.BaseURL)
 			return
 		}
@@ -92,9 +64,51 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 		// same operation to master's slave node
 		redisWrapper.ReplicateToSlave(redisClient, "SET", key, value)
 
-		curTaskMessage += fmt.Sprintf("%s ", value)
+		responseFormat.Response[i].NodeAdrress = redisClient.Address
+		responseFormat.Response[i].Result = fmt.Sprintf("%s %s %s", "SET", key, value)
 	}
 
+	// JSON marshaling(Encoding to Bytes)
+	jsonBytes, err := json.Marshal(responseFormat)
+	if err != nil {
+		tools.ErrorLogger.Println(err.Error())
+		return
+	}
+
+	curTaskMessage := fmt.Sprintf("SET completed")
+	responseWithRedisResult(response, curTaskMessage, string(jsonBytes), "")
+
+}
+
+// GetValueFromKey is a handler function for @GET, processing the reqeust
+/* URI로 전달받은 Key값을 가져온다.
+ */
+func GetValueFromKey(response http.ResponseWriter, request *http.Request) {
+
+	// To check if load balancing(Round-robin) works
+	tools.InfoLogger.Printf("Interface server(IP : %s) Processing...\n", configs.CurrentIP)
+
+	params := mux.Vars(request)
+	key := params["key"]
+	hashSlotIndex := hash.GetHashSlotIndex(key)
+
+	// Get Redis Node which handles this hash slot
+	redisClient, err := redisWrapper.GetRedisClient(hashSlotIndex)
+	if err != nil {
+		responseInternalError(response, err, configs.BaseURL)
+		return
+	}
+
+	// Pass Request to Redis Node
+	redisResponse, err := redis.String(redisClient.Connection.Do("GET", key))
+	if err == redis.ErrNil {
+		redisResponse = "(nil)"
+	} else if err != nil {
+		responseInternalError(response, err, configs.BaseURL)
+		return
+	}
+
+	curTaskMessage := fmt.Sprintf("%s %s", "GET", key)
 	responseWithRedisResult(response, curTaskMessage, redisResponse, redisClient.Address)
 
 }
