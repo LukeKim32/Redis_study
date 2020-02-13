@@ -139,6 +139,8 @@ func redistruibuteHashSlot(srcNode RedisClient) error {
 // recordDataToOtherNodes reads @srcNodes's data logs and records to other appropriate nodes
 func recordDataToOtherNodes(srcNode RedisClient) error {
 
+	isSrcNodeAlive := true // Hash Slot 재분배 도중 @srcNode가 죽을 경우를 처리하기 위한 플래그
+
 	// Read source node's data log file
 	hashIndexToLogFormatMap := make(map[uint16][]logFormat)
 	if err := readDataLogs(srcNode.Address, hashIndexToLogFormatMap); err != nil {
@@ -150,8 +152,28 @@ func recordDataToOtherNodes(srcNode RedisClient) error {
 		redisClient := HashSlotMap[hashIndex]
 
 		for _, eachDataLog := range dataLogListOfHashIndex {
-			if _, err := redis.String(redisClient.Connection.Do(eachDataLog.Command, eachDataLog.Key, eachDataLog.Value)); err != nil {
-				return fmt.Errorf("redistruibuteHashSlot() : recording dead node(%s)'s data to others failed", srcNode.Address)
+
+			if isSrcNodeAlive {
+
+				if _, err := redis.String(redisClient.Connection.Do(eachDataLog.Command, eachDataLog.Key, eachDataLog.Value)); err != nil {
+
+					// 명령이 실패한 경우 - redistruibuteHashSlot() Hash Slot 할당 과정에서 죽었을 수도 있으므로
+					numberOfTotalVotes := len(monitorNodeAddressList) + 1
+					votes, err := askRedisIsAliveToMonitors(srcNode)
+					if err != nil {
+						return fmt.Errorf("recordDataToOtherNodes() : ask Redis Node is alive failed - %s", err.Error())
+					}
+
+					tools.InfoLogger.Printf(templates.FailOverVoteResult, srcNode.Address, votes, numberOfTotalVotes)
+
+					if votes > (numberOfTotalVotes / 2) {
+						// Retry the command ignoring if error exists
+						redisClient.Connection.Do(eachDataLog.Command, eachDataLog.Key, eachDataLog.Value)
+
+					} else { // 죽었다고 판단할 경우, 명령어 수행은 그만하되 Log file에는 기록을 해놓는다
+						isSrcNodeAlive = false
+					}
+				}
 			}
 
 			// Save Modification
