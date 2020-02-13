@@ -21,13 +21,13 @@ const (
 	// Redis Master Node #2 (Container name : redis_two)
 	RedisMasterTwoAddress = "172.29.0.5:8001"
 	// Redis Master Node #3 (Container name : redis_three)
-	RedisMasterThreeAddress ="172.29.0.6:8002"
+	RedisMasterThreeAddress = "172.29.0.6:8002"
 	// Redis Slave Node #1 (Container name : redis_four)
-	RedisSlaveOneAddress ="172.29.0.7:8000"
+	RedisSlaveOneAddress = "172.29.0.7:8000"
 	// Redis Master Node #5 (Container name : redis_five)
-	RedisSlaveTwoAddress ="172.29.0.8:8001"
+	RedisSlaveTwoAddress = "172.29.0.8:8001"
 	// Redis Master Node #6 (Container name : redis_six)
-	RedisSlaveThreeAddress ="172.29.0.9:8002"
+	RedisSlaveThreeAddress = "172.29.0.9:8002"
 
 	MonitorNodeOneAddress = "172.29.0.10:8888"
 	MonitorNodeTwoAddress = "172.29.0.11:8888"
@@ -35,3 +35,30 @@ const (
 
 // CurrentIP is IP address of Go-application, will be initialized in main.go
 var CurrentIP string
+
+func GetInitialMasterAddressList() []string {
+	return []string{
+		RedisMasterOneAddress,
+		RedisMasterTwoAddress,
+		RedisMasterThreeAddress,
+	}
+}
+
+func GetInitialSlaveAddressList() []string {
+	return []string{
+		RedisSlaveOneAddress,
+		RedisSlaveTwoAddress,
+		RedisSlaveThreeAddress,
+	}
+}
+
+func GetInitialTotalAddressList() []string {
+	return []string{
+		RedisMasterOneAddress,
+		RedisMasterTwoAddress,
+		RedisMasterThreeAddress,
+		RedisSlaveOneAddress,
+		RedisSlaveTwoAddress,
+		RedisSlaveThreeAddress,
+	}
+}

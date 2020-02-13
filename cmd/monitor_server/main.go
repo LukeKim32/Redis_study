@@ -22,7 +22,7 @@ func main() {
 
 	var err error
 
-	tools.SetUpLogger(tools.LogDirectory)
+	tools.SetUpLogger("monitor_server")
 
 	// To Check Load Balancing By Proxy
 	if configs.CurrentIP, err = tools.GetCurrentServerIP(); err != nil {

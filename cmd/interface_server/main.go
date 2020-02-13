@@ -23,7 +23,7 @@ func main() {
 
 	var err error
 
-	tools.SetUpLogger(tools.LogDirectory)
+	tools.SetUpLogger("hash_server")
 
 	// To Check Load Balancing By Proxy
 	if configs.CurrentIP, err = tools.GetCurrentServerIP(); err != nil {
@@ -31,7 +31,7 @@ func main() {
 	}
 
 	// Redis Master Containers들과 Connection설정
-	if err := redisWrapper.NodeConnectionSetup(redisWrapper.GetInitialMasterAddressList(), redisWrapper.Default); err != nil {
+	if err := redisWrapper.NodeConnectionSetup(configs.GetInitialMasterAddressList(), redisWrapper.Default); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
@@ -41,9 +41,12 @@ func main() {
 	}
 
 	// Redis Slave Containers들과 Connection설정
-	if err := redisWrapper.NodeConnectionSetup(redisWrapper.GetInitialSlaveAddressList(), redisWrapper.SlaveSetup); err != nil {
+	if err := redisWrapper.NodeConnectionSetup(configs.GetInitialSlaveAddressList(), redisWrapper.SlaveSetup); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
+
+	/* Set Data modification Logger for each Nodes*/
+	redisWrapper.SetUpModificationLogger(configs.GetInitialTotalAddressList())
 
 	// 타이머로 Redis Node들 모니터링 시작
 	redisWrapper.StartMonitorNodes()
