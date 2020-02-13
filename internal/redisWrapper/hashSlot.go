@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"interface_hash_server/internal/redisWrapper/templates"
 	"interface_hash_server/tools"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 var clientHashRangeMap map[string][]HashRange
@@ -101,6 +103,11 @@ func redistruibuteHashSlot(srcNode RedisClient) error {
 		}
 	}
 
+	// Record @srcNode's data into other nodes
+	if err := recordDataToOtherNodes(srcNode); err != nil {
+		return err
+	}
+
 	// Remove Source Node's Hash Range => Let Garbace Collect
 	clientHashRangeMap[srcNode.Address] = nil
 	delete(clientHashRangeMap, srcNode.Address)
@@ -127,4 +134,33 @@ func redistruibuteHashSlot(srcNode RedisClient) error {
 	tools.InfoLogger.Printf(templates.HashSlotRedistributeFinish, srcNode.Address)
 
 	return nil
+}
+
+// recordDataToOtherNodes reads @srcNodes's data logs and records to other appropriate nodes
+func recordDataToOtherNodes(srcNode RedisClient) error {
+
+	// Read source node's data log file
+	hashIndexToLogFormatMap := make(map[uint16][]logFormat)
+	if err := readDataLogs(srcNode.Address, hashIndexToLogFormatMap); err != nil {
+		return err
+	}
+
+	// Record source node's data into other appropriate nodes
+	for hashIndex, dataLogListOfHashIndex := range hashIndexToLogFormatMap {
+		redisClient := HashSlotMap[hashIndex]
+
+		for _, eachDataLog := range dataLogListOfHashIndex {
+			if _, err := redis.String(redisClient.Connection.Do(eachDataLog.Command, eachDataLog.Key, eachDataLog.Value)); err != nil {
+				return fmt.Errorf("redistruibuteHashSlot() : recording dead node(%s)'s data to others failed", srcNode.Address)
+			}
+
+			// Save Modification
+			if err := RecordModification(redisClient.Address, eachDataLog.Command, eachDataLog.Key, eachDataLog.Value); err != nil {
+				return fmt.Errorf("redistruibuteHashSlot() : logging for recording dead node(%s)'s data failed", srcNode.Address)
+			}
+		}
+	}
+
+	return nil
+
 }
