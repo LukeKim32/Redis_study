@@ -61,7 +61,10 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 		}
 
 		// Save Modification
-		redisWrapper.RecordModification(redisClient.Address, "SET", key, value)
+		if err := redisWrapper.RecordModification(redisClient.Address, "SET", key, value); err != nil {
+			responseInternalError(response, err, configs.BaseURL)
+			return
+		}
 
 		// Propagate to Slave node as Data has been modified
 		// same operation to master's slave node
