@@ -1,6 +1,7 @@
 package tools
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -14,21 +15,34 @@ var ErrorLogger *log.Logger
 
 const (
 	//LogDirectory is a directory path where log files are saved
-	LogDirectory = "logs/logfile.txt"
+	logDirectory       = "./logs" // Path : Root/logs
+	defaultLogFilePath = "/logfile.txt"
 )
 
 // SetUpLogger 는 Exported Logger 오브젝트 생성 및 설정
-func SetUpLogger(filePath string) *os.File {
+func SetUpLogger(fileName string) {
+
+	if _, err := os.Stat(logDirectory); os.IsNotExist(err) {
+		// rwxrwxrwx (777)
+		os.Mkdir(logDirectory, os.ModePerm)
+	}
+
+	var logFileName string
+	if fileName == "" {
+		logFileName = logDirectory + defaultLogFilePath
+	} else {
+		logFileName = fmt.Sprintf("%s/%s", logDirectory, fileName)
+	}
 
 	// Log File 설정
-	fpLog, err := os.OpenFile(filePath,
+	fpLog, err := os.OpenFile(logFileName,
 		os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		println("Log File Open error")
+		fmt.Printf("Log file %s Open error\n", logFileName)
 		panic(err)
 	}
 
-	println("Log file open success")
+	fmt.Printf("Log file %s open success\n", logFileName)
 
 	// Custom Logger 생성
 	InfoLogger = log.New(fpLog, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
@@ -38,6 +52,4 @@ func SetUpLogger(filePath string) *os.File {
 	multiWriter := io.MultiWriter(fpLog, os.Stdout)
 	InfoLogger.SetOutput(multiWriter)
 	ErrorLogger.SetOutput(multiWriter)
-
-	return fpLog
 }

@@ -39,8 +39,8 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	var responseFormat models.ResponseFormat
-	responseFormat.Response = make([]models.RedisResponse, len(requestContainer.Data))
+	var responseFormat []models.RedisResponse
+	responseFormat = make([]models.RedisResponse, len(requestContainer.Data))
 
 	for i, eachKeyValue := range requestContainer.Data {
 
@@ -60,12 +60,15 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 			return
 		}
 
+		// Save Modification
+		redisWrapper.RecordModification(redisClient.Address, "SET", key, value)
+
 		// Propagate to Slave node as Data has been modified
 		// same operation to master's slave node
 		redisWrapper.ReplicateToSlave(redisClient, "SET", key, value)
 
-		responseFormat.Response[i].NodeAdrress = redisClient.Address
-		responseFormat.Response[i].Result = fmt.Sprintf("%s %s %s", "SET", key, value)
+		responseFormat[i].NodeAdrress = redisClient.Address
+		responseFormat[i].Result = fmt.Sprintf("%s %s %s", "SET", key, value)
 	}
 
 	// JSON marshaling(Encoding to Bytes)

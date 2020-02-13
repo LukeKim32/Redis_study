@@ -2,6 +2,7 @@ package redisWrapper
 
 import (
 	"fmt"
+	"interface_hash_server/internal/redisWrapper/templates"
 	"interface_hash_server/tools"
 )
 
@@ -18,7 +19,7 @@ type HashRange struct {
  */
 func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
 
-	tools.InfoLogger.Printf(HashSlotAssignStart, redisNode.Address)
+	tools.InfoLogger.Printf(templates.HashSlotAssignStart, redisNode.Address)
 
 	var i uint16
 	nextSlotIndex := start + 16
@@ -47,7 +48,7 @@ func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
 		HashSlotMap[i] = redisNode
 	}
 
-	tools.InfoLogger.Printf(HashSlotAssignFinish, redisNode.Address)
+	tools.InfoLogger.Printf(templates.HashSlotAssignFinish, redisNode.Address)
 
 }
 
@@ -56,11 +57,11 @@ func assignHashSlotMap(start uint16, end uint16, redisNode RedisClient) {
 // and Append on remaining masters' hash slots
 func redistruibuteHashSlot(srcNode RedisClient) error {
 
-	tools.InfoLogger.Printf(HashSlotRedistributeStart, srcNode.Address)
-	tools.InfoLogger.Printf(DeadRedisNodeInfo, srcNode.Address, srcNode.Role)
+	tools.InfoLogger.Printf(templates.HashSlotRedistributeStart, srcNode.Address)
+	tools.InfoLogger.Printf(templates.DeadRedisNodeInfo, srcNode.Address, srcNode.Role)
 
 	if len(clientHashRangeMap[srcNode.Address]) == 0 {
-		return fmt.Errorf(NoHashRangeIsAssigned, srcNode.Address)
+		return fmt.Errorf(templates.NoHashRangeIsAssigned, srcNode.Address)
 	}
 
 	redistributeSlotMutex.Lock()
@@ -118,12 +119,12 @@ func redistruibuteHashSlot(srcNode RedisClient) error {
 	delete(slaveMasterMap, slaveNode.Address)
 
 	for _, eachMaster := range redisMasterClients {
-		tools.InfoLogger.Println(RefreshedMasters, eachMaster.Address)
+		tools.InfoLogger.Println(templates.RefreshedMasters, eachMaster.Address)
 	}
 	for _, eachSlave := range redisSlaveClients {
-		tools.InfoLogger.Println(RefreshedSlaves, eachSlave.Address)
+		tools.InfoLogger.Println(templates.RefreshedSlaves, eachSlave.Address)
 	}
-	tools.InfoLogger.Printf(HashSlotRedistributeFinish, srcNode.Address)
+	tools.InfoLogger.Printf(templates.HashSlotRedistributeFinish, srcNode.Address)
 
 	return nil
 }

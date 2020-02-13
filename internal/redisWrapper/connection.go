@@ -3,6 +3,7 @@ package redisWrapper
 import (
 	"fmt"
 	"interface_hash_server/internal/hash"
+	"interface_hash_server/internal/redisWrapper/templates"
 	"interface_hash_server/tools"
 	"sync"
 
@@ -33,7 +34,7 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 
 		newRedisClient.Connection, err = redis.Dial("tcp", eachNodeAddress, redis.DialConnectTimeout(ConnectTimeoutDuration))
 		if err != nil {
-			tools.ErrorLogger.Printf(ConnectionFailure, eachNodeAddress, err.Error())
+			tools.ErrorLogger.Printf(templates.ConnectionFailure, eachNodeAddress, err.Error())
 			return err
 		}
 		newRedisClient.Address = eachNodeAddress
@@ -45,10 +46,10 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 
 		case SlaveSetup:
 			if len(redisMasterClients) == 0 {
-				fmt.Errorf(RedisMasterNotSetUpYet)
+				fmt.Errorf(templates.RedisMasterNotSetUpYet)
 			}
 			if len(redisMasterClients) > len(addressList) {
-				fmt.Errorf(SlaveNumberMustBeLarger)
+				fmt.Errorf(templates.SlaveNumberMustBeLarger)
 			}
 
 			// Modula index for circular assignment
@@ -60,10 +61,10 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 
 			initMasterSlaveMaps(targetMasterClient, newRedisClient)
 
-			tools.InfoLogger.Printf(SlaveMappedToMaster, newRedisClient.Address, targetMasterClient.Address)
+			tools.InfoLogger.Printf(templates.SlaveMappedToMaster, newRedisClient.Address, targetMasterClient.Address)
 		}
 
-		tools.InfoLogger.Printf(NodeConnectSuccess, eachNodeAddress)
+		tools.InfoLogger.Printf(templates.NodeConnectSuccess, eachNodeAddress)
 	}
 
 	return nil
@@ -73,7 +74,7 @@ func MakeHashMapToRedis() error {
 
 	connectionCount := len(redisMasterClients)
 	if connectionCount == 0 {
-		return fmt.Errorf(RedisMasterNotSetUpYet)
+		return fmt.Errorf(templates.RedisMasterNotSetUpYet)
 	}
 
 	HashSlotMap = make(map[uint16]RedisClient)
@@ -92,7 +93,7 @@ func MakeHashMapToRedis() error {
 		}
 		clientHashRangeMap[eachRedisNode.Address] = append(clientHashRangeMap[eachRedisNode.Address], newHashRange)
 
-		tools.InfoLogger.Printf(HashSlotAssignResult, eachRedisNode.Address, hashSlotStart, hashSlotEnd)
+		tools.InfoLogger.Printf(templates.HashSlotAssignResult, eachRedisNode.Address, hashSlotStart, hashSlotEnd)
 	}
 
 	return nil

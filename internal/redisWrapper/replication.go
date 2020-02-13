@@ -10,5 +10,8 @@ func ReplicateToSlave(masterNode RedisClient, command string, key string, value 
 		return
 	}
 
+	// Error will be ignored as Slave can be dead
 	redis.String(slaveNode.Connection.Do(command, key, value))
+
+	RecordModification(slaveNode.Address, command, key, value)
 }

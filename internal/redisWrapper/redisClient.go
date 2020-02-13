@@ -2,6 +2,7 @@ package redisWrapper
 
 import (
 	"fmt"
+	"interface_hash_server/internal/redisWrapper/templates"
 	"interface_hash_server/tools"
 	"sync"
 	"time"
@@ -49,7 +50,7 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 	defer redisMutexMap[HashSlotMap[hashSlotIndex].Address].Unlock()
 
 	start := time.Now()
-	defer fmt.Printf(FunctionExecutionTime, time.Since(start))
+	defer fmt.Printf(templates.FunctionExecutionTime, time.Since(start))
 
 	redisClient := HashSlotMap[hashSlotIndex]
 
@@ -57,7 +58,7 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 		return RedisClient{}, err
 	}
 
-	tools.InfoLogger.Printf(RedisNodeSelected, HashSlotMap[hashSlotIndex].Address)
+	tools.InfoLogger.Printf(templates.RedisNodeSelected, HashSlotMap[hashSlotIndex].Address)
 
 	return HashSlotMap[hashSlotIndex], nil
 }
@@ -79,18 +80,18 @@ func checkRedisFailover(masterClient RedisClient) error {
 		return err
 	}
 
-	tools.InfoLogger.Printf(FailOverVoteResult, masterClient.Address, votes, numberOfTotalVotes)
+	tools.InfoLogger.Printf(templates.FailOverVoteResult, masterClient.Address, votes, numberOfTotalVotes)
 
 	if votes > (numberOfTotalVotes / 2) {
 		return nil
 
 	} else {
 		// if more than Half says Master is dead
-		tools.InfoLogger.Printf(PromotinSlaveStart, masterClient.Address)
+		tools.InfoLogger.Printf(templates.PromotinSlaveStart, masterClient.Address)
 
 		if err := promoteSlaveToMaster(masterClient); err != nil {
 
-			if err.Error() == BothMasterSlaveDead {
+			if err.Error() == templates.BothMasterSlaveDead {
 				if err := redistruibuteHashSlot(masterClient); err != nil {
 					return err
 				}
@@ -102,12 +103,12 @@ func checkRedisFailover(masterClient RedisClient) error {
 		// If promotion successes
 		// Restart dead-Master using docker API
 
-		// tools.InfoLogger.Printf("checkRedisFailover() : Promotion Success, New Slave(Previous Master %s) container restart \n", masterClient.Address)
+		// tools.InfoLogger.Printf(templates."checkRedisFailover() : Promotion Success, New Slave(Previous Master %s) container restart \n", masterClient.Address)
 		// if err := RestartRedisContainer(masterClient.Address); err != nil {
 		// 	return err
 		// }
 
-		tools.InfoLogger.Printf(SlaveAsNewMaster, slaveMasterMap[masterClient.Address].Address)
+		tools.InfoLogger.Printf(templates.SlaveAsNewMaster, slaveMasterMap[masterClient.Address].Address)
 
 		return nil
 	}
@@ -125,7 +126,7 @@ func promoteSlaveToMaster(masterNode RedisClient) error {
 	// Check if mapped Slave is alive before Promotion
 	slaveNode, isSet := masterSlaveMap[masterNode.Address]
 	if isSet == false {
-		return fmt.Errorf(MasterSlaveMapNotInit)
+		return fmt.Errorf(templates.MasterSlaveMapNotInit)
 	}
 
 	numberOfTotalVotes := len(monitorNodeAddressList) + 1
@@ -134,14 +135,14 @@ func promoteSlaveToMaster(masterNode RedisClient) error {
 		return err
 	}
 
-	tools.InfoLogger.Printf(FailOverVoteResult, slaveNode.Address, votes, numberOfTotalVotes)
+	tools.InfoLogger.Printf(templates.FailOverVoteResult, slaveNode.Address, votes, numberOfTotalVotes)
 
 	// If more than half says Slave is dead
 	if votes <= (numberOfTotalVotes / 2) {
-		return fmt.Errorf(BothMasterSlaveDead)
+		return fmt.Errorf(templates.BothMasterSlaveDead)
 	}
 
-	tools.InfoLogger.Printf(PromotingSlaveNode, slaveNode.Address)
+	tools.InfoLogger.Printf(templates.PromotingSlaveNode, slaveNode.Address)
 
 	// Start Promotion
 	for _, eachHashRangeOfClient := range clientHashRangeMap[masterNode.Address] {
@@ -190,7 +191,7 @@ func getSlave(masterNode RedisClient) (RedisClient, error) {
 		return RedisClient{}, fmt.Errorf("")
 	}
 
-	tools.InfoLogger.Printf(FailOverVoteResult, slaveNode.Address, votes, numberOfTotalVotes)
+	tools.InfoLogger.Printf(templates.FailOverVoteResult, slaveNode.Address, votes, numberOfTotalVotes)
 
 	if votes < (numberOfTotalVotes / 2) {
 		return RedisClient{}, fmt.Errorf("")
@@ -206,7 +207,7 @@ func GetRedisClientWithAddress(address string) (RedisClient, error) {
 	clientsList = append(redisMasterClients, redisSlaveClients...)
 
 	if len(clientsList) == 0 {
-		return RedisClient{}, fmt.Errorf(NotAnyRedisSetUpYet)
+		return RedisClient{}, fmt.Errorf(templates.NotAnyRedisSetUpYet)
 	}
 
 	for _, eachClient := range clientsList {
@@ -215,7 +216,7 @@ func GetRedisClientWithAddress(address string) (RedisClient, error) {
 		}
 	}
 
-	return RedisClient{}, fmt.Errorf(NoMatchingResponseNode)
+	return RedisClient{}, fmt.Errorf(templates.NoMatchingResponseNode)
 }
 
 func swapMasterSlaveConfigs(masterNode RedisClient, slaveNode RedisClient) error {
@@ -243,10 +244,10 @@ func swapMasterSlaveConfigs(masterNode RedisClient, slaveNode RedisClient) error
 	slaveMasterMap[masterNode.Address] = slaveNode
 
 	for _, eachMaster := range redisMasterClients {
-		tools.InfoLogger.Printf(RefreshedMasters, eachMaster.Address)
+		tools.InfoLogger.Printf(templates.RefreshedMasters, eachMaster.Address)
 	}
 	for _, eachSlave := range redisSlaveClients {
-		tools.InfoLogger.Printf(RefreshedSlaves, eachSlave.Address)
+		tools.InfoLogger.Printf(templates.RefreshedSlaves, eachSlave.Address)
 	}
 
 	return nil
@@ -255,7 +256,7 @@ func swapMasterSlaveConfigs(masterNode RedisClient, slaveNode RedisClient) error
 func RemoveSlaveFromList(slaveNode RedisClient) (RedisClient, error) {
 	var removedRedisClient RedisClient
 
-	tools.InfoLogger.Printf(SlaveNodeInfo, slaveNode.Role, slaveNode.Address)
+	tools.InfoLogger.Printf(templates.SlaveNodeInfo, slaveNode.Role, slaveNode.Address)
 
 	for i, eachClient := range redisSlaveClients {
 		if eachClient.Address == slaveNode.Address {
@@ -270,13 +271,13 @@ func RemoveSlaveFromList(slaveNode RedisClient) (RedisClient, error) {
 		}
 	}
 
-	return RedisClient{}, fmt.Errorf(NoMatchingSlaveToRemove, slaveNode.Address)
+	return RedisClient{}, fmt.Errorf(templates.NoMatchingSlaveToRemove, slaveNode.Address)
 }
 
 func RemoveMasterFromList(masterNode RedisClient) (RedisClient, error) {
 	var removedRedisClient RedisClient
 
-	tools.InfoLogger.Printf(MasterNodeInfo, masterNode.Role, masterNode.Address)
+	tools.InfoLogger.Printf(templates.MasterNodeInfo, masterNode.Role, masterNode.Address)
 
 	for i, eachClient := range redisMasterClients {
 		if eachClient.Address == masterNode.Address {
@@ -291,7 +292,7 @@ func RemoveMasterFromList(masterNode RedisClient) (RedisClient, error) {
 		}
 	}
 
-	return RedisClient{}, fmt.Errorf(NoMatchingMasterToRemove, masterNode.Address)
+	return RedisClient{}, fmt.Errorf(templates.NoMatchingMasterToRemove, masterNode.Address)
 }
 
 func isRedisMaster(redisNode RedisClient) bool {
