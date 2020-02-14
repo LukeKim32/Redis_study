@@ -30,12 +30,12 @@ func main() {
 	}
 
 	// Redis Master Containers들과 Connection설정
-	if err := redisWrapper.NodeConnectionSetup(redisWrapper.GetInitialMasterAddressList(), redisWrapper.Default); err != nil {
+	if err := redisWrapper.NodeConnectionSetup(configs.GetInitialMasterAddressList(), redisWrapper.Default); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
 	// Redis Slave Containers들과 Connection설정
-	if err := redisWrapper.NodeConnectionSetup(redisWrapper.GetInitialSlaveAddressList(), redisWrapper.SlaveSetup); err != nil {
+	if err := redisWrapper.NodeConnectionSetup(configs.GetInitialSlaveAddressList(), redisWrapper.SlaveSetup); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
