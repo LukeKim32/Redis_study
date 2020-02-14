@@ -81,8 +81,11 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	curTaskMessage := fmt.Sprintf("SET completed")
-	responseWithRedisResult(response, curTaskMessage, string(jsonBytes), "")
+	curTaskMessage := fmt.Sprintf("SET completed Success : Handled in Server(IP : %s)", configs.CurrentIP)
+	nextTaskMessage := "Main URL"
+	nextTaskHyperLink := configs.HTTP + configs.BaseURL
+	responseTemplate := fmt.Sprintf(tools.RedisSETResponseTemplate, curTaskMessage, string(jsonBytes), nextTaskMessage, nextTaskHyperLink)
+	responseWithRedisResult(response, responseTemplate)
 
 }
 
@@ -114,8 +117,11 @@ func GetValueFromKey(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	curTaskMessage := fmt.Sprintf("%s %s", "GET", key)
-	responseWithRedisResult(response, curTaskMessage, redisResponse, redisClient.Address)
+	curTaskMessage := fmt.Sprintf("GET %s completed Success : Handled in Server(IP : %s)", key, configs.CurrentIP)
+	nextTaskMessage := "Main URL"
+	nextTaskHyperLink := configs.HTTP + configs.BaseURL
+	responseTemplate := fmt.Sprintf(tools.RedisGETResponseTemplate, curTaskMessage, redisResponse, redisClient.Address, nextTaskMessage, nextTaskHyperLink)
+	responseWithRedisResult(response, responseTemplate)
 
 }
 
@@ -141,21 +147,12 @@ func isRequestProper(requestContainer requestContainer) error {
 
 // responseWithRedisResult sends response back to Client
 // With the result of Redis Node Communication
-func responseWithRedisResult(response http.ResponseWriter, curTaskMessage string, redisResponse string, nodeAddress string) {
+func responseWithRedisResult(response http.ResponseWriter, template string) {
 
 	response.Header().Set(configs.ContentType, configs.JSONContent)
 	response.Header().Set(configs.CORSheader, "*")
 
-	curTaskMessage += fmt.Sprintf("Success : Handled in Server(IP : %s)", configs.CurrentIP)
-	nextTaskMessage := "Main URL"
-	nextTaskHyperLink := configs.HTTP + configs.BaseURL
-
 	response.WriteHeader(http.StatusOK)
-	fmt.Fprintf(response,
-		tools.RedisResponseTemplate,
-		curTaskMessage,             /* Main Message */
-		redisResponse, nodeAddress, /* Redis data JSON*/
-		nextTaskMessage, nextTaskHyperLink, /* Next Status */
-	)
-	tools.InfoLogger.Println(curTaskMessage, "Successful")
+	fmt.Fprintf(response, template)
+	tools.InfoLogger.Println("Response back to client Successful")
 }

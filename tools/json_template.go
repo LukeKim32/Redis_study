@@ -11,9 +11,20 @@ const (
 		}`
 
 	//RedisResponseTemplate is used for Response with requested data added
-	RedisResponseTemplate = `{
+	RedisSETResponseTemplate = `{
 		"message": "%s",
 		"response" : %s,
+		"_links" : {
+			"message" : "%s",
+			"href" : "%s"
+			}
+		}`
+
+	//RedisResponseTemplate is used for Response with requested data added
+	RedisGETResponseTemplate = `{
+		"message": "%s",
+		"response" : "%s",
+		"handle_node" : "%s",
 		"_links" : {
 			"message" : "%s",
 			"href" : "%s"
