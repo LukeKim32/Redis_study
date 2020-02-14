@@ -61,8 +61,7 @@ ex : ``` {
 ## Server 
   
 - 서버 구성도 :
-  
-  ![스크린샷 2020-01-28 오전 11 05 32](https://es.naverlabs.com/storage/user/3125/files/25ae6800-41be-11ea-8644-718649e9f689)
+ <img width="765" alt="스크린샷 2020-02-14 오전 11 13 26" src="https://user-images.githubusercontent.com/48001093/74495405-2d3e7280-4f1b-11ea-9e4d-783e88ca2011.png">
 
 - API docs 현재 미사용
 
