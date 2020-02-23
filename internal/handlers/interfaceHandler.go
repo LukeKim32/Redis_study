@@ -61,7 +61,7 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 		}
 
 		// Save Modification
-		if err := redisWrapper.RecordModification(redisClient.Address, "SET", key, value); err != nil {
+		if err := redisWrapper.RecordModificationLog(redisClient.Address, "SET", key, value); err != nil {
 			responseInternalError(response, err, configs.BaseURL)
 			return
 		}

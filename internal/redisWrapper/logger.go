@@ -57,11 +57,13 @@ func SetUpModificationLogger(nodeAddressList []string) {
 
 }
 
-func RecordModification(address string, command string, key string, value string) error {
+func RecordModificationLog(address string, command string, key string, value string) error {
+
+	tools.InfoLogger.Printf("%s 노드에 데이터 수정사항 로그 저장", address)
 
 	targetDataLogger, isSet := dataLoggers[address]
 	if isSet == false {
-		return fmt.Errorf("RecordModification() : data Logger is not set up")
+		return fmt.Errorf("RecordModificationLog() : data Logger is not set up")
 	}
 
 	hashSlotIndex := hash.GetHashSlotIndex(key)

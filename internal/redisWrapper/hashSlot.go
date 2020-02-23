@@ -109,25 +109,15 @@ func redistruibuteHashSlot(srcNode RedisClient) error {
 	}
 
 	// Remove Source Node's Hash Range => Let Garbace Collect
-	clientHashRangeMap[srcNode.Address] = nil
-	delete(clientHashRangeMap, srcNode.Address)
-
-	slaveNode := masterSlaveMap[srcNode.Address]
-
-	if _, err := RemoveMasterFromList(srcNode); err != nil {
+	if err := cleanUpDeadMasterSlave(srcNode); err != nil {
 		return err
 	}
 
-	if _, err := RemoveSlaveFromList(slaveNode); err != nil {
-		return err
-	}
-	delete(MasterSlaveChannelMap, srcNode.Address)
-	delete(masterSlaveMap, srcNode.Address)
-	delete(slaveMasterMap, slaveNode.Address)
-
+	// Print Current Updated Masters
 	for _, eachMaster := range redisMasterClients {
 		tools.InfoLogger.Println(templates.RefreshedMasters, eachMaster.Address)
 	}
+	// Print Current Updated Slaves
 	for _, eachSlave := range redisSlaveClients {
 		tools.InfoLogger.Println(templates.RefreshedSlaves, eachSlave.Address)
 	}
@@ -153,9 +143,13 @@ func recordDataToOtherNodes(srcNode RedisClient) error {
 
 		for _, eachDataLog := range dataLogListOfHashIndex {
 
+			fmt.Printf("%s에 원래 있던 %s 를 다른 노드 %s 에..\n", srcNode.Address, eachDataLog, redisClient.Address)
+
 			if isSrcNodeAlive {
 
 				if _, err := redis.String(redisClient.Connection.Do(eachDataLog.Command, eachDataLog.Key, eachDataLog.Value)); err != nil {
+
+					fmt.Printf("%s 를 다른 노드 %s 에 재분배 중 실패\n", eachDataLog, srcNode.Address)
 
 					// 명령이 실패한 경우 - redistruibuteHashSlot() Hash Slot 할당 과정에서 죽었을 수도 있으므로
 					numberOfTotalVotes := len(monitorNodeAddressList) + 1
@@ -176,13 +170,37 @@ func recordDataToOtherNodes(srcNode RedisClient) error {
 				}
 			}
 
-			// Save Modification
-			if err := RecordModification(redisClient.Address, eachDataLog.Command, eachDataLog.Key, eachDataLog.Value); err != nil {
+			// 데이터를 옮긴 마스터 노드의 데이터 로그에 기록
+			if err := RecordModificationLog(redisClient.Address, eachDataLog.Command, eachDataLog.Key, eachDataLog.Value); err != nil {
 				return fmt.Errorf("redistruibuteHashSlot() : logging for recording dead node(%s)'s data failed", srcNode.Address)
 			}
+
+			// 데이터를 다른 마스터로 옮긴 후, 옮긴 마스터의 슬레이브에게도 전파
+			ReplicateToSlave(redisClient, eachDataLog.Command, eachDataLog.Key, eachDataLog.Value)
 		}
 	}
 
 	return nil
 
+}
+
+func cleanUpDeadMasterSlave(masterNode RedisClient) error {
+
+	clientHashRangeMap[masterNode.Address] = nil
+	delete(clientHashRangeMap, masterNode.Address)
+
+	slaveNode := masterSlaveMap[masterNode.Address]
+
+	if _, err := RemoveMasterFromList(masterNode); err != nil {
+		return err
+	}
+
+	if _, err := RemoveSlaveFromList(slaveNode); err != nil {
+		return err
+	}
+	delete(MasterSlaveChannelMap, masterNode.Address)
+	delete(masterSlaveMap, masterNode.Address)
+	delete(slaveMasterMap, slaveNode.Address)
+
+	return nil
 }

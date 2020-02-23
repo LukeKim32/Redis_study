@@ -47,6 +47,7 @@ services:
         build:
             context: ./
             dockerfile: ./docker/dockerfiles/monitor_server/Dockerfile
+        # image : interface-hash-server_monitor_one 
         container_name: monitor_one
         networks:
             mynet:
@@ -70,6 +71,7 @@ services:
         build:
             context: ./
             dockerfile: ./docker/dockerfiles/monitor_server/Dockerfile
+        # image : interface-hash-server_monitor_two
         container_name: monitor_two
         networks:
             mynet:
