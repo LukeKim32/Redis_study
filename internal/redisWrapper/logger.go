@@ -41,18 +41,11 @@ func SetUpModificationLogger(nodeAddressList []string) {
 		os.Mkdir(logDirectory, os.ModePerm)
 	}
 
-	dataLoggers = make(map[string]*log.Logger, len(nodeAddressList))
+	dataLoggers = make(map[string]*log.Logger)
 
 	for _, eachNodeAddress := range nodeAddressList {
 		// 각 노드의 주소 = 각 파일명
-		filePath := fmt.Sprintf("%s/%s", logDirectory, eachNodeAddress)
-		fpLog, err := os.OpenFile(filePath,
-			os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-		if err != nil {
-			panic(err)
-		}
-
-		dataLoggers[eachNodeAddress] = log.New(fpLog, "", 0)
+		createDataLogFile(eachNodeAddress)
 	}
 
 }
@@ -68,6 +61,54 @@ func RecordModificationLog(address string, command string, key string, value str
 
 	hashSlotIndex := hash.GetHashSlotIndex(key)
 	targetDataLogger.Printf("%d %s %s %s", hashSlotIndex, command, key, value)
+
+	return nil
+}
+
+// readDataLogs reads Node's data log file and records the information in @hashIndexToKeyValuePairMap
+func getLatestDataFromLog(address string, hashIndexToKeyValueMap map[uint16](map[string]string)) error {
+	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
+	file, err := os.Open(filePath)
+	if err != nil {
+		return fmt.Errorf("readDataLogs() : opening file %s error - %s", filePath, err.Error())
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		words := strings.Fields(scanner.Text())
+		hashIndexIn64, err := strconv.ParseUint(words[hashIndexWord], 10, 16)
+		if err != nil {
+			return fmt.Errorf("readDataLogs() : Parsing hash index error")
+		}
+
+		hashIndex := uint16(hashIndexIn64)
+
+		tools.InfoLogger.Printf("readDataLogs() : data log file read result : %d %s %s %s\n",
+			hashIndex, words[commandWord], words[keyWord], words[valueWord])
+
+		if hashIndexToKeyValueMap[hashIndex] == nil {
+			hashIndexToKeyValueMap[hashIndex] = make(map[string]string)
+		}
+
+		keyValueMap := hashIndexToKeyValueMap[hashIndex]
+
+		// Record Logs to Map (Latest Modification will overwrite previous data)
+		switch words[commandWord] {
+		case "SET":
+			keyValueMap[words[keyWord]] = words[valueWord]
+			break
+		case "DEL":
+			delete(keyValueMap, words[keyWord])
+			break
+		default:
+			return fmt.Errorf("readDataLogs() : Unavailable Command(%s) read from log file", words[commandWord])
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return fmt.Errorf("readDataLogs() : scanner error - %s", err.Error())
+	}
 
 	return nil
 }
@@ -104,6 +145,34 @@ func readDataLogs(address string, hashIndexToLogFormatMap map[uint16][]logFormat
 
 	if err := scanner.Err(); err != nil {
 		return fmt.Errorf("readDataLogs() : scanner error - %s", err.Error())
+	}
+
+	return nil
+}
+
+func removeDataLogs(address string) error {
+	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
+
+	if err := os.Remove(filePath); err != nil {
+		return fmt.Errorf("removeDataLogs() : removing file %s error - %s", filePath, err.Error())
+	}
+
+	delete(dataLoggers, address)
+
+	return nil
+}
+
+func createDataLogFile(address string) error {
+	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		fpLog, err := os.OpenFile(filePath,
+			os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			panic(err)
+		}
+
+		dataLoggers[address] = log.New(fpLog, "", 0)
 	}
 
 	return nil
