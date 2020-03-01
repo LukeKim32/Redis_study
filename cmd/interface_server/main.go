@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"interface_hash_server/configs"
+	"interface_hash_server/internal/cluster"
 	"interface_hash_server/internal/handlers"
-	"interface_hash_server/internal/redisWrapper"
 	"interface_hash_server/internal/routers"
 	"interface_hash_server/tools"
 
@@ -31,25 +31,27 @@ func main() {
 	}
 
 	// Redis Master Containers들과 Connection설정
-	if err := redisWrapper.NodeConnectionSetup(configs.GetInitialMasterAddressList(), redisWrapper.Default); err != nil {
+	if err := cluster.NodeConnectionSetup(configs.GetInitialMasterAddressList(), cluster.Default); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
 	// create Hash Map (Index -> Redis Master Nodes)
-	if err := redisWrapper.MakeHashMapToRedis(); err != nil {
+	if err := cluster.MakeHashMapToRedis(); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Redis Node Address Mapping to Hash Map failure: ", err.Error())
 	}
 
 	// Redis Slave Containers들과 Connection설정
-	if err := redisWrapper.NodeConnectionSetup(configs.GetInitialSlaveAddressList(), redisWrapper.SlaveSetup); err != nil {
+	if err := cluster.NodeConnectionSetup(configs.GetInitialSlaveAddressList(), cluster.SlaveSetup); err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
+	cluster.PrintCurrentMasterSlaves()
+
 	/* Set Data modification Logger for each Nodes*/
-	redisWrapper.SetUpModificationLogger(configs.GetInitialTotalAddressList())
+	cluster.SetUpModificationLogger(configs.GetInitialTotalAddressList())
 
 	// 타이머로 Redis Node들 모니터링 시작
-	// redisWrapper.StartMonitorNodes()
+	// cluster.StartMonitorNodes()
 
 	router := mux.NewRouter()
 

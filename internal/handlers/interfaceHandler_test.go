@@ -24,7 +24,7 @@ func TestMutex(t *testing.T) {
 	// Use Env For docker sdk client setup
 	dockerClient, err := client.NewEnvClient()
 	if err != nil {
-		println("Docker client setup error", err)
+		println("docker client setup error", err)
 		log.Fatal(err)
 
 	}
@@ -62,11 +62,11 @@ func TestMutex(t *testing.T) {
 	 */
 	for sendOrder, eachDummyKey := range dummyKeys {
 
-		if eachDummyKey == "h" || eachDummyKey == "l" {
-			requestGetValue("g")
-		}
+		// if eachDummyKey == "h" || eachDummyKey == "l" {
+		// 	requestGetValue("ag")
+		// }
 
-		requestSetKeyValue(eachDummyKey, sendOrder)
+		requestSetKeyValue("a"+eachDummyKey, sendOrder)
 
 		switch sendOrder {
 		case 5:
@@ -91,7 +91,7 @@ func TestMutex(t *testing.T) {
 	*/
 	for sendOrder, eachDummyKey := range dummyKeys {
 
-		requestGetValue(eachDummyKey)
+		requestGetValue("a" + eachDummyKey)
 
 		switch sendOrder {
 		case 5:
@@ -122,7 +122,7 @@ func requestSetKeyValue(key string, value int) {
 	}
 	`
 
-	requestBodyInString := fmt.Sprintf(requestDataFormat, "a"+key, "dummy"+strconv.Itoa(value))
+	requestBodyInString := fmt.Sprintf(requestDataFormat, key, "dummy"+strconv.Itoa(value))
 
 	var requestBody bytes.Buffer
 	requestBody.Write([]byte(requestBodyInString))
@@ -161,7 +161,7 @@ func requestGetValue(key string) {
 
 	var requestBody bytes.Buffer
 
-	reqeustToInterface, err := http.NewRequest(http.MethodGet, "http://localhost:8001/hash/data/a"+key, &requestBody)
+	reqeustToInterface, err := http.NewRequest(http.MethodGet, "http://localhost:8001/hash/data/"+key, &requestBody)
 	if err != nil {
 		println("Errors in GET request")
 		log.Fatal(err)
@@ -192,7 +192,7 @@ func requestGetValue(key string) {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("GET a%s 요청 결과 : %s 노드에서 %s 받아옴\n", key, responseContainer.HandleNode, responseContainer.Response)
+	fmt.Printf("GET %s 요청 결과 : %s 노드에서 %s 받아옴\n", key, responseContainer.HandleNode, responseContainer.Response)
 }
 
 func getContainer(dockerClient *client.Client, dockerContext context.Context, address string) (types.Container, error) {

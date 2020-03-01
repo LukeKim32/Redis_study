@@ -1,17 +1,14 @@
-package redisWrapper
+package cluster
 
 import (
 	"fmt"
+	"interface_hash_server/internal/cluster/templates"
 	"interface_hash_server/internal/hash"
-	"interface_hash_server/internal/redisWrapper/templates"
 	"interface_hash_server/tools"
 	"sync"
 
 	"github.com/gomodule/redigo/redis"
 )
-
-// HashSlotMap is a map of (Hash Slot -> Redis Node Client)
-var HashSlotMap map[uint16]RedisClient
 
 const (
 	// ConnectTimeoutDuration unit is nanoseconds
@@ -77,7 +74,7 @@ func MakeHashMapToRedis() error {
 		return fmt.Errorf(templates.RedisMasterNotSetUpYet)
 	}
 
-	HashSlotMap = make(map[uint16]RedisClient)
+	hashSlot = make(map[uint16]RedisClient)
 	clientHashRangeMap = make(map[string][]HashRange)
 
 	for i, eachRedisNode := range redisMasterClients {
@@ -85,7 +82,7 @@ func MakeHashMapToRedis() error {
 		hashSlotStart := uint16(float64(i) / float64(connectionCount) * float64(hash.HashSlotsNumber))
 		hashSlotEnd := uint16(float64(i+1) / float64(connectionCount) * float64(hash.HashSlotsNumber))
 
-		assignHashSlotMap(hashSlotStart, hashSlotEnd, eachRedisNode)
+		eachRedisNode.assignHashSlot(hashSlotStart, hashSlotEnd)
 
 		newHashRange := HashRange{
 			startIndex: hashSlotStart,

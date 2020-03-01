@@ -6,9 +6,9 @@ import (
 	"net/http"
 
 	"interface_hash_server/configs"
+	"interface_hash_server/internal/cluster"
 	"interface_hash_server/internal/hash"
 	"interface_hash_server/internal/models"
-	"interface_hash_server/internal/redisWrapper"
 	"interface_hash_server/tools"
 
 	"github.com/gomodule/redigo/redis"
@@ -22,8 +22,8 @@ type requestContainer struct {
 
 // ForwardToProperNode is a handler function for @POST, processing the reqeust
 /* 1) Request Body에서 Key 값을 추출
- * 2) Hash(Key) => HashSlot Index
- * 3) NodeAddressMap[HashSlot Index] 위치의 Redis 노드에 Request 받은 명령 전달
+ * 2) Hash(Key) => hashSlot Index
+ * 3) NodeAddressMap[hashSlot Index] 위치의 Redis 노드에 Request 받은 명령 전달
  * 4) Redis 노드의 Response 받아 클라이언트한테 전달
  */
 func SetKeyValue(response http.ResponseWriter, request *http.Request) {
@@ -49,7 +49,7 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 		hashSlotIndex := hash.GetHashSlotIndex(key)
 
 		// Get Redis Node which handles this hash slot
-		redisClient, err := redisWrapper.GetRedisClient(hashSlotIndex)
+		redisClient, err := cluster.GetRedisClient(hashSlotIndex)
 		if err != nil {
 			responseInternalError(response, err, configs.BaseURL)
 			return
@@ -61,14 +61,14 @@ func SetKeyValue(response http.ResponseWriter, request *http.Request) {
 		}
 
 		// Save Modification
-		if err := redisWrapper.RecordModificationLog(redisClient.Address, "SET", key, value); err != nil {
+		if err := redisClient.RecordModificationLog("SET", key, value); err != nil {
 			responseInternalError(response, err, configs.BaseURL)
 			return
 		}
 
 		// Propagate to Slave node as Data has been modified
 		// same operation to master's slave node
-		redisWrapper.ReplicateToSlave(redisClient, "SET", key, value)
+		redisClient.ReplicateToSlave("SET", key, value)
 
 		responseFormat[i].NodeAdrress = redisClient.Address
 		responseFormat[i].Result = fmt.Sprintf("%s %s %s", "SET", key, value)
@@ -102,7 +102,7 @@ func GetValueFromKey(response http.ResponseWriter, request *http.Request) {
 	hashSlotIndex := hash.GetHashSlotIndex(key)
 
 	// Get Redis Node which handles this hash slot
-	redisClient, err := redisWrapper.GetRedisClient(hashSlotIndex)
+	redisClient, err := cluster.GetRedisClient(hashSlotIndex)
 	if err != nil {
 		responseInternalError(response, err, configs.BaseURL)
 		return

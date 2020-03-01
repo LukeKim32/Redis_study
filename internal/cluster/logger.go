@@ -1,4 +1,4 @@
-package redisWrapper
+package cluster
 
 import (
 	"bufio"
@@ -22,7 +22,7 @@ type logFormat struct {
 
 const (
 	//LogDirectory is a directory path where log files are saved
-	logDirectory = "./internal/redisWrapper/dump"
+	logDirectory = "./internal/cluster/dump"
 
 	/* constants for "index" of Data Log each lines */
 	hashIndexWord = 0
@@ -50,11 +50,27 @@ func SetUpModificationLogger(nodeAddressList []string) {
 
 }
 
-func RecordModificationLog(address string, command string, key string, value string) error {
+func createDataLogFile(address string) error {
+	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
 
-	tools.InfoLogger.Printf("%s 노드에 데이터 수정사항 로그 저장", address)
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		fpLog, err := os.OpenFile(filePath,
+			os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			panic(err)
+		}
 
-	targetDataLogger, isSet := dataLoggers[address]
+		dataLoggers[address] = log.New(fpLog, "", 0)
+	}
+
+	return nil
+}
+
+func (redisClient RedisClient) RecordModificationLog(command string, key string, value string) error {
+
+	tools.InfoLogger.Printf("%s 노드에 데이터 수정사항 로그 저장", redisClient.Address)
+
+	targetDataLogger, isSet := dataLoggers[redisClient.Address]
 	if isSet == false {
 		return fmt.Errorf("RecordModificationLog() : data Logger is not set up")
 	}
@@ -66,8 +82,8 @@ func RecordModificationLog(address string, command string, key string, value str
 }
 
 // readDataLogs reads Node's data log file and records the information in @hashIndexToKeyValuePairMap
-func getLatestDataFromLog(address string, hashIndexToKeyValueMap map[uint16](map[string]string)) error {
-	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
+func (redisClient RedisClient) getLatestDataFromLog(hashIndexToKeyValueMap map[uint16](map[string]string)) error {
+	filePath := fmt.Sprintf("%s/%s", logDirectory, redisClient.Address)
 	file, err := os.Open(filePath)
 	if err != nil {
 		return fmt.Errorf("readDataLogs() : opening file %s error - %s", filePath, err.Error())
@@ -114,8 +130,8 @@ func getLatestDataFromLog(address string, hashIndexToKeyValueMap map[uint16](map
 }
 
 // readDataLogs reads Node's data log file and records the information in @hashIndexToKeyValuePairMap
-func readDataLogs(address string, hashIndexToLogFormatMap map[uint16][]logFormat) error {
-	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
+func (redisClient RedisClient) readDataLogs(hashIndexToLogFormatMap map[uint16][]logFormat) error {
+	filePath := fmt.Sprintf("%s/%s", logDirectory, redisClient.Address)
 	file, err := os.Open(filePath)
 	if err != nil {
 		return fmt.Errorf("readDataLogs() : opening file %s error - %s", filePath, err.Error())
@@ -150,30 +166,14 @@ func readDataLogs(address string, hashIndexToLogFormatMap map[uint16][]logFormat
 	return nil
 }
 
-func removeDataLogs(address string) error {
-	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
+func (redisClient RedisClient) removeDataLogs() error {
+	filePath := fmt.Sprintf("%s/%s", logDirectory, redisClient.Address)
 
 	if err := os.Remove(filePath); err != nil {
 		return fmt.Errorf("removeDataLogs() : removing file %s error - %s", filePath, err.Error())
 	}
 
-	delete(dataLoggers, address)
-
-	return nil
-}
-
-func createDataLogFile(address string) error {
-	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
-
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		fpLog, err := os.OpenFile(filePath,
-			os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-		if err != nil {
-			panic(err)
-		}
-
-		dataLoggers[address] = log.New(fpLog, "", 0)
-	}
+	delete(dataLoggers, redisClient.Address)
 
 	return nil
 }

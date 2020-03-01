@@ -3,7 +3,7 @@ package handlers
 import (
 	"fmt"
 	"interface_hash_server/configs"
-	"interface_hash_server/internal/redisWrapper"
+	"interface_hash_server/internal/cluster"
 	"interface_hash_server/tools"
 
 	"encoding/json"
@@ -17,13 +17,13 @@ func CheckRedisNodeStatus(response http.ResponseWriter, request *http.Request) {
 
 	pathVariables := mux.Vars(request)
 	targetRedisAddress := pathVariables["redisNodeAddress"]
-	pingResult := redisWrapper.MonitorServerResponse{
+	pingResult := cluster.MonitorServerResponse{
 		RedisNodeAddress: targetRedisAddress,
 		ErrorMessage:     "",
 		IsAlive:          true,
 	}
 
-	redisClient, err := redisWrapper.GetRedisClientWithAddress(targetRedisAddress)
+	redisClient, err := cluster.GetRedisClientWithAddress(targetRedisAddress)
 	if err != nil {
 		pingResult.ErrorMessage = err.Error()
 		pingResult.IsAlive = false
