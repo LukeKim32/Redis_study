@@ -2,58 +2,68 @@ package cluster
 
 import (
 	"fmt"
-	"interface_hash_server/internal/cluster/templates"
-	"interface_hash_server/tools"
-
 	"github.com/gomodule/redigo/redis"
+
+	msg "hash_interface/internal/cluster/message"
+	"hash_interface/tools"
 )
 
 /************* Docker를 계속 restart 해준다는 가정 ******************/
 
-// migrateDataToOtherNodes reads @deadNodes's data logs and records to other appropriate nodes
-/* This function is for redistributing data of dead @deadNode
- */
-func (deadNode RedisClient) migrateDataToOthers() error {
+// migrateDataToOthers : deadClient 인스턴스의 데이터를 다른 마스터-슬레이브 세트에 할당
+//  - 과정 :
+//  1. deadClient의 데이터 로그 파일 읽기 => 최신 데이터 현황 생성
+//  2. deadClient를 제외한 다른 마스터에 데이터 분배
+//
+func (deadClient RedisClient) migrateDataToOthers() error {
 
-	// Read source node's data log file
-	hashIndexToKeyValueMap := make(map[uint16]map[string]string)
-	if err := deadNode.getLatestDataFromLog(hashIndexToKeyValueMap); err != nil {
+	// deadClient의 로그 파일 읽기 => 최신 데이터 현황 생성
+	deadClientDataContainer := make(HashToDataMap)
+	err := deadClient.getLatestDataFromLog(deadClientDataContainer)
+	if err != nil {
 		return err
 	}
 
-	// Remove Dead (Master) node's log file
-	if err := deadNode.removeDataLogs(); err != nil {
+	// deadClient (마스터) 인스턴스의 데이터 로그 파일 삭제
+	if err := deadClient.removeDataLogFile(); err != nil {
 		return err
 	}
 
-	// Remove Dead (Slave) node's log file
-	deadSlave, isExist := masterSlaveMap[deadNode.Address]
+	// deadClient의 슬레이브의 로그 파일이 존재한다면 삭제
+	deadSlave, isExist := masterSlaveMap[deadClient.Address]
 	if isExist {
-		deadSlave.removeDataLogs()
+		deadSlave.removeDataLogFile()
 	}
 
-	// Record source node's data into other appropriate nodes
-	for hashIndex, keyValueMap := range hashIndexToKeyValueMap {
-		// 이미 Hash Slot Map은 초기화 되어있음
-		destinationClient := hashSlot[hashIndex]
+	// deadClient의 데이터를, 해쉬 슬롯에 새로 매핑된 다른 마스터에 할당
+	for hashIndex, keyValueMap := range deadClientDataContainer {
+
+		newMappedClient := hashSlot.slots[hashIndex]
 
 		for eachKey, eachValue := range keyValueMap {
 
-			fmt.Printf("%s에 원래 있던 (%s, %s) 를 다른 노드 %s 에..\n", deadNode.Address, eachKey, eachValue, destinationClient.Address)
+			tools.InfoLogger.Printf(
+				msg.MigrateDataFromTo,
+				deadClient.Address,
+				eachKey,
+				eachValue,
+				newMappedClient.Address,
+			)
 
-			// Save the key-value data to destination Master node
-			if _, err := redis.String(destinationClient.Connection.Do("SET", eachKey, eachValue)); err != nil {
+			// 레디스에 저장
+			_, err := redis.String(newMappedClient.Connection.Do("SET", eachKey, eachValue))
+			if err != nil {
 				return err
 			}
 
-			// Destination Node가 중간에 죽어도, Log file에는 기록을 해놓는다
-			// 데이터를 옮긴 마스터 노드의 데이터 로그에 기록
-			if err := destinationClient.RecordModificationLog("SET", eachKey, eachValue); err != nil {
-				return fmt.Errorf("distributeHashSlot() : logging for recording dead node(%s)'s data failed", deadNode.Address)
+			// 저장 목표 마스터가 중간에 죽어도, 로그 파일에는 기록을 남김
+			err = newMappedClient.RecordModificationLog("SET", eachKey, eachValue)
+			if err != nil {
+				return fmt.Errorf(msg.LogFailWhileMigration, deadClient.Address)
 			}
 
-			// 데이터를 다른 마스터로 옮긴 후, 옮긴 마스터의 슬레이브에게도 전파
-			destinationClient.ReplicateToSlave("SET", eachKey, eachValue)
+			// 저장 목표 마스터의 슬레이브에게도 전파
+			newMappedClient.ReplicateToSlave("SET", eachKey, eachValue)
 		}
 	}
 
@@ -61,71 +71,86 @@ func (deadNode RedisClient) migrateDataToOthers() error {
 
 }
 
-// migrateDataToOtherNodes reads @deadNodes's data logs and records to other appropriate nodes
-/* This function is for redistributing data of dead @deadNode
- * 이 함수 내부에서 targetNode가 죽을 경우 데이터는 손실될 수 있다.
- */
-func reshardDataTo(targetNode RedisClient) error {
+// reshardData : 모든 마스터 클라이언트의 최신 데이터 로그 생성 & 현재 해쉬슬롯 기준 데이터 재분배
+//
+func (redisClient RedisClient) reshardData() error {
 
-	for _, sourceMasterNode := range redisMasterClients {
-		if sourceMasterNode.Address != targetNode.Address {
+	for _, srcMasterClient := range redisMasterClients {
 
-			// Read Other Master nodes' data log file
-			hashIndexToKeyValueMap := make(map[uint16]map[string]string)
+		// 마스터 클라이언트의 로그 파일 읽기 => 최신 데이터 현황 생성
+		dataOfSrcMaster := make(HashToDataMap)
 
-			if err := sourceMasterNode.getLatestDataFromLog(hashIndexToKeyValueMap); err != nil {
-				return err
-			}
+		err := srcMasterClient.getLatestDataFromLog(dataOfSrcMaster)
+		if err != nil {
+			return err
+		}
 
-			// Recreate Data log file to Record latest data
-			if err := sourceMasterNode.removeDataLogs(); err != nil {
-				return err
-			}
-			if err := createDataLogFile(sourceMasterNode.Address); err != nil {
-				return err
-			}
+		// 데이터 분배 후 데이터 최신 현황 변경에 따른, 로그 파일 재생성
+		srcMasterClient.removeDataLogFile()
 
-			// Record source node's data into other appropriate nodes
-			for hashIndex, keyValueMap := range hashIndexToKeyValueMap {
-				destinationClient := hashSlot[hashIndex]
+		if err := srcMasterClient.createDataLogFile(); err != nil {
+			return err
+		}
 
-				// 현재 Hash map의 특정 Hash Index가 source Node 담당이라면, source Node 로그에 기록/갱신한다.
-				if destinationClient.Address == sourceMasterNode.Address {
+		// 마스터 클라이언트의 데이터를, 갱신된 해쉬 슬롯에 매핑된 마스터들에게 할당
+		for hashIndex, keyValueMap := range dataOfSrcMaster {
 
-					for eachKey, eachValue := range keyValueMap {
+			newMappedClient := hashSlot.slots[hashIndex]
 
-						if err := destinationClient.RecordModificationLog("SET", eachKey, eachValue); err != nil {
-							return fmt.Errorf("reshardDataTo() : logging for recording dead node(%s)'s data failed", destinationClient.Address)
-						}
+			// 갱신된 해쉬 슬롯에 매핑된 마스터가 변하지 않은 경우
+			if newMappedClient.Address == srcMasterClient.Address {
+
+				for eachKey, eachValue := range keyValueMap {
+
+					err := newMappedClient.RecordModificationLog("SET", eachKey, eachValue)
+					if err != nil {
+						return fmt.Errorf(msg.LogFailWhileMigration, newMappedClient.Address)
+					}
+				}
+
+			} else {
+				// 새로 매핑된 마스터인 경우
+
+				for eachKey, eachValue := range keyValueMap {
+
+					tools.ErrorLogger.Printf("데이터 로그 key : %s, value : %s", eachKey, eachValue)
+
+					redisResponse, err := redis.String(srcMasterClient.Connection.Do("GET", eachKey))
+					if err == redis.ErrNil {
+						redisResponse = "nil(없음)"
+
+					} else if err != nil {
+						tools.ErrorLogger.Printf("데이터 가져오기 실패 key : %s, Error : %s", eachKey, err.Error())
 					}
 
-				} else {
-					// 현재 Hash map의 특정 Hash Index가 targetNode에 재할당 된 것이라면, targetNode에 저장한다.
-					// (sourceNode에서는 Delete 연산 수행)
+					tools.InfoLogger.Printf("키 : %s, 값 : %s", eachKey, redisResponse)
 
-					for eachKey, eachValue := range keyValueMap {
-
-						// Delete the key-value data from source Master node
-						if _, err := redis.String(sourceMasterNode.Connection.Do("DEL", eachKey)); err != nil {
-							return fmt.Errorf("reshardDataTo() : deleting from source node error - %s", err.Error())
-						}
-
-						fmt.Printf("%s에 원래 있던 (%s, %s) 를 다른 노드 %s 에..\n", sourceMasterNode.Address, eachKey, eachValue, destinationClient.Address)
-
-						// Save the key-value data to destination Master node
-						if _, err := redis.String(destinationClient.Connection.Do("SET", eachKey, eachValue)); err != nil {
-							return err
-						}
-
-						// Destination Node가 중간에 죽어도, Log file에는 기록을 해놓는다
-						// 데이터를 옮긴 마스터 노드의 데이터 로그에 기록
-						if err := destinationClient.RecordModificationLog("SET", eachKey, eachValue); err != nil {
-							return fmt.Errorf("reshardDataTo() : logging for resharding to new node(%s)'s data failed", destinationClient.Address)
-						}
-
-						// 데이터를 다른 마스터로 옮긴 후, 옮긴 마스터의 슬레이브에게도 전파
-						destinationClient.ReplicateToSlave("SET", eachKey, eachValue)
+					// 기존 데이터 주인이었던 마스터 클라이언트에서는 제거
+					_, err = srcMasterClient.Connection.Do("DEL", eachKey)
+					if err != nil {
+						tools.ErrorLogger.Printf("데이터 삭제간 에러!")
+						return fmt.Errorf(msg.DeleteDataFail, err.Error())
 					}
+
+					tools.InfoLogger.Printf(
+						msg.MigrateDataFromTo,
+						srcMasterClient.Address,
+						eachKey,
+						eachValue,
+						newMappedClient.Address,
+					)
+
+					// 새로 매핑된 마스터에 저장
+					_, err = redis.String(newMappedClient.Connection.Do("SET", eachKey, eachValue))
+
+					// 새로 매핑된 마스터가 중간에 죽어도, 로그 파일에는 기록을 해놓는다
+					err = newMappedClient.RecordModificationLog("SET", eachKey, eachValue)
+					if err != nil {
+						return fmt.Errorf(msg.LogFailWhileMigration, newMappedClient.Address)
+					}
+
+					// 데이터를 redisClient로 옮긴 후, redisClient의 슬레이브에게도 전파
+					newMappedClient.ReplicateToSlave("SET", eachKey, eachValue)
 				}
 			}
 		}
@@ -135,30 +160,42 @@ func reshardDataTo(targetNode RedisClient) error {
 
 }
 
-func checkAliveAndSaveData(destinationClient RedisClient, key string, value string) error {
+// copyDataTo : masterClient의 데이터를 슬레이브에 복사
+//  데이터 로그파일을 읽어 최신 데이터 만을 복사한다
+//
+func (masterClient RedisClient) copyDataTo(slaveClient RedisClient) error {
 
-	if _, err := redis.String(destinationClient.Connection.Do("SET", key, value)); err != nil {
+	// masterClient의 최신 데이터 현황 생성
+	masterDataContainer := make(HashToDataMap)
+	if err := masterClient.getLatestDataFromLog(masterDataContainer); err != nil {
+		return err
+	}
 
-		fmt.Printf("(%s, %s) 를 다른 노드 %s 에 재분배 중 실패\n", key, value, destinationClient.Address)
+	for _, keyValueMap := range masterDataContainer {
 
-		// 명령이 실패한 경우 - distributeHashSlot() Hash Slot 할당 과정에서 죽었을 수도 있으므로
-		numberOfTotalVotes := len(monitorClient.ServerAddressList) + 1
-		votes, err := monitorClient.askAlive(destinationClient)
-		if err != nil {
-			return fmt.Errorf("checkAliveAndSaveData() : ask Redis Node is alive failed - %s", err.Error())
-		}
+		for eachKey, eachValue := range keyValueMap {
 
-		tools.InfoLogger.Printf(templates.FailOverVoteResult, destinationClient.Address, votes, numberOfTotalVotes)
+			tools.InfoLogger.Printf(
+				msg.CopyFromMasterToSlave,
+				masterClient.Address,
+				eachKey,
+				eachValue,
+				slaveClient.Address,
+			)
 
-		if votes > (numberOfTotalVotes / 2) {
-			// Retry the command ignoring if error exists
-			destinationClient.Connection.Do("SET", key, value)
+			// 슬레이브에 데이터 복사
+			_, err := redis.String(slaveClient.Connection.Do("SET", eachKey, eachValue))
+			if err != nil {
+				return err
+			}
 
-		} else { // 죽었다고 판단할 경우, 명령어 수행은 그만하되 Log file에는 기록을 해놓는다
-			return nil
+			// 슬레이브가 중간에 죽어도, 로그 파일에는 기록을 해놓는다
+			err = slaveClient.RecordModificationLog("SET", eachKey, eachValue)
+			if err != nil {
+				tools.ErrorLogger.Printf(msg.LogFailWhileMigration, slaveClient.Address)
+			}
 		}
 	}
 
 	return nil
-
 }

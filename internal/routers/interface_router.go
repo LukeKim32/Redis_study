@@ -5,10 +5,14 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"interface_hash_server/internal/handlers"
+	"hash_interface/internal/handlers"
 )
 
 func SetUpInterfaceRouter(router *mux.Router) {
+
+	router.HandleFunc("/clients", handlers.AddNewClient).Methods(http.MethodPost)
+
+	router.HandleFunc("/clients", handlers.GetClients).Methods(http.MethodGet)
 
 	/* @POST
 	 * Set Value
@@ -20,17 +24,16 @@ func SetUpInterfaceRouter(router *mux.Router) {
 			]
 		}
 	*/
-	router.HandleFunc("", handlers.SetKeyValue).Methods(http.MethodPost)
+	router.HandleFunc("/hash/data", handlers.SetKeyValue).Methods(http.MethodPost)
 
 	/* @GET
 	 * Get Value From Key
 	 * Request URI : http://~/hash/data/key
 	 */
-	router.HandleFunc("/{key}", handlers.GetValueFromKey).Methods(http.MethodGet)
+	router.HandleFunc("/hash/data/{key}", handlers.GetValueFromKey).Methods(http.MethodGet)
 
 	/* @DELETE
 	 * DELETE Value From Key
 	 * Request URI : http://~/hash/data/key
 	 */
-	// router.HandleFunc("/{key}", handlers.DeleteKeyValue).Methods(http.MethodDelete)
 }

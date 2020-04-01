@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"interface_hash_server/configs"
-	"interface_hash_server/internal/models"
+	"hash_interface/configs"
+	"hash_interface/internal/cluster"
+	"hash_interface/internal/models"
+	"hash_interface/internal/models/response"
 	"log"
 	"net/http"
 	"strconv"
@@ -113,19 +115,23 @@ func TestMutex(t *testing.T) {
 
 func requestSetKeyValue(key string, value int) {
 
-	// Decode Request Body
-	var requestDataFormat = `{
-		"data" : [{
-			"key" : "%s",
-			"value" : "%s" 
-		}]
+	var requestData models.DataRequestContainer
+	requestData.Data = make([]cluster.KeyValuePair, 1)
+	requestData.Data[0] = cluster.KeyValuePair{
+		Key:   key,
+		Value: strconv.Itoa(value),
 	}
-	`
 
-	requestBodyInString := fmt.Sprintf(requestDataFormat, key, "dummy"+strconv.Itoa(value))
+	// requestBodyInString := fmt.Sprintf(requestDataFormat, key, "dummy"+strconv.Itoa(value))
+
+	requestDataInString, err := json.Marshal(requestData)
+	if err != nil {
+		println("Errors in marshal")
+		log.Fatal(err)
+	}
 
 	var requestBody bytes.Buffer
-	requestBody.Write([]byte(requestBodyInString))
+	requestBody.Write(requestDataInString)
 
 	reqeustToInterface, err := http.NewRequest(http.MethodPost, "http://localhost:8001/hash/data", &requestBody)
 	if err != nil {
@@ -135,24 +141,24 @@ func requestSetKeyValue(key string, value int) {
 	reqeustToInterface.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
-	response, err := client.Do(reqeustToInterface)
+	res, err := client.Do(reqeustToInterface)
 	if err != nil {
 		println("Error in response of interfact ", err)
 	}
 
-	if response.StatusCode >= 400 {
+	if res.StatusCode >= 400 {
 		println("Response error!!")
 		return
 	}
 
-	var responseContainer models.ResponseFormat
-	decoder := json.NewDecoder(response.Body)
+	var responseContainer response.SetResultTemplate
+	decoder := json.NewDecoder(res.Body)
 	if err := decoder.Decode(&responseContainer); err != nil {
 		println("Response json decod error")
 		log.Fatal(err)
 	}
 
-	for _, eachResponseData := range responseContainer.Response {
+	for _, eachResponseData := range responseContainer.Results {
 		fmt.Printf("SET 요청 결과 : %s 노드에서 (key, value) = (%s) 처리\n", eachResponseData.NodeAdrress, eachResponseData.Result)
 	}
 }

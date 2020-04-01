@@ -1,4 +1,0 @@
-ERROR: 2020/02/03 07:52:12 connection.go:45: Redis Node(172.29.0.4:8000) connection failure - dial tcp 172.29.0.4:8000: i/o timeout
-ERROR: 2020/02/03 07:52:12 main.go:34: Error - Node connection error :  dial tcp 172.29.0.4:8000: i/o timeout
-ERROR: 2020/02/03 07:55:37 connection.go:45: Redis Node(172.29.0.4:8000) connection failure - dial tcp 172.29.0.4:8000: i/o timeout
-ERROR: 2020/02/03 07:55:37 main.go:34: Error - Node connection error :  dial tcp 172.29.0.4:8000: i/o timeout

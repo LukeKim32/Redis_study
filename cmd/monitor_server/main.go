@@ -4,13 +4,18 @@ import (
 	"net/http"
 	"strconv"
 
-	"interface_hash_server/configs"
-	"interface_hash_server/internal/cluster"
-	"interface_hash_server/internal/handlers"
-	"interface_hash_server/tools"
+	"hash_interface/configs"
+	"hash_interface/internal/cluster"
+	"hash_interface/internal/handlers"
+	"hash_interface/internal/routers"
+	"hash_interface/tools"
 
 	"github.com/gorilla/mux"
 )
+
+/*
+ * 모니터 서버는 마스터와 슬레이브를 구분하지 않는다.
+ */
 
 // @title Redis Cluster Interface Test Server
 // @version 1.0
@@ -26,24 +31,33 @@ func main() {
 
 	// To Check Load Balancing By Proxy
 	if configs.CurrentIP, err = tools.GetCurrentServerIP(); err != nil {
-		tools.ErrorLogger.Fatalln("Error - Get Go-App IP error : ", err.Error())
+		tools.ErrorLogger.Fatalln(
+			"Error - Get Go-App IP error : ", err.Error())
 	}
 
 	// Redis Master Containers들과 Connection설정
-	if err := cluster.NodeConnectionSetup(configs.GetInitialMasterAddressList(), cluster.Default); err != nil {
+	err = cluster.NodeConnectionSetup(
+		configs.GetInitialMasterAddressList(),
+		cluster.Default,
+	)
+	if err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
 	// Redis Slave Containers들과 Connection설정
-	if err := cluster.NodeConnectionSetup(configs.GetInitialSlaveAddressList(), cluster.SlaveSetup); err != nil {
+	err = cluster.NodeConnectionSetup(
+		configs.GetInitialSlaveAddressList(),
+		cluster.Default)
+	if err != nil {
 		tools.ErrorLogger.Fatalln("Error - Node connection error : ", err.Error())
 	}
 
 	router := mux.NewRouter()
 
-	// Interface Server Router 설정
 	moniterRouter := router.PathPrefix("/monitor").Subrouter()
-	moniterRouter.HandleFunc("/{redisNodeAddress}", handlers.CheckRedisNodeStatus).Methods(http.MethodGet)
+
+	// Monitor Server Router 설정
+	routers.SetUpMonitorRouter(moniterRouter)
 
 	// 허용하지 않는 URL 경로 처리
 	router.PathPrefix("/").HandlerFunc(handlers.ExceptionHandle)
@@ -51,5 +65,7 @@ func main() {
 
 	tools.InfoLogger.Println("Server start listening on port ", configs.Port)
 
-	tools.ErrorLogger.Fatal(http.ListenAndServe(":"+strconv.Itoa(configs.Port), router))
+	tools.ErrorLogger.Fatal(
+		http.ListenAndServe(":"+strconv.Itoa(configs.Port), router),
+	)
 }

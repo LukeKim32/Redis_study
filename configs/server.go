@@ -10,11 +10,13 @@ const (
 	// Port is 8080
 	Port = 8888
 	// JSONContent is for response header
-	JSONContent = "application/json"
+	JsonContent = "application/json"
 	// CORSheader is a header field for Cross Origin Resource Sharing Problem Solve
 	CORSheader     = "Access-Control-Allow-Origin"
 	ContentType    = "Content-Type"
 	BadRequestBody = "Unappropriate Request Body"
+
+	ApiDocumentPath = HTTP + BaseURL + "/docs/index.html"
 
 	// Redis Master Node #1 (Container name : redis_one)
 	RedisMasterOneAddress = "172.29.0.4:8000"
@@ -29,6 +31,7 @@ const (
 	// Redis Master Node #6 (Container name : redis_six)
 	RedisSlaveThreeAddress = "172.29.0.9:8002"
 
+	InterfaceNodeAddress  = "172.29.0.3:8888"
 	MonitorNodeOneAddress = "172.29.0.10:8888"
 	MonitorNodeTwoAddress = "172.29.0.11:8888"
 )

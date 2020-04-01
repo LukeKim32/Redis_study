@@ -25,11 +25,9 @@ services:
             - "8888"
         volumes:
             - ./docker/mount/interface/logs:/app/logs
-            # - /private/var/run/docker.sock:/var/run/docker.sock
-            # - /usr/local/bin/docker:/usr/bin/docker
+            - /var/run/docker.sock:/var/run/docker.sock
             # Path for linux
             # - /var/run/docker.sock:/var/run/docker.sock
-            # - /usr/bin/docker:/usr/bin/docker
         environment:
             - GOPATH=/go
         links:

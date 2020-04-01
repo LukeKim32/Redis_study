@@ -2,7 +2,8 @@ package cluster
 
 import (
 	"fmt"
-	"interface_hash_server/tools"
+	msg "hash_interface/internal/cluster/message"
+	"hash_interface/tools"
 	"log"
 	"strings"
 	"time"
@@ -19,11 +20,11 @@ type DockerWrapper struct {
 
 var docker DockerWrapper
 
-var restartTimeOutDuration = 10 * time.Second
+var restartTimeOutDuration = 5 * time.Second
 
 func init() {
 	if err := docker.checkInit(); err != nil {
-		tools.ErrorLogger.Println("docker client init error")
+		tools.ErrorLogger.Println(msg.DockerInitFail)
 		log.Fatal(err)
 	}
 }
@@ -35,7 +36,11 @@ func (docker DockerWrapper) restartRedisContainer(targetIP string) error {
 		return err
 	}
 
-	tools.InfoLogger.Printf("RestartRedisContainer() : Redis container(%s) status : %s", targetIP, redisContainer.Status)
+	tools.InfoLogger.Printf(
+		msg.ContainerStatus,
+		targetIP,
+		redisContainer.Status,
+	)
 
 	switch redisContainer.Status {
 
@@ -43,7 +48,11 @@ func (docker DockerWrapper) restartRedisContainer(targetIP string) error {
 		break
 
 	default:
-		tools.InfoLogger.Printf("RestartRedisContainer() : Redis container(%s) restart", targetIP)
+		tools.InfoLogger.Printf(
+			msg.ContainerRestart,
+			targetIP,
+		)
+
 		err = docker.Client.ContainerRestart(
 			docker.Context,
 			redisContainer.ID,
@@ -87,26 +96,35 @@ func (docker DockerWrapper) getContainerWithIP(targetIP string) (types.Container
 	var err error
 
 	if err := docker.checkInit(); err != nil {
-		tools.ErrorLogger.Println("docker client init error")
+		tools.ErrorLogger.Println(msg.DockerInitFail)
 		return types.Container{}, err
 	}
 
-	containers, err := docker.Client.ContainerList(docker.Context, types.ContainerListOptions{})
+	containerListOption := types.ContainerListOptions{
+		All: true,
+	}
+
+	containers, err := docker.Client.ContainerList(docker.Context, containerListOption)
 	if err != nil {
 		return types.Container{}, err
 	}
 
-	tools.InfoLogger.Println("getContainerWithIP() : get container list : ", len(containers))
+	tools.InfoLogger.Println(msg.TargetContainerIP, targetIP)
 
 	for _, eachContainer := range containers {
-		for key, endPointSetting := range eachContainer.NetworkSettings.Networks {
+		for _, endPointSetting := range eachContainer.NetworkSettings.Networks {
 			if strings.Contains(targetIP, endPointSetting.IPAddress) {
+
+				tools.InfoLogger.Println(
+					msg.ContainerFound,
+					eachContainer.Names[0],
+					endPointSetting.IPAddress,
+				)
+
 				return eachContainer, nil
 			}
-
-			tools.InfoLogger.Println("getContainerWithIP() : endpoint key : ", key)
 		}
 	}
 
-	return types.Container{}, fmt.Errorf("No Such Container with IP : %s", targetIP)
+	return types.Container{}, fmt.Errorf(msg.ContainerNotFound, targetIP)
 }

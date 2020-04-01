@@ -1,10 +1,31 @@
 package models
 
-type RequestContainer struct {
-	Data []KeyValuePair `json:"data"`
+import (
+	"hash_interface/internal/cluster"
+)
+
+type DataRequestContainer struct {
+	Data []cluster.KeyValuePair `json:"data"`
 }
 
-type KeyValuePair struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+type NewClientRequestContainer struct {
+	// Address : 레디스 노드 주소, IP + Port
+	Address string `json:"address"`
+
+	// Role : "Master" / "Slave"
+	Role string `json:"role"`
+
+	// MasterAddress : Role = "Slave" 일 때 반드시 필요한 옵션 (Role = "Master" 일 경우 무시)
+	MasterAddress string `json:"master_address"`
+}
+
+func (client NewClientRequestContainer) IsEmpty() bool {
+	if client.Address == "" {
+		return true
+	}
+	if client.Role == "" {
+		return true
+	}
+
+	return false
 }

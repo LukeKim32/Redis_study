@@ -1,15 +1,15 @@
 package cluster
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"interface_hash_server/configs"
-	"interface_hash_server/internal/cluster/templates"
-	"interface_hash_server/tools"
 	"net/http"
-	"strings"
+	"time"
 
-	"github.com/gomodule/redigo/redis"
+	"hash_interface/configs"
+	msg "hash_interface/internal/cluster/message"
+	"hash_interface/tools"
 )
 
 // MonitorClient : Monitor Server들에게 요청을 보낼 Client
@@ -19,91 +19,148 @@ type MonitorClient struct {
 
 var monitorClient MonitorClient
 
+// Question : 모니터 서버에게 요청할 수 있는 내용 옵션 종류
+type Question uint8
+
+const (
+	IsAlive Question = iota
+	NewConnect
+	EndConnect
+	CurrentList
+)
+
 // MonitorServerResponse : Monitor Server의 응답 container
 type MonitorServerResponse struct {
 	RedisNodeAddress string
 	IsAlive          bool
-	ErrorMessage     string
+	ErrorMsg         string
+	Data             interface{}
 }
 
 var errorChannel chan error
 
 func init() {
 	if len(monitorClient.ServerAddressList) == 0 {
-		monitorClient.ServerAddressList = []string{configs.MonitorNodeOneAddress, configs.MonitorNodeTwoAddress}
+		monitorClient.ServerAddressList = []string{
+			configs.MonitorNodeOneAddress,
+			configs.MonitorNodeTwoAddress,
+		}
 	}
 }
 
-// askAlive : MonitorClient에 등록되어 있는 모니터 서버들에게 @redisNode의 생존 여부 확인 요청
-//  고루틴을 이용하여 각 모니터 서버들에게 요청 전송
+// askConnect : 모니터 서버들에게 @redisNode에 대한 연결 setup 요청
 //
-func (monitorClient MonitorClient) askAlive(redisNode RedisClient) (int, error) {
+func (monitorClient MonitorClient) ask(redisNode RedisClient, question Question) (int, error) {
 
 	numberOfmonitorNode := len(monitorClient.ServerAddressList)
 
 	// Buffered Channel : 송신측은 메세지 전송 후 고루틴 계속 진행
 	outputChannel := make(chan MonitorServerResponse, numberOfmonitorNode)
 
-	tools.InfoLogger.Println(templates.StartToRequestToMonitors)
+	tools.InfoLogger.Printf(msg.NewConnectRequest, redisNode.Address)
 
 	votes := 0
 
-	// Host인 인터페이스 서버의 Ping 테스트 (투표 1)
-	hostPingResult, _ := redis.String(redisNode.Connection.Do("PING"))
-	if strings.Contains(hostPingResult, "PONG") {
-		votes++
-	}
-
-	// 각 모니터 서버의 Ping 테스트 요청 (투표 n)
 	for _, eachMonitorServer := range monitorClient.ServerAddressList {
 
-		// GET request With URI http://~/monitor/{redisNodeIp}
-		go monitorClient.requestToServer(
-			outputChannel,
-			eachMonitorServer,
-			redisNode.Address,
-		)
+		switch question {
+		case IsAlive:
+			// GET
+			// URL : http://~/monitor/{redisNodeIp}
+			go monitorClient.requestTest(
+				eachMonitorServer,
+				redisNode.Address,
+				outputChannel,
+			)
+			break
+
+		case NewConnect:
+			// POST
+			// URL : http://~/monitor/{redisNodeIp}/{role}
+			go monitorClient.requestNewConnect(
+				eachMonitorServer,
+				redisNode.Address,
+				outputChannel,
+			)
+			break
+
+		case EndConnect:
+			// DELETE
+			// URL : http://~/monitor/{redisNodeIp}
+			go monitorClient.requestUnregister(
+				eachMonitorServer,
+				redisNode.Address,
+				outputChannel,
+			)
+			break
+
+		case CurrentList:
+			// TODO
+			break
+		default:
+			// Error
+			return -1, fmt.Errorf(msg.UnsupportedMonitorRequest)
+		}
 	}
 
 	for i := 0; i < numberOfmonitorNode; i++ {
 
-		tools.InfoLogger.Println(templates.WaitForResponseFromMonitors)
+		tools.InfoLogger.Println(msg.WaitForResponseFromMonitors)
 
 		// 모니터 서버 응답 대기 & 처리
 		// To-Do : 모니터 서버 응답이 오지 않는 경우 Timeout 설정
 		monitorServerResponse := <-outputChannel
-		tools.InfoLogger.Printf(templates.ChannelResponseFromMonitor, monitorServerResponse.ErrorMessage)
+		tools.InfoLogger.Printf(
+			msg.ChannelResponseFromMonitor,
+			monitorServerResponse.ErrorMsg,
+		)
 
-		if monitorServerResponse.ErrorMessage != "" {
-			return 0, fmt.Errorf(monitorServerResponse.ErrorMessage)
+		if monitorServerResponse.ErrorMsg != "" {
+			tools.ErrorLogger.Printf(
+				"모니터 서버 에러 응답 %d : %s",
+				i,
+				monitorServerResponse.ErrorMsg,
+			)
+			return -1, fmt.Errorf(monitorServerResponse.ErrorMsg)
 		}
 
-		if monitorServerResponse.IsAlive {
-			tools.InfoLogger.Printf(templates.RedisCheckedAlive, redisNode.Address)
-			votes++
-		} else {
-			tools.InfoLogger.Printf(templates.RedisCheckedDead, redisNode.Address)
+		if question == IsAlive {
+			if monitorServerResponse.IsAlive {
+				tools.InfoLogger.Printf(msg.RedisCheckedAlive, redisNode.Address)
+				votes++
+			} else {
+				tools.InfoLogger.Printf(msg.RedisCheckedDead, redisNode.Address)
+			}
 		}
 	}
 
 	return votes, nil
 }
 
-// requestToServer : @redisNodeIp 레디스 노드의 생존여부 @monitorServerIp 해당하는 모니터 서버에 확인 요청
+// requestTest : @redisNodeIp 레디스 노드의 생존여부 @monitorServerIp 해당하는 모니터 서버에 확인 요청
 //
-func (monitorClient MonitorClient) requestToServer(outputChannel chan<- MonitorServerResponse, monitorServerIp string, redisNodeIp string) {
+func (monitorClient MonitorClient) requestTest(monitorServerIp, redisNodeIp string, outputChannel chan<- MonitorServerResponse) {
 
 	requestURI := fmt.Sprintf("http://%s/monitor/%s", monitorServerIp, redisNodeIp)
 
-	tools.InfoLogger.Println(templates.RequestTargetMonitor, requestURI)
+	tools.InfoLogger.Println(msg.RequestTargetMonitor, requestURI)
+
+	// 서버 요청 타임아웃 설정
+	go serverTimoutChecker(monitorServerIp, outputChannel)
 
 	// 모니터 서버에 요청
 	response, err := http.Get(requestURI)
 	if err != nil {
-		tools.ErrorLogger.Printf(templates.ResponseMonitorError, monitorServerIp, err)
+		tools.ErrorLogger.Printf(msg.ResponseMonitorError, monitorServerIp, err)
+
 		outputChannel <- MonitorServerResponse{
-			ErrorMessage: fmt.Sprintf(templates.ResponseMonitorError, monitorServerIp, err),
+			ErrorMsg: fmt.Sprintf(
+				msg.ResponseMonitorError,
+				monitorServerIp,
+				err,
+			),
 		}
+		return
 	}
 	defer response.Body.Close()
 
@@ -112,24 +169,176 @@ func (monitorClient MonitorClient) requestToServer(outputChannel chan<- MonitorS
 	decoder := json.NewDecoder(response.Body)
 
 	if err := decoder.Decode(&monitorServerResponse); err != nil {
-		tools.ErrorLogger.Println(templates.ResponseMonitorError, monitorServerIp, monitorServerResponse.ErrorMessage)
+
+		tools.ErrorLogger.Println(
+			msg.ResponseMonitorError,
+			monitorServerIp,
+			monitorServerResponse.ErrorMsg,
+		)
+
 		outputChannel <- MonitorServerResponse{
-			ErrorMessage: err.Error(),
+			ErrorMsg: err.Error(),
 		}
+		return
 	}
 
 	// 모니터 서버 테스트 결과 확인
-	if monitorServerResponse.RedisNodeAddress == redisNodeIp {
-		tools.InfoLogger.Println(templates.ResponseFromTargetMonitor, monitorServerResponse.IsAlive)
+	tools.InfoLogger.Println(
+		msg.ResponseFromTargetMonitor,
+		monitorServerResponse.IsAlive,
+	)
+
+	outputChannel <- MonitorServerResponse{
+		IsAlive:  monitorServerResponse.IsAlive,
+		ErrorMsg: "",
+	}
+}
+
+func (monitorClient MonitorClient) requestNewConnect(monitorServerIp, redisNodeIp string, outputChannel chan<- MonitorServerResponse) {
+
+	requestURI := fmt.Sprintf("http://%s/monitor/connect/%s", monitorServerIp, redisNodeIp)
+
+	tools.InfoLogger.Println(msg.RequestTargetMonitor, requestURI)
+
+	client := &http.Client{}
+
+	var requestBody bytes.Buffer
+
+	registerRequest, err := http.NewRequest("POST", requestURI, &requestBody)
+	if err != nil {
+		tools.ErrorLogger.Printf(
+			msg.CreateRequestError,
+			monitorServerIp,
+			err,
+		)
 
 		outputChannel <- MonitorServerResponse{
-			IsAlive:      monitorServerResponse.IsAlive,
-			ErrorMessage: "",
+			ErrorMsg: fmt.Sprintf(
+				msg.CreateRequestError,
+				monitorServerIp,
+				err,
+			),
 		}
-	} else {
-		tools.ErrorLogger.Println(templates.ResponseMonitorError, monitorServerIp, monitorServerResponse.ErrorMessage)
+		return
+	}
+
+	// 서버 요청 타임아웃 설정
+	go serverTimoutChecker(monitorServerIp, outputChannel)
+
+	response, err := client.Do(registerRequest)
+	if err != nil {
+		tools.ErrorLogger.Printf(
+			msg.ResponseMonitorError,
+			monitorServerIp,
+			err,
+		)
+
 		outputChannel <- MonitorServerResponse{
-			ErrorMessage: fmt.Sprintf(templates.ResponseMonitorError, monitorServerIp, templates.NoMatchingResponseNode),
+			ErrorMsg: fmt.Sprintf(
+				msg.ResponseMonitorError,
+				monitorServerIp,
+				err,
+			),
 		}
+		return
+	}
+	defer response.Body.Close()
+
+	// 모니터 서버 응답 파싱
+	var monitorServerResponse MonitorServerResponse
+	decoder := json.NewDecoder(response.Body)
+
+	if err := decoder.Decode(&monitorServerResponse); err != nil {
+		tools.ErrorLogger.Println(
+			msg.ResponseMonitorError,
+			monitorServerIp,
+			monitorServerResponse.ErrorMsg,
+		)
+
+		outputChannel <- MonitorServerResponse{
+			ErrorMsg: err.Error(),
+		}
+		return
+	}
+
+	outputChannel <- MonitorServerResponse{
+		ErrorMsg: monitorServerResponse.ErrorMsg,
+	}
+}
+
+func serverTimoutChecker(monitorServerIp string, outputChannel chan<- MonitorServerResponse) {
+	time.Sleep(3 * time.Second)
+	outputChannel <- MonitorServerResponse{
+		ErrorMsg: fmt.Sprintf(msg.MonitorRequestTimeout, monitorServerIp),
+	}
+}
+
+func (monitorClient MonitorClient) requestUnregister(monitorServerIp, redisNodeIp string, outputChannel chan<- MonitorServerResponse) {
+
+	requestURI := fmt.Sprintf("http://%s/monitor/connect/%s", monitorServerIp, redisNodeIp)
+
+	tools.InfoLogger.Println(msg.RequestTargetMonitor, requestURI)
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest("DELETE", requestURI, nil)
+	if err != nil {
+		tools.ErrorLogger.Printf(
+			msg.CreateRequestError,
+			err,
+		)
+
+		outputChannel <- MonitorServerResponse{
+			ErrorMsg: fmt.Sprintf(
+				msg.CreateRequestError,
+				monitorServerIp,
+				err,
+			),
+		}
+		return
+	}
+
+	// 서버 요청 타임아웃 설정
+	go serverTimoutChecker(monitorServerIp, outputChannel)
+
+	// 모니터 서버에 요청
+	response, err := client.Do(req)
+	if err != nil {
+		tools.ErrorLogger.Printf(
+			msg.ResponseMonitorError,
+			monitorServerIp,
+			err,
+		)
+
+		outputChannel <- MonitorServerResponse{
+			ErrorMsg: fmt.Sprintf(
+				msg.ResponseMonitorError,
+				monitorServerIp,
+				err,
+			),
+		}
+		return
+	}
+	defer response.Body.Close()
+
+	// 모니터 서버 응답 파싱
+	var monitorServerResponse MonitorServerResponse
+	decoder := json.NewDecoder(response.Body)
+
+	if err := decoder.Decode(&monitorServerResponse); err != nil {
+		tools.ErrorLogger.Println(
+			msg.ResponseMonitorError,
+			monitorServerIp,
+			monitorServerResponse.ErrorMsg,
+		)
+
+		outputChannel <- MonitorServerResponse{
+			ErrorMsg: err.Error(),
+		}
+		return
+	}
+
+	outputChannel <- MonitorServerResponse{
+		ErrorMsg: monitorServerResponse.ErrorMsg,
 	}
 }

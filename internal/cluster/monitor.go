@@ -1,8 +1,8 @@
 package cluster
 
 import (
-	"interface_hash_server/internal/cluster/templates"
-	"interface_hash_server/tools"
+	"hash_interface/internal/cluster/message"
+	"hash_interface/tools"
 	"time"
 )
 
@@ -29,9 +29,6 @@ func StartMonitorNodes() {
 			select {
 			case <-ticker.C:
 
-				// start := time.Now()
-				// fmt.Printf("타이머 시간 재기 시작 : %v\n", start)
-
 				if err := checkRedisClientSetup(); err != nil {
 					errorChannel <- err
 				}
@@ -40,12 +37,10 @@ func StartMonitorNodes() {
 					go eachMasterClient.handleIfDeadWithLock(errorChannel)
 				}
 
-				// fmt.Printf("GetRedisclient 걸린 시간 %v\n", time.Since(start))
-
 			case <-errorChannel:
 				ticker.Stop()
 				close(errorChannel)
-				tools.ErrorLogger.Println(templates.MonitorNodesError)
+				tools.ErrorLogger.Println(message.MonitorNodesError)
 				return
 			}
 		}

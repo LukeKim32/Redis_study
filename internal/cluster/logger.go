@@ -3,9 +3,9 @@ package cluster
 import (
 	"bufio"
 	"fmt"
-	"interface_hash_server/internal/hash"
-	"interface_hash_server/internal/models"
-	"interface_hash_server/tools"
+	msg "hash_interface/internal/cluster/message"
+	"hash_interface/internal/hash"
+	"hash_interface/tools"
 	"log"
 	"os"
 	"strconv"
@@ -16,40 +16,64 @@ import (
 var dataLoggers map[string] /* key = each Node's address*/ *log.Logger
 
 type logFormat struct {
-	models.KeyValuePair
+	KeyValuePair
 	Command string
+}
+
+type KeyValuePair struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 const (
 	//LogDirectory is a directory path where log files are saved
 	logDirectory = "./internal/cluster/dump"
 
-	/* constants for "index" of Data Log each lines */
-	hashIndexWord = 0
-	commandWord   = 1
-	keyWord       = 2
-	valueWord     = 3
+	// dataLogFormat : 순서대로 (해쉬값, 명령, Key, Value)
+	dataLogFormat = "%d %s %s %s"
 )
+
+const (
+	/* constants for "index" of Data Log each lines */
+	hashIndexWord = iota
+	commandWord
+	keyWord
+	valueWord
+)
+
+// KeyValueMap : Key -> Value map
+type KeyValueMap map[string]string
+
+// HashToDataMap : Hash Index -> (Key -> Value) map
+type HashToDataMap map[uint16]KeyValueMap
+
+func init() {
+	if _, err := os.Stat(logDirectory); os.IsNotExist(err) {
+		// rwxrwxrwx (777)
+		os.Mkdir(logDirectory, os.ModePerm)
+	}
+
+	if dataLoggers == nil {
+		dataLoggers = make(map[string]*log.Logger)
+	}
+}
 
 // SetUpModificationLogger 는 Data Modification이 일어날 때 파일에 기록을 하기 위한 로거 세터
 /*	For Data persistency support
  */
 func SetUpModificationLogger(nodeAddressList []string) {
 
-	if _, err := os.Stat(logDirectory); os.IsNotExist(err) {
-		// rwxrwxrwx (777)
-		os.Mkdir(logDirectory, os.ModePerm)
-	}
-
-	dataLoggers = make(map[string]*log.Logger)
-
 	for _, eachNodeAddress := range nodeAddressList {
-		// 각 노드의 주소 = 각 파일명
-		createDataLogFile(eachNodeAddress)
+
+		if err := createDataLogFile(eachNodeAddress); err != nil {
+			tools.ErrorLogger.Println(msg.CreateLogFileError)
+			log.Fatal(err)
+		}
 	}
 
 }
 
+// createDataLogFile : 각 노드의 주소 = 각 파일명
 func createDataLogFile(address string) error {
 	filePath := fmt.Sprintf("%s/%s", logDirectory, address)
 
@@ -68,48 +92,71 @@ func createDataLogFile(address string) error {
 
 func (redisClient RedisClient) RecordModificationLog(command string, key string, value string) error {
 
-	tools.InfoLogger.Printf("%s 노드에 데이터 수정사항 로그 저장", redisClient.Address)
+	tools.InfoLogger.Printf(msg.RecordDataLogStart, redisClient.Address)
 
 	targetDataLogger, isSet := dataLoggers[redisClient.Address]
 	if isSet == false {
-		return fmt.Errorf("RecordModificationLog() : data Logger is not set up")
+		return fmt.Errorf(msg.DataLoggerSetupError)
 	}
 
 	hashSlotIndex := hash.GetHashSlotIndex(key)
-	targetDataLogger.Printf("%d %s %s %s", hashSlotIndex, command, key, value)
+	targetDataLogger.Printf(
+		dataLogFormat,
+		hashSlotIndex,
+		command,
+		key,
+		value,
+	)
 
 	return nil
 }
 
-// readDataLogs reads Node's data log file and records the information in @hashIndexToKeyValuePairMap
-func (redisClient RedisClient) getLatestDataFromLog(hashIndexToKeyValueMap map[uint16](map[string]string)) error {
+// getLatestDataFromLog : 인스턴스의 데이터 로그파일을 읽어 @dataContainer에 (key, value)로 저장한다.
+// 동일한 Key 값에 대해서는 최신의 데이터가 저장된다.
+//
+func (redisClient RedisClient) getLatestDataFromLog(dataContainer HashToDataMap) error {
+
+	tools.InfoLogger.Printf(msg.ReadDataLogStart, redisClient.Address)
+
 	filePath := fmt.Sprintf("%s/%s", logDirectory, redisClient.Address)
 	file, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("readDataLogs() : opening file %s error - %s", filePath, err.Error())
+		err := fmt.Errorf(msg.DataLogOpenError, filePath, err.Error())
+		tools.ErrorLogger.Printf(err.Error())
+		return err
 	}
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
+
+	// 로그 파일의 끝까지 한 줄 씩 읽는다.
 	for scanner.Scan() {
+
+		// 공백 기준으로 Split
 		words := strings.Fields(scanner.Text())
 		hashIndexIn64, err := strconv.ParseUint(words[hashIndexWord], 10, 16)
 		if err != nil {
-			return fmt.Errorf("readDataLogs() : Parsing hash index error")
+			return fmt.Errorf(msg.ParseHashIndexStringError)
 		}
 
 		hashIndex := uint16(hashIndexIn64)
 
-		tools.InfoLogger.Printf("readDataLogs() : data log file read result : %d %s %s %s\n",
-			hashIndex, words[commandWord], words[keyWord], words[valueWord])
+		tools.InfoLogger.Printf(
+			msg.ReadDataLogEachLine,
+			hashIndex,
+			words[commandWord],
+			words[keyWord],
+			words[valueWord],
+		)
 
-		if hashIndexToKeyValueMap[hashIndex] == nil {
-			hashIndexToKeyValueMap[hashIndex] = make(map[string]string)
+		if dataContainer[hashIndex] == nil {
+			dataContainer[hashIndex] = make(map[string]string)
 		}
 
-		keyValueMap := hashIndexToKeyValueMap[hashIndex]
+		keyValueMap := dataContainer[hashIndex]
 
-		// Record Logs to Map (Latest Modification will overwrite previous data)
+		// 데이터 로그 => @dataContainer에 기록
+		// 가장 최신의 데이터만 기록에 남음 (이전 데이터 덮어씌움)
 		switch words[commandWord] {
 		case "SET":
 			keyValueMap[words[keyWord]] = words[valueWord]
@@ -118,13 +165,15 @@ func (redisClient RedisClient) getLatestDataFromLog(hashIndexToKeyValueMap map[u
 			delete(keyValueMap, words[keyWord])
 			break
 		default:
-			return fmt.Errorf("readDataLogs() : Unavailable Command(%s) read from log file", words[commandWord])
+			return fmt.Errorf(msg.UnsupportedCommand, words[commandWord])
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
-		return fmt.Errorf("readDataLogs() : scanner error - %s", err.Error())
+		return fmt.Errorf(msg.FileScannerError, err.Error())
 	}
+
+	tools.InfoLogger.Printf("노드(%s)의 데이터 로그 파일 읽기 완료", redisClient.Address)
 
 	return nil
 }
@@ -134,7 +183,7 @@ func (redisClient RedisClient) readDataLogs(hashIndexToLogFormatMap map[uint16][
 	filePath := fmt.Sprintf("%s/%s", logDirectory, redisClient.Address)
 	file, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("readDataLogs() : opening file %s error - %s", filePath, err.Error())
+		return fmt.Errorf(msg.DataLogOpenError, filePath, err.Error())
 	}
 	defer file.Close()
 
@@ -143,7 +192,7 @@ func (redisClient RedisClient) readDataLogs(hashIndexToLogFormatMap map[uint16][
 		words := strings.Fields(scanner.Text())
 		hashIndexIn64, err := strconv.ParseUint(words[hashIndexWord], 10, 16)
 		if err != nil {
-			return fmt.Errorf("readDataLogs() : Parsing hash index error")
+			return fmt.Errorf(msg.ParseHashIndexStringError)
 		}
 
 		hashIndex := uint16(hashIndexIn64)
@@ -153,24 +202,48 @@ func (redisClient RedisClient) readDataLogs(hashIndexToLogFormatMap map[uint16][
 		logFormat.Value = words[valueWord]
 		logFormat.Command = words[commandWord]
 
-		tools.InfoLogger.Printf("readDataLogs() : data log file read result : %d %s %s %s\n",
-			hashIndex, words[commandWord], words[keyWord], words[valueWord])
+		// 공백을 기준으로 split을 하므로, Value 값이 쪼개진 경우 처리
+		if len(words) > 4 {
+			for i := 4; i < len(words); i++ {
+				logFormat.Value += fmt.Sprintf(" %s", words[i])
+			}
+		}
 
-		hashIndexToLogFormatMap[hashIndex] = append(hashIndexToLogFormatMap[hashIndex], logFormat)
+		tools.InfoLogger.Printf(
+			msg.ReadDataLogEachLine,
+			hashIndex,
+			words[commandWord],
+			words[keyWord],
+			words[valueWord],
+		)
+
+		hashIndexToLogFormatMap[hashIndex] = append(
+			hashIndexToLogFormatMap[hashIndex],
+			logFormat,
+		)
 	}
 
 	if err := scanner.Err(); err != nil {
-		return fmt.Errorf("readDataLogs() : scanner error - %s", err.Error())
+		return fmt.Errorf(msg.FileScannerError, err.Error())
 	}
 
 	return nil
 }
 
-func (redisClient RedisClient) removeDataLogs() error {
+func (redisClient RedisClient) createDataLogFile() error {
+
+	if err := createDataLogFile(redisClient.Address); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (redisClient RedisClient) removeDataLogFile() error {
 	filePath := fmt.Sprintf("%s/%s", logDirectory, redisClient.Address)
 
 	if err := os.Remove(filePath); err != nil {
-		return fmt.Errorf("removeDataLogs() : removing file %s error - %s", filePath, err.Error())
+		return fmt.Errorf(msg.RemoveLogFileError, filePath, err.Error())
 	}
 
 	delete(dataLoggers, redisClient.Address)
