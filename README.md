@@ -5,63 +5,28 @@ tried to *implement Redis-Cluster-like interface server* to study in-memory, has
 
 ## Features
 
-- Simple "SET", "GET" command used in Redis supported
+- "SET", "GET" command used in Redis supported
 - Hash Slot implemented with CRC16 key modulo 16384 (Similar like Redis-Cluster) 
-- Reverse Proxy (Nginx) Load Balancing(RR)
+- Master-Slave Replication
+- Failover Recovery : Slave Dead, Restarts Container / Both Master-Slave dead, Redistribute Data and Hash slots
 - Other Containers (except Proxy) Unreachable (port not binded to machine)
-- Specific Persistence Option will be later updated
+- Deprecated *(Reverse Proxy (Nginx) Load Balancing(RR))*
 
 ## Installation
 
+- 0. ***Currently Only Linux supported, with Docker daemon installed with socket opened for DooD***
+> How to open Docker socket for DooD in Linux ?
+> 1. open /lib/systemd/system/docker.service 
+> 2. 파일의 "ExecStart" 부분에 Open할 주소 명시 후 Reload
+> - ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock ***-H tcp://0.0.0.0:2375***
+
 - 1. Clone the repository
 - 2. "make run"
-- 3-1. To Set Key-Value, Send @POST Request to "http://localhost:8001/hash/data" (localhost can be replaced with public IP)
-> Request Body format : { "data" : ["key","value"}] } <br><br>
-ex : ``` { 
-  "data" : [{
-  	"key" : 문자,
-	"value" : 문자
-	},
-	{
-  	"key" : 문자,
-	"value" : 문자
-	}, ...
-]
- } ```
-
-<br>
-
-> Response : <br> 1. "message" : Request Command Success/Fail result + Interface Server IP(to check LoadBalance) <br> 2. "redis": 1) response of Redis container & 2) Redis Node address(to check if Hash works) <br><br> ex : ``` {
-    "message": "SET foo bar Success : Handled in Server(IP : 172.29.0.3)",
-    "response" : [{
-    	"result" : 보낸 key-value 명령,
-	"handle_node" : 명령을 수행한 Redis Node 주소 
-    }, ... , 
-    ],
-    "_links": {
-        "message": "Main URL",
-		"href": "http://localhost/interface"
-	}
-}```
-
-- 3-2. To Get Value With Key, Send @GET Request to "http://localhost:8001/hash/data/{key}" 
-
-<br>
-
-> Response :
-<br> ex : ``` {
-    "message": "SET foo bar Success : Handled in Server(IP : 172.29.0.3)",
-    "response" : Value,
-    "_links": {
-        "message": "Main URL",
-		"href": "http://localhost/interface"
-	}
-}```
+- 3. To test, run the cli packaged in ./main/cli,
+-    Or Directly HTTP request to Server (Document : "http://localhost:8888/api/v1/docs"
 
 ## Server 
   
 - 서버 구성도 :
  <img width="765" alt="스크린샷 2020-02-14 오전 11 13 26" src="https://user-images.githubusercontent.com/48001093/74495405-2d3e7280-4f1b-11ea-9e4d-783e88ca2011.png">
-
-- API docs 현재 미사용
 
