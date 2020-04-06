@@ -10,15 +10,22 @@ import (
 	"hash_interface/internal/routers"
 	"hash_interface/tools"
 
+	_ "hash_interface/docs"
+
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// @title Redis Cluster Interface Test Server
-// @version 1.0
+// @title Redis-Cluster/Sentinel-Like Server
+// @version 1.1
+// @description This service presents group of Redis nodes and the interface of them
+// @description to test master/slave replication, data persistence, failover redemption
 
-// @contact.name 김예찬
+// @contact.name 김예찬 (Luke Kim)
 // @contact.email burgund32@gmail.com
-// @BasePath /api/v1/projects
+
+// @host localhost:8888
+// @BasePath /api/v1
 func main() {
 
 	var err error
@@ -74,6 +81,9 @@ func main() {
 	cluster.StartMonitorNodes()
 
 	router := mux.NewRouter()
+
+	router.PathPrefix("/api/v1/docs/").
+		Handler(httpSwagger.WrapHandler)
 
 	// Interface Server Router 설정
 	routers.SetUpInterfaceRouter(router)

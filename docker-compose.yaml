@@ -2,8 +2,9 @@ version: '3'
 services:
     proxy_test:
         build:
-            context: ./proxy
-        container_name: proxy_test
+            context : ./
+            dockerfile: ./docker/dockerfiles/proxy/Dockerfile
+        container_name: proxy_hash
         networks:
             mynet:
                 ipv4_address: 172.29.0.2
@@ -25,9 +26,8 @@ services:
             - "8888"
         volumes:
             - ./docker/mount/interface/logs:/app/logs
-            - /var/run/docker.sock:/var/run/docker.sock
             # Path for linux
-            # - /var/run/docker.sock:/var/run/docker.sock
+            - /var/run/docker.sock:/var/run/docker.sock
         environment:
             - GOPATH=/go
         links:

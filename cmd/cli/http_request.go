@@ -5,13 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 
 	"hash_interface/internal/cluster"
 	"hash_interface/internal/models"
 	"hash_interface/internal/models/response"
 )
 
-const baseUrl = "http://10.113.93.194:8001"
+// Naver LABS internal Server "http://10.113.93.194:8001"
+var baseUrl = os.Getenv("DEPLOY_SEVER_URL")
 
 func requestAddClientToServer(dataFlags clientFlag) error {
 
@@ -20,18 +22,15 @@ func requestAddClientToServer(dataFlags clientFlag) error {
 	client := &http.Client{}
 
 	requestData := models.NewClientRequestContainer{}
-	requestData.Address = dataFlags.Address
 
-	if dataFlags.Slave {
+	if dataFlags.SlaveAddress != "" {
 
-		if dataFlags.SlaveOf != "" {
-			return fmt.Errorf("새로운 Slave의 Master 주소를 입력해주세요")
-		}
-
+		requestData.Address = dataFlags.SlaveAddress
 		requestData.Role = "slave"
-		requestData.MasterAddress = dataFlags.SlaveOf
+		requestData.MasterAddress = dataFlags.MasterAddress
 
 	} else {
+		requestData.Address = dataFlags.MasterAddress
 		requestData.Role = "master"
 	}
 
@@ -53,7 +52,6 @@ func requestAddClientToServer(dataFlags clientFlag) error {
 	}
 	defer res.Body.Close()
 
-	// 해쉬 서버 응답 파싱
 	var hashServerResponse response.RedisListTemplate
 	decoder := json.NewDecoder(res.Body)
 
@@ -61,7 +59,7 @@ func requestAddClientToServer(dataFlags clientFlag) error {
 		return err
 	}
 
-	fmt.Printf("  Add New Client (%s) 명령 수행 : \n", dataFlags.Address)
+	fmt.Printf("  Add New Client (%s) 명령 수행 : \n", requestData.Role)
 	fmt.Printf("    - 결과 : %s\n", hashServerResponse.Message)
 	fmt.Printf("    - 현재 등록된 마스터 : \n")
 	for i, eachMaster := range hashServerResponse.Masters {
@@ -78,14 +76,12 @@ func requestClientListToServer() error {
 
 	requestURI := fmt.Sprintf("%s/clients", baseUrl)
 
-	// 모니터 서버에 요청
 	res, err := http.Get(requestURI)
 	if err != nil {
 		return err
 	}
 	defer res.Body.Close()
 
-	// 해쉬 서버 응답 파싱
 	var hashServerResponse response.RedisListTemplate
 	decoder := json.NewDecoder(res.Body)
 
@@ -109,14 +105,12 @@ func requestClientListToServer() error {
 func requestGetToServer(key string) error {
 	requestURI := fmt.Sprintf("%s/hash/data/%s", baseUrl, key)
 
-	// 모니터 서버에 요청
 	res, err := http.Get(requestURI)
 	if err != nil {
 		return err
 	}
 	defer res.Body.Close()
 
-	// 해쉬 서버 응답 파싱
 	var hashServerResponse response.GetResultTemplate
 	decoder := json.NewDecoder(res.Body)
 
@@ -163,7 +157,6 @@ func requestSetToServer(dataFlags dataFlag) error {
 	}
 	defer res.Body.Close()
 
-	// 해쉬 서버 응답 파싱
 	var hashServerResponse response.SetResultTemplate
 	decoder := json.NewDecoder(res.Body)
 

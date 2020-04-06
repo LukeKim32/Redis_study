@@ -16,10 +16,8 @@ type dataFlag struct {
 }
 
 type clientFlag struct {
-	Address string `short:"a" long:"addr" description:"IP(+port) address of Redis Node to be added"`
-	Slave   bool   `short:"s" long:"slave" description:"If the passed address is slave client"`
-	Master  bool   `short:"s" long:"slave" description:"If the passed address is master client"`
-	SlaveOf string `long:"slaveOf" description:"IP(+port) address of Master Redis Node"`
+	MasterAddress string `short:"m" long:"master" description:"master flag works as both adding new master and specifying target master of adding slave"`
+	SlaveAddress  string `short:"s" long:"slave" description:"If slave to be added, master flag must also be passed with specific address"`
 }
 
 const (
@@ -61,6 +59,9 @@ func main() {
 		switch words[commandIdx] {
 		case Help:
 			// print Instructions
+			printInstructions()
+			break
+
 		case Get:
 
 			dataFlags := dataFlag{}
@@ -120,19 +121,41 @@ func main() {
 	}
 }
 
+func printInstructions() {
+	fmt.Println("Usage :")
+	fmt.Println("[COMMANDS] [OPTIONS] [OPTIONS]")
+	fmt.Println(" ")
+	fmt.Println("Application Commands : ")
+	fmt.Println("get 		Retreieve stored value with passed key")
+	fmt.Println("set 		Store key and value")
+	fmt.Println("add 		Add new Redis client node (master / slave)")
+	fmt.Println("list/ls 	Print current registered Redis master, slave clients list")
+	fmt.Println("exit/quit 	Exit cli")
+	fmt.Println(" ")
+	fmt.Println("get/set Options : ")
+	fmt.Println("-k, --key= 	key of (key, value) pair to save(set) or retreive(get)")
+	fmt.Println("-v, --value= 	value of (key, value) pair to save(set)")
+	fmt.Println(" 				(ex. set -k foo -v bar / get -k foo )")
+	fmt.Println("add Options : ")
+	fmt.Println("-m, --master= 	new Redis node address")
+	fmt.Println("				Used for specifying existing Master client,")
+	fmt.Println("				if 'slave' flag is set)")
+	fmt.Println("-s, --slave= 	new Redis Slave node address")
+	fmt.Println("				'master' flag must be set to specify new slave's master")
+
+}
+
 func parseClientFlags(clientFlags *clientFlag, words []string) error {
 
 	if _, err := flags.ParseArgs(clientFlags, words); err != nil {
 		return err
 	}
 
-	if clientFlags.Address != "" {
-		return fmt.Errorf("Add command must have 'Address' flag")
-	}
-
-	// 둘 중에 하나는 값이 true 여야 한다 (XOR true가 아닌 경우 에러)
-	if !(clientFlags.Master != clientFlags.Slave) {
-		return fmt.Errorf("Only one of Master Or Slave Flags must be set")
+	if clientFlags.MasterAddress == "" {
+		if clientFlags.SlaveAddress == "" {
+			return fmt.Errorf("Flags must be set for Client Addition")
+		}
+		return fmt.Errorf("Master Flag must be presented")
 	}
 
 	return nil

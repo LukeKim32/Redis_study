@@ -22,6 +22,16 @@ import (
 //  3) NodeAddressMap[hashSlot Index] 위치의 Redis 노드에 Request 받은 명령 전달
 //  4) Redis 노드의 Response 받아 클라이언트한테 전달
 //
+
+// @Summary Set new Key, Value Pair
+// @Description ## Key, Value 쌍 저장
+// @Description **기존 값이 존재할 경우 덮어씌워진다**
+// @Accept json
+// @Produce json
+// @Router /hash/data [post]
+// @Param newSetData body models.DataRequestContainer true "Multiple Pairs can be set"
+// @Success 200 {object} response.SetResultTemplate
+// @Failure 500 {object} response.BasicTemplate "서버 오류"
 func SetKeyValue(res http.ResponseWriter, req *http.Request) {
 
 	// To check if load balancing(Round-robin) works
@@ -105,6 +115,15 @@ func SetKeyValue(res http.ResponseWriter, req *http.Request) {
 // GetValueFromKey is a handler function for @GET, processing the reqeust
 // URI로 전달받은 Key값을 가져온다.
 //
+
+// @Summary Get stored Value with passed Key
+// @Description ## 요청한 Key 값에 저장된 Value 값 가져오기
+// @Accept json
+// @Produce json
+// @Router /hash/data/{key} [get]
+// @Param key path string true "Target Key"
+// @Success 200 {object} response.GetResultTemplate
+// @Failure 500 {object} response.BasicTemplate "서버 오류"
 func GetValueFromKey(res http.ResponseWriter, req *http.Request) {
 
 	// To check if load balancing(Round-robin) works
@@ -152,9 +171,15 @@ func GetValueFromKey(res http.ResponseWriter, req *http.Request) {
 	responseOK(res, responseBody)
 }
 
-// AddNewClient is a handler function for @GET, processing the reqeust
-// URI로 전달받은 Key값을 가져온다.
-//
+// @Summary Add New Master/Slave Redis Clients
+// @Description **Slave 추가 시,** 반드시 요청 바디에 **"master_address" 필드에 타겟 노드 주소 설정**
+// @Description Master, Slave 운용하고 싶지 않은 경우, 모두 Master로 등록
+// @Accept json
+// @Produce json
+// @Router /clients [post]
+// @Param newSetData body models.NewClientRequestContainer true "Specifying Role and Address of New Node"
+// @Success 200 {object} response.RedisListTemplate
+// @Failure 500 {object} response.BasicTemplate "서버 오류"
 func AddNewClient(res http.ResponseWriter, req *http.Request) {
 
 	// To check if load balancing(Round-robin) works
@@ -246,9 +271,12 @@ func AddNewClient(res http.ResponseWriter, req *http.Request) {
 	responseOK(res, responseBody)
 }
 
-// GetClients is a handler function for @GET, processing the reqeust
-// URI로 전달받은 Key값을 가져온다.
-//
+// @Summary Get Currently Registered Master/Slave Redis Clients
+// @Accept json
+// @Produce json
+// @Router /clients [get]
+// @Success 200 {object} response.RedisListTemplate
+// @Failure 500 {object} response.BasicTemplate "서버 오류"
 func GetClients(res http.ResponseWriter, req *http.Request) {
 
 	// To check if load balancing(Round-robin) works

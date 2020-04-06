@@ -1,18 +1,15 @@
 # interface-hash-server
-interface-hash-server is a interface server communicates with Users externally, and 
-Redis containers internally at the same time
-
-Used only Key-Value storing feature of Redis,
-Implemented Features like Redis Sentinel and Cluster
+interface-hash-db is a interface server communicates with Users externally, Redis containers internally at the same time
+tried to *implement Redis-Cluster-like interface server* to study in-memory, hash database
+(Study about Redis will be updated later)
 
 ## Features
 
 - Simple "SET", "GET" command used in Redis supported
 - Hash Slot implemented with CRC16 key modulo 16384 (Similar like Redis-Cluster) 
-- Master-Slave replication supported
-- Data Redistribution after Master-Slave set fails
-- Slave Container Restart If fails, with Docker-out-of-Docker (Linux socket open/Mac not supported yet)
+- Reverse Proxy (Nginx) Load Balancing(RR)
 - Other Containers (except Proxy) Unreachable (port not binded to machine)
+- Specific Persistence Option will be later updated
 
 ## Installation
 
