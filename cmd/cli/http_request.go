@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 
 	"hash_interface/internal/cluster"
 	"hash_interface/internal/models"
@@ -13,7 +12,6 @@ import (
 )
 
 // Naver LABS internal Server "http://10.113.93.194:8001"
-var baseUrl = os.Getenv("DEPLOY_SEVER_URL")
 
 func requestAddClientToServer(dataFlags clientFlag) error {
 

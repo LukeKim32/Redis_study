@@ -38,9 +38,14 @@ const (
 	Quit = "quit"
 )
 
+var baseUrl = os.Getenv("CLUSTER_SEVER_URL")
+
 func main() {
 
 	stdReader := bufio.NewReader(os.Stdin)
+	if baseUrl == "" {
+		baseUrl = "http://localhost:8888"
+	}
 
 	for {
 
@@ -93,8 +98,8 @@ func main() {
 			break
 
 		case Add:
-			clientFlags := clientFlag{}
-			if err := parseClientFlags(&clientFlags, words); err != nil {
+			clientFlags, err := parseClientFlags(words)
+			if err != nil {
 				fmt.Println(err)
 				continue
 			}
@@ -145,20 +150,21 @@ func printInstructions() {
 
 }
 
-func parseClientFlags(clientFlags *clientFlag, words []string) error {
+func parseClientFlags(words []string) (clientFlag, error) {
 
-	if _, err := flags.ParseArgs(clientFlags, words); err != nil {
-		return err
+	clientFlags := clientFlag{}
+	if _, err := flags.ParseArgs(&clientFlags, words); err != nil {
+		return clientFlag{}, err
 	}
 
 	if clientFlags.MasterAddress == "" {
 		if clientFlags.SlaveAddress == "" {
-			return fmt.Errorf("Flags must be set for Client Addition")
+			return clientFlag{}, fmt.Errorf("Flags must be set for Client Addition")
 		}
-		return fmt.Errorf("Master Flag must be presented")
+		return clientFlag{}, fmt.Errorf("Master Flag must be presented")
 	}
 
-	return nil
+	return clientFlags, nil
 }
 
 func parseGetFlags(dataFlags *dataFlag, words []string) error {
