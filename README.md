@@ -22,8 +22,33 @@ tried to *implement Redis-Cluster-like interface server* to study in-memory, has
 
 - 1. Clone the repository
 - 2. "make run"
-- 3. To test, run the cli packaged in ./main/cli,
+- 3. To test, run the cli packaged in ./main/cli with ***make cli***
 -    Or Directly HTTP request to Server (Document : "http://localhost:8888/api/v1/docs"
+
+## CLI usage
+- env CLUSTER_SEVER_URL : 서비스 구동 서버 주소 (default : localhost)
+``` 
+Usage :
+[COMMANDS] [OPTIONS] [OPTIONS]
+ 
+Application Commands : 
+get             Retreieve stored value with passed key
+set             Store key and value
+add             Add new Redis client node (master / slave)
+list/ls         Print current registered Redis master, slave clients list
+exit/quit       Exit cli
+ 
+get/set Options : 
+-k, --key=      key of (key, value) pair to save(set) or retreive(get)
+-v, --value=    value of (key, value) pair to save(set)
+                                (ex. set -k foo -v bar / get -k foo )
+add Options : 
+-m, --master=   new Redis node address
+                                Used for specifying existing Master client,
+                                if 'slave' flag is set)
+-s, --slave=    new Redis Slave node address
+                                'master' flag must be set to specify new slave's master
+```
 
 ## Server 
   
