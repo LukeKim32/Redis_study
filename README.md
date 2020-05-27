@@ -1,5 +1,6 @@
-# interface-hash-server
-interface-hash-db is a interface server communicates with Users externally, Redis containers internally at the same time
+# Key-value-store
+This project is a key-value store, which saves data in distributed multiple redis nodes. 
+There is an Interface server, which communicates with Users externally, while internally with Redis containers at the same time
 tried to *implement Redis-Cluster-like interface server* to study in-memory, hash database
 (Study about Redis will be updated later)
 
