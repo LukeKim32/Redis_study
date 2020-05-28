@@ -25,10 +25,10 @@ const (
 
 func init() {
 	if masterSlaveMap == nil {
-		masterSlaveMap = make(map[string]RedisClient)
+		masterSlaveMap = make(map[string]*RedisClient)
 	}
 	if slaveMasterMap == nil {
-		slaveMasterMap = make(map[string]RedisClient)
+		slaveMasterMap = make(map[string]*RedisClient)
 	}
 	if MasterSlaveChannelMap == nil {
 		MasterSlaveChannelMap = make(map[string](chan MasterSlaveMessage))
@@ -75,7 +75,7 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 		case Default:
 
 			newRedisClient.Role = MasterRole
-			redisMasterClients = append(redisMasterClients, newRedisClient)
+			redisMasterClients = append(redisMasterClients, &newRedisClient)
 
 		case InitSlaveSetup:
 
@@ -91,11 +91,11 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 			targetMasterClient := redisMasterClients[index]
 
 			newRedisClient.Role = SlaveRole
-			redisSlaveClients = append(redisSlaveClients, newRedisClient)
+			redisSlaveClients = append(redisSlaveClients, &newRedisClient)
 
 			// Mutex for each Master-Slave set
 			redisMutexMap[targetMasterClient.Address] = &sync.Mutex{}
-			initMasterSlaveMaps(targetMasterClient, newRedisClient)
+			initMasterSlaveMaps(targetMasterClient, &newRedisClient)
 
 			tools.InfoLogger.Printf(
 				msg.SlaveMappedToMaster,
@@ -110,7 +110,7 @@ func NodeConnectionSetup(addressList []string, connectOption ConnectOption) erro
 			}
 
 			newRedisClient.Role = SlaveRole
-			redisSlaveClients = append(redisSlaveClients, newRedisClient)
+			redisSlaveClients = append(redisSlaveClients, &newRedisClient)
 
 		}
 
@@ -136,7 +136,7 @@ func MakeHashMapToRedis() error {
 			float64(i+1) / float64(connectionCount) * float64(hash.HashSlotsNumber),
 		)
 
-		hashSlot.assign(&redisMasterClients[i], hashSlotStart, hashSlotEnd)
+		hashSlot.assign(redisMasterClients[i], hashSlotStart, hashSlotEnd)
 
 		newHashRange := HashRange{
 			startIndex: hashSlotStart,
@@ -158,7 +158,7 @@ func MakeHashMapToRedis() error {
 	return nil
 }
 
-func initMasterSlaveMaps(masterNode RedisClient, slaveNode RedisClient) {
+func initMasterSlaveMaps(masterNode *RedisClient, slaveNode *RedisClient) {
 
 	masterSlaveMap[masterNode.Address] = slaveNode
 	slaveMasterMap[slaveNode.Address] = masterNode
@@ -190,8 +190,8 @@ func (slaveClient *RedisClient) connectToMaster(masterClient *RedisClient) error
 
 	// 슬레이브 환경 설정
 	slaveClient.Role = SlaveRole
-	redisSlaveClients = append(redisSlaveClients, *slaveClient)
-	initMasterSlaveMaps(*masterClient, *slaveClient)
+	redisSlaveClients = append(redisSlaveClients, slaveClient)
+	initMasterSlaveMaps(masterClient, slaveClient)
 
 	// 기존 마스터의 데이터 복사
 	if err := masterClient.copyDataTo(*slaveClient); err != nil {

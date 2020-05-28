@@ -149,20 +149,18 @@ func (redisClient RedisClient) getLatestDataFromLog(dataContainer HashToDataMap)
 			words[valueWord],
 		)
 
-		if dataContainer[hashIndex] == nil {
+		if _, isSet := dataContainer[hashIndex]; !isSet {
 			dataContainer[hashIndex] = make(map[string]string)
 		}
-
-		keyValueMap := dataContainer[hashIndex]
 
 		// 데이터 로그 => @dataContainer에 기록
 		// 가장 최신의 데이터만 기록에 남음 (이전 데이터 덮어씌움)
 		switch words[commandWord] {
 		case "SET":
-			keyValueMap[words[keyWord]] = words[valueWord]
+			dataContainer[hashIndex][words[keyWord]] = words[valueWord]
 			break
 		case "DEL":
-			delete(keyValueMap, words[keyWord])
+			delete(dataContainer[hashIndex], words[keyWord])
 			break
 		default:
 			return fmt.Errorf(msg.UnsupportedCommand, words[commandWord])

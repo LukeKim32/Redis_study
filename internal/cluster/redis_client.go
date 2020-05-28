@@ -21,14 +21,14 @@ type RedisClient struct {
 	Role       string     `json:"role"`
 }
 
-var redisMasterClients []RedisClient
-var redisSlaveClients []RedisClient
+var redisMasterClients []*RedisClient
+var redisSlaveClients []*RedisClient
 
 // masterSlaveMap : 마스터 주소 -> 슬레이브 노드
-var masterSlaveMap map[string]RedisClient
+var masterSlaveMap map[string]*RedisClient
 
 // slaveMasterMap : 슬레이브 주소 -> 마스터 노드
-var slaveMasterMap map[string]RedisClient
+var slaveMasterMap map[string]*RedisClient
 
 // redisMutexMap : IP주소 -> 뮤텍스, 각 마스터-슬레이브 그룹 별 요청 동기화용
 // used for sync of request to each Redis <Master-Slave> Set With key of "Address"
@@ -94,7 +94,7 @@ func (masterClient *RedisClient) handleIfDead() error {
 			}
 		}
 
-		masterClient.checkSlaveAlive()
+		// masterClient.checkSlaveAlive()
 
 		return nil
 	}
@@ -105,6 +105,8 @@ func (masterClient *RedisClient) handleIfDead() error {
 
 	slaveClient, isSet := masterSlaveMap[masterClient.Address]
 	if isSet == false {
+		tools.ErrorLogger.Println(msg.MasterSlaveMapNotInit)
+
 		return fmt.Errorf(msg.MasterSlaveMapNotInit)
 	}
 
@@ -113,13 +115,17 @@ func (masterClient *RedisClient) handleIfDead() error {
 
 		if err.Error() == msg.BothMasterSlaveDead {
 
+			tools.ErrorLogger.Println(msg.BothMasterSlaveDead)
 			// 마스터 - 슬레이브 모두 죽은 경우
 			// 해쉬 슬롯 재분배 후, 마스터-슬레이브의 모든 데이터 및 설정 삭제
 			if err := hashSlot.distributeFrom(masterClient); err != nil {
 				return err
 			}
+			tools.ErrorLogger.Println("마스터 슬레이브 모두 죽어서 재분배했고 끝남")
 			return nil
 		}
+
+		tools.ErrorLogger.Println("새로운 마스터 승격 중 그냥 이상한 에러")
 		return err
 	}
 
@@ -127,21 +133,21 @@ func (masterClient *RedisClient) handleIfDead() error {
 
 	// 새로운 마스터로 승격 성공
 	// 죽은 기존 마스터는 재시작 (using docker API)
-	err = docker.restartRedisContainer(masterClient.Address)
+	// err = docker.restartRedisContainer(masterClient.Address)
 
 	// 컨테이너 재시작이 성공한 경우에만 새로운 마스터의 슬레이브로 연결 시도
-	if err == nil {
+	// if err == nil {
 
-		masterClient.connectToMaster(&slaveClient)
+	// 	masterClient.connectToMaster(&slaveClient)
 
-	} else {
-		tools.ErrorLogger.Println(err)
-	}
+	// } else {
+	// 	tools.ErrorLogger.Println(err)
+	// }
 
-	tools.InfoLogger.Printf(
-		msg.SlaveAsNewMaster,
-		slaveMasterMap[masterClient.Address].Address,
-	)
+	// tools.InfoLogger.Printf(
+	// 	msg.SlaveAsNewMaster,
+	// 	slaveMasterMap[masterClient.Address].Address,
+	// )
 
 	return nil
 }
@@ -149,18 +155,18 @@ func (masterClient *RedisClient) handleIfDead() error {
 // getSlave : 자신의 슬레이브가 살아있을 경우 반환, 죽어있을 경우 에러 반환
 // To-Do : 1-1 매핑이 아닌, 슬레이브가 여러 대일 경우 처리
 //
-func (masterClient RedisClient) getSlave() (RedisClient, error) {
+func (masterClient RedisClient) getSlave() (*RedisClient, error) {
 
 	slaveClient, isSet := masterSlaveMap[masterClient.Address]
 	if isSet == false {
-		return RedisClient{}, fmt.Errorf("")
+		return nil, fmt.Errorf("")
 	}
 
 	// 모니터 서버에 슬레이브 생존 여부 확인
 	numberOfTotalVotes := len(monitorClient.ServerAddressList) + 1
-	votes, err := monitorClient.ask(slaveClient, IsAlive)
+	votes, err := monitorClient.ask(*slaveClient, IsAlive)
 	if err != nil {
-		return RedisClient{}, fmt.Errorf("")
+		return nil, fmt.Errorf("")
 	}
 
 	// 호스트 인터페이스 서버의 생존 확인/투표
@@ -179,7 +185,7 @@ func (masterClient RedisClient) getSlave() (RedisClient, error) {
 	// 과반수 이상이 죽었다고 판단
 	if votes < (numberOfTotalVotes / 2) {
 		err := fmt.Errorf(msg.VoteResultSlaveDead, slaveClient.Address)
-		return RedisClient{}, err
+		return nil, err
 	}
 
 	return slaveClient, nil
@@ -188,7 +194,7 @@ func (masterClient RedisClient) getSlave() (RedisClient, error) {
 // handleIfDeadWithLock : Monitor 루틴에 사용되는 메소드
 // handleIfDead() 의 확장으로 Lock을 이용한다
 //
-func (masterClient RedisClient) handleIfDeadWithLock(errorChannel chan error) {
+func (masterClient *RedisClient) handleIfDeadWithLock(errorChannel chan error) {
 
 	redisMutexMap[masterClient.Address].Lock()
 	defer redisMutexMap[masterClient.Address].Unlock()
@@ -216,7 +222,7 @@ func (masterClient *RedisClient) checkSlaveAlive() {
 	tools.InfoLogger.Printf(msg.StartSlaveAliveCheck, masterClient.Address)
 
 	numberOfTotalVotes := len(monitorClient.ServerAddressList) + 1
-	votes, err := monitorClient.ask(slaveClient, IsAlive)
+	votes, err := monitorClient.ask(*slaveClient, IsAlive)
 	if err != nil {
 		return
 	}
@@ -258,26 +264,21 @@ func (masterClient *RedisClient) checkSlaveAlive() {
 // Garbace Collect
 // To-Do : 여러 Slave Client들에 대한 처리
 //
-func (masterClient RedisClient) cleanUpMemory() error {
+func (masterClient *RedisClient) cleanUpMemory() error {
 
 	clientHashRangeMap[masterClient.Address] = nil
 	delete(clientHashRangeMap, masterClient.Address)
 
 	slaveClient := masterSlaveMap[masterClient.Address]
 
-	if err := masterClient.RemoveFromList(); err != nil {
+	masterClient.RemoveFromList()
+	slaveClient.RemoveFromList()
+
+	if _, err := monitorClient.ask(*masterClient, EndConnect); err != nil {
 		return err
 	}
 
-	if err := slaveClient.RemoveFromList(); err != nil {
-		return err
-	}
-
-	if _, err := monitorClient.ask(masterClient, EndConnect); err != nil {
-		return err
-	}
-
-	if _, err := monitorClient.ask(slaveClient, EndConnect); err != nil {
+	if _, err := monitorClient.ask(*slaveClient, EndConnect); err != nil {
 		return err
 	}
 
@@ -376,21 +377,18 @@ func (slaveClient *RedisClient) setUpMasterConfig() error {
 		return fmt.Errorf(msg.MasterSlaveMapNotInit)
 	}
 
+	masterSlaveMap[slaveClient.Address] = masterClient
+
 	if err := masterClient.removeDataLogFile(); err != nil {
 		return err
 	}
 
-	if err := slaveClient.RemoveFromList(); err != nil {
-		return err
-	}
-
-	if err := masterClient.RemoveFromList(); err != nil {
-		return err
-	}
+	slaveClient.RemoveFromList()
+	masterClient.RemoveFromList()
 
 	slaveClient.Role = MasterRole
 
-	redisMasterClients = append(redisMasterClients, *slaveClient)
+	redisMasterClients = append(redisMasterClients, slaveClient)
 
 	delete(masterSlaveMap, masterClient.Address)
 	delete(slaveMasterMap, slaveClient.Address)
@@ -408,40 +406,44 @@ func (slaveClient *RedisClient) setUpMasterConfig() error {
 
 // RemoveFromList : 인스턴스의 Role을 확인, 해당 리스트에서 삭제
 //
-func (redisClient RedisClient) RemoveFromList() error {
+func (redisClient *RedisClient) RemoveFromList() {
 
 	tools.InfoLogger.Printf(msg.SlaveNodeInfo, redisClient.Role, redisClient.Address)
 
-	switch redisClient.Role {
-	case MasterRole:
-		for i, eachClient := range redisMasterClients {
-			if eachClient.Address == redisClient.Address {
+	isFound := false
 
-				redisMasterClients[i] = redisMasterClients[len(redisMasterClients)-1]
-				redisMasterClients[len(redisMasterClients)-1] = RedisClient{}
+	for i, eachClient := range redisMasterClients {
+		if eachClient.Address == redisClient.Address {
 
-				redisMasterClients = redisMasterClients[:len(redisMasterClients)-1]
+			redisMasterClients[i] = redisMasterClients[len(redisMasterClients)-1]
+			redisMasterClients[len(redisMasterClients)-1] = nil
 
-				return nil
-			}
+			isFound = true
+			break
 		}
-	case SlaveRole:
-		for i, eachClient := range redisSlaveClients {
-			if eachClient.Address == redisClient.Address {
-
-				redisSlaveClients[i] = redisSlaveClients[len(redisSlaveClients)-1]
-				redisSlaveClients[len(redisSlaveClients)-1] = RedisClient{}
-
-				redisSlaveClients = redisSlaveClients[:len(redisSlaveClients)-1]
-
-				return nil
-			}
-		}
-	default:
-		return fmt.Errorf(msg.RedisRoleNotInit, redisClient.Address)
 	}
 
-	return fmt.Errorf(msg.NoClientInList, redisClient.Address, redisClient.Role)
+	if isFound {
+		redisMasterClients = redisMasterClients[:len(redisMasterClients)-1]
+		return
+	}
+
+	for i, eachClient := range redisSlaveClients {
+		if eachClient.Address == redisClient.Address {
+
+			redisSlaveClients[i] = redisSlaveClients[len(redisSlaveClients)-1]
+			redisSlaveClients[len(redisSlaveClients)-1] = nil
+
+			isFound = true
+			break
+		}
+	}
+
+	if isFound {
+		redisSlaveClients = redisSlaveClients[:len(redisSlaveClients)-1]
+	}
+
+	return
 }
 
 // isAlreadyExist : redisClient 인스턴스의 주소를 바탕으로 등록된 마스터, 슬레이브 리스트에 존재하는 지 확인
@@ -465,10 +467,22 @@ func (redisClient RedisClient) isAlreadyExist() bool {
 
 // GetMasterClients : 현재 모든 마스터 클라이언트를 리턴
 func GetMasterClients() []RedisClient {
-	return redisMasterClients
+	masters := []RedisClient{}
+
+	for _, eachMaster := range redisMasterClients {
+		masters = append(masters, *eachMaster)
+	}
+
+	return masters
 }
 
 // GetSlaveClients : 현재 모든 슬레이브 클라이언트을 리턴
 func GetSlaveClients() []RedisClient {
-	return redisSlaveClients
+	slaves := []RedisClient{}
+
+	for _, eachSlave := range redisSlaveClients {
+		slaves = append(slaves, *eachSlave)
+	}
+
+	return slaves
 }

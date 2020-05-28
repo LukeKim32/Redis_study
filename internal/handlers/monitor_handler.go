@@ -8,9 +8,10 @@ import (
 	"hash_interface/tools"
 
 	"encoding/json"
+	"net/http"
+
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/mux"
-	"net/http"
 )
 
 // CheckRedisNodeStatus
@@ -90,7 +91,10 @@ func UnregisterRedis(res http.ResponseWriter, req *http.Request) {
 		Role:    cluster.MasterRole, // 모니터 서버는 모든 레디스를 마스터로 관리
 	}
 
-	tools.InfoLogger.Printf("UnregisterRedis() : 레다스(%s) 삭제 시작")
+	tools.InfoLogger.Printf(
+		"UnregisterRedis() : 레다스(%s) 삭제 시작",
+		targetRedisAddress,
+	)
 
 	targetRedisClient.RemoveFromList()
 
@@ -137,7 +141,7 @@ func RegisterNewRedis(res http.ResponseWriter, req *http.Request) {
 	// 연결 성공시
 	newRedisClient.Role = cluster.MasterRole
 	newRedisClient.Address = targetRedisAddress
-	cluster.AppendMaster(newRedisClient)
+	cluster.AppendMaster(&newRedisClient)
 
 	responseWithCurrentRedisList(res, responseBody, "RegisterNewRedis")
 }

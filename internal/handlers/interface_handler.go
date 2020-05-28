@@ -162,7 +162,13 @@ func GetValueFromKey(res http.ResponseWriter, req *http.Request) {
 	responseTemplate.Result = redisResponse
 	responseTemplate.NodeAdrress = redisClient.Address
 
-	responseBody, err := responseTemplate.Marshal(curMsg, nextMsg, nextLink)
+	responseBody, err := responseTemplate.Marshal(
+		redisResponse,
+		redisClient.Address,
+		curMsg,
+		nextMsg,
+		nextLink,
+	)
 	if err != nil {
 		responseError(res, http.StatusInternalServerError, err)
 		return
@@ -231,7 +237,7 @@ func AddNewClient(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		err = cluster.AddNewSlave(newClientRequest.Address, *targetMaster)
+		err = cluster.AddNewSlave(newClientRequest.Address, targetMaster)
 		if err != nil {
 			tools.ErrorLogger.Printf(
 				"AddNewClient() : 슬레이브 추가 에러 - %s",

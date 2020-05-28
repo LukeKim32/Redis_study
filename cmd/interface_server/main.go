@@ -75,10 +75,12 @@ func main() {
 	cluster.PrintCurrentMasterSlaves()
 
 	/* Set Data modification Logger for each Nodes*/
-	cluster.SetUpModificationLogger(configs.GetInitialTotalAddressList())
+	cluster.SetUpModificationLogger(
+		configs.GetInitialTotalAddressList(),
+	)
 
 	// 타이머로 Redis Node들 모니터링 시작
-	cluster.StartMonitorNodes()
+	// cluster.StartMonitorNodes()
 
 	router := mux.NewRouter()
 

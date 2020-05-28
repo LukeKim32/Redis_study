@@ -44,7 +44,7 @@ func main() {
 
 	stdReader := bufio.NewReader(os.Stdin)
 	if baseUrl == "" {
-		baseUrl = "http://localhost:8888"
+		baseUrl = "http://localhost:8001"
 	}
 
 	for {

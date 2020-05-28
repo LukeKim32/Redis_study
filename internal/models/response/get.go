@@ -2,6 +2,7 @@ package response
 
 import (
 	"encoding/json"
+	"hash_interface/tools"
 )
 
 type GetResultTemplate struct {
@@ -9,8 +10,13 @@ type GetResultTemplate struct {
 	BasicTemplate
 }
 
-func (template GetResultTemplate) Marshal(curMsg, nextMsg, nextLink string) ([]byte, error) {
+func (template GetResultTemplate) Marshal(
+	result, address, curMsg, nextMsg, nextLink string,
+) ([]byte, error) {
 
+	tools.InfoLogger.Println("GET Marshal!!! ", result, address)
+	template.Result = result
+	template.NodeAdrress = address
 	template.Message = curMsg
 	template.NextLink.Message = nextMsg
 	template.NextLink.Href = nextLink

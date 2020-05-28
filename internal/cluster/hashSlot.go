@@ -38,8 +38,8 @@ func init() {
 	}
 }
 
-func (hashSlot HashSlot) get(slotIndex uint16) RedisClient {
-	return *hashSlot.slots[slotIndex]
+func (hashSlot HashSlot) get(slotIndex uint16) *RedisClient {
+	return hashSlot.slots[slotIndex]
 }
 
 // assign : 인스턴스에 [@start, @end) 범위에 해당하는 해쉬 슬롯 할당
@@ -48,9 +48,18 @@ func (hashSlot HashSlot) get(slotIndex uint16) RedisClient {
 // It basically unrolls the loop with 16 states for cahching
 // And If the range Is not divided by 16, Remains will be handled with single statement loop
 //
-func (hashSlot HashSlot) assign(redisClient *RedisClient, start uint16, end uint16) {
+func (hashSlot *HashSlot) assign(redisClient *RedisClient, start uint16, end uint16) {
 
-	tools.InfoLogger.Printf(msg.HashSlotAssignStart, redisClient.Address)
+	tools.InfoLogger.Printf(
+		msg.HashSlotAssignStart,
+		redisClient.Address,
+	)
+
+	tools.InfoLogger.Printf(
+		"범위 %d ~ %d",
+		start,
+		end,
+	)
 
 	var i uint16
 	nextSlotIndex := start + 16
@@ -86,7 +95,7 @@ func (hashSlot HashSlot) assign(redisClient *RedisClient, start uint16, end uint
 // distributeFrom : srcClient 인스턴스에게 할당된 해쉬 슬롯을 다른 Redis 마스터 Client 들에게 분배.
 //  완료 후, srcClient는 해쉬슬롯에서 제거된다.
 //
-func (hashSlot HashSlot) distributeFrom(srcClient *RedisClient) error {
+func (hashSlot *HashSlot) distributeFrom(srcClient *RedisClient) error {
 
 	tools.InfoLogger.Printf(msg.HashSlotRedistributeStart, srcClient.Address)
 	tools.InfoLogger.Printf(msg.DeadRedisNodeInfo, srcClient.Address, srcClient.Role)
@@ -115,6 +124,13 @@ func (hashSlot HashSlot) distributeFrom(srcClient *RedisClient) error {
 		srcHashSlotEnd := eachHashRangeOfClient.endIndex
 		srcHashSlotRange := srcHashSlotEnd - srcHashSlotStart + 1
 
+		tools.InfoLogger.Printf(
+			"%s 노드가 담당하던 해쉬 슬롯 일부 %d ~ %d 의 재분배",
+			srcClient.Address,
+			srcHashSlotStart,
+			srcHashSlotEnd,
+		)
+
 		i := 0 // 임의의 마스터 클라이언트 인덱스
 		// 다른 마스터에게 해쉬 슬롯 균일 분배
 		for idx, eachMasterNode := range redisMasterClients {
@@ -132,7 +148,7 @@ func (hashSlot HashSlot) distributeFrom(srcClient *RedisClient) error {
 
 				hashSlotStart := normalizedHashSlotStart + srcHashSlotStart
 				hashSlotEnd := normalizedhashSlotEnd + srcHashSlotStart
-				hashSlot.assign(&redisMasterClients[idx], hashSlotStart, hashSlotEnd)
+				hashSlot.assign(redisMasterClients[idx], hashSlotStart, hashSlotEnd)
 
 				newHashRange := HashRange{
 					startIndex: hashSlotStart,
@@ -191,7 +207,7 @@ func PrintCurrentMasterSlaves() {
 // 기존 마스터들로부터 재분배
 // * @destClient 이외의 마스터에겐 해쉬슬롯이 분배되지 않는다.
 //
-func (hashSlot HashSlot) distributeTo(destClient *RedisClient) bool {
+func (hashSlot *HashSlot) distributeTo(destClient *RedisClient) bool {
 
 	notDistributed := false
 

@@ -14,7 +14,7 @@ import (
  * 3-1) If Votes are bigger than half, Re-setup connection and return
  * 3-2) If Votes are smaller than half, Promote It's Slave Client to New Master
  */
-func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
+func GetRedisClient(hashSlotIndex uint16) (*RedisClient, error) {
 
 	tempClient := hashSlot.get(hashSlotIndex)
 
@@ -26,9 +26,12 @@ func GetRedisClient(hashSlotIndex uint16) (RedisClient, error) {
 	start := time.Now()
 	defer tools.InfoLogger.Printf(msg.FunctionExecutionTime, time.Since(start))
 
+	tools.InfoLogger.Printf("요청한 키값의 해쉬값 : %d", hashSlotIndex)
+
 	// 반환 전, redisClient의 생존여부 확인/처리
 	if err := tempClient.handleIfDead(); err != nil {
-		return RedisClient{}, err
+		tools.ErrorLogger.Println("GetRedisClient : ", err.Error())
+		return nil, err
 	}
 
 	targetClient := hashSlot.get(hashSlotIndex)
@@ -48,7 +51,7 @@ func GetMasterWithAddress(address string) (*RedisClient, error) {
 	for i, eachClient := range redisMasterClients {
 		if eachClient.Address == address {
 			tools.InfoLogger.Println()
-			return &redisMasterClients[i], nil
+			return redisMasterClients[i], nil
 		}
 	}
 
@@ -65,7 +68,7 @@ func GetSlaveClientWithAddress(address string) (*RedisClient, error) {
 	for i, eachClient := range redisSlaveClients {
 		if eachClient.Address == address {
 			tools.InfoLogger.Println(msg.SlaveFound)
-			return &redisSlaveClients[i], nil
+			return redisSlaveClients[i], nil
 		}
 	}
 
@@ -75,25 +78,21 @@ func GetSlaveClientWithAddress(address string) (*RedisClient, error) {
 
 func swapMasterSlaveConfigs(masterNode *RedisClient, slaveNode *RedisClient) error {
 
-	if err := slaveNode.RemoveFromList(); err != nil {
-		return err
-	}
+	slaveNode.RemoveFromList()
 
-	if err := masterNode.RemoveFromList(); err != nil {
-		return err
-	}
+	masterNode.RemoveFromList()
 
 	slaveNode.Role = MasterRole
 	masterNode.Role = SlaveRole
 
-	redisSlaveClients = append(redisSlaveClients, *masterNode)
-	redisMasterClients = append(redisMasterClients, *slaveNode)
+	redisSlaveClients = append(redisSlaveClients, masterNode)
+	redisMasterClients = append(redisMasterClients, slaveNode)
 
 	delete(masterSlaveMap, masterNode.Address)
-	masterSlaveMap[slaveNode.Address] = *masterNode
+	masterSlaveMap[slaveNode.Address] = masterNode
 
 	delete(slaveMasterMap, slaveNode.Address)
-	slaveMasterMap[masterNode.Address] = *slaveNode
+	slaveMasterMap[masterNode.Address] = slaveNode
 
 	return nil
 }
@@ -153,7 +152,7 @@ func AddNewMaster(newMasterAddress string) error {
 	return nil
 }
 
-func AddNewSlave(newSlaveAddress string, targetMaster RedisClient) error {
+func AddNewSlave(newSlaveAddress string, targetMaster *RedisClient) error {
 
 	addClientMutex.Lock()
 	defer addClientMutex.Unlock()
@@ -178,7 +177,7 @@ func AddNewSlave(newSlaveAddress string, targetMaster RedisClient) error {
 		return err
 	}
 
-	initMasterSlaveMaps(targetMaster, *newSlave)
+	initMasterSlaveMaps(targetMaster, newSlave)
 
 	// 기존 마스터의 데이터 복사
 	if err := targetMaster.copyDataTo(*newSlave); err != nil {
@@ -188,10 +187,10 @@ func AddNewSlave(newSlaveAddress string, targetMaster RedisClient) error {
 	return nil
 }
 
-func AppendMaster(masterClient RedisClient) {
+func AppendMaster(masterClient *RedisClient) {
 	redisMasterClients = append(redisMasterClients, masterClient)
 }
 
-func AppendSlave(slaveClient RedisClient) {
+func AppendSlave(slaveClient *RedisClient) {
 	redisSlaveClients = append(redisSlaveClients, slaveClient)
 }

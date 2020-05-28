@@ -147,7 +147,17 @@ func requestSetKeyValue(key string, value int) {
 	}
 
 	if res.StatusCode >= 400 {
-		println("Response error!!")
+		var responseContainer response.BasicTemplate
+		decoder := json.NewDecoder(res.Body)
+		if err := decoder.Decode(&responseContainer); err != nil {
+			println("Response json decod error")
+			log.Fatal(err)
+		}
+
+		println(
+			"SET ", key, "Response error!! - ",
+			responseContainer.Message,
+		)
 		return
 	}
 
@@ -174,31 +184,47 @@ func requestGetValue(key string) {
 	}
 
 	client := &http.Client{}
-	response, err := client.Do(reqeustToInterface)
+	res, err := client.Do(reqeustToInterface)
 	if err != nil {
 		println("Error in GET response of interfact ", err)
 	}
 
-	if response.StatusCode >= 400 {
-		println("Get ", key, "Response error!!")
+	if res.StatusCode >= 400 {
+
+		var responseContainer response.BasicTemplate
+		decoder := json.NewDecoder(res.Body)
+		if err := decoder.Decode(&responseContainer); err != nil {
+			println("Response json decod error")
+			log.Fatal(err)
+		}
+
+		println(
+			"Get ", key, "Response error!! - ",
+			responseContainer.Message,
+		)
 		return
 	}
 
-	type GetResponseFormat struct {
-		Response   string `json:"response"`
-		HandleNode string `json:"handle_node"`
-	}
+	// type GetResponseFormat struct {
+	// 	Response   string `json:"response"`
+	// 	HandleNode string `json:"handle_node"`
+	// }
 
 	// responseDataByte, _ := ioutil.ReadAll(response.Body)
 
-	var responseContainer GetResponseFormat
-	decoder := json.NewDecoder(response.Body)
+	var responseContainer response.GetResultTemplate
+	decoder := json.NewDecoder(res.Body)
 	if err := decoder.Decode(&responseContainer); err != nil {
 		println("Response json decod error")
 		log.Fatal(err)
 	}
 
-	fmt.Printf("GET %s 요청 결과 : %s 노드에서 %s 받아옴\n", key, responseContainer.HandleNode, responseContainer.Response)
+	fmt.Printf(
+		"GET %s 요청 결과 : %s 노드에서 %s 받아옴\n",
+		key,
+		responseContainer.NodeAdrress,
+		responseContainer.Result,
+	)
 }
 
 func getContainer(dockerClient *client.Client, dockerContext context.Context, address string) (types.Container, error) {
